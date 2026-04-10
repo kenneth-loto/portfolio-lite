@@ -21,6 +21,9 @@
     },
     "JSONC": {
       "formatter": { "language_server": { "name": "biome" } }
+    },
+    "CSS": {
+      "language_servers": ["tailwindcss-language-server"]
     }
   }
 }
