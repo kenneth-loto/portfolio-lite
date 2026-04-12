@@ -2,24 +2,28 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { ModeToggleSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
+import { useMounted } from "@/hooks/use-mounted";
 
 export function ModeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
+  const mounted = useMounted();
 
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
+  if (!mounted) return <ModeToggleSkeleton />;
+
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
-      className="relative overflow-hidden"
+      className="cursor-pointer"
       onClick={toggleTheme}
     >
-      <Sun className="dark:-rotate-90 rotate-0 scale-100 transition-all dark:scale-0" />
-      <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      {resolvedTheme === "dark" ? <Sun /> : <Moon />}
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
