@@ -29,7 +29,10 @@ export function Header() {
 
         <Link
           href="/contact"
-          className={cn(buttonVariants({ size: "sm", variant: "link" }))}
+          className={cn(
+            buttonVariants({ size: "sm", variant: "link" }),
+            "px-0",
+          )}
         >
           Hire Me
         </Link>
