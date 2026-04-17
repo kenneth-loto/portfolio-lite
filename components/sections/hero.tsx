@@ -1,16 +1,17 @@
 import { Section } from "@/components/ui/section";
-import { aboutMe } from "@/lib/data/about-me";
+import { author } from "@/lib/data/author";
 import { parseBold } from "@/lib/utils";
 
 export function Hero() {
   return (
-    <Section className="space-y-8">
+    <Section className="mt-4">
       <hgroup>
-        <h1 className="font-bold text-base">{aboutMe.name}</h1>
-        <p className="text-muted-foreground text-sm">{aboutMe.role}</p>
+        <h1 className="font-semibold text-lg tracking-tight">{author.name}</h1>
+        <p className="text-muted-foreground text-read">{author.role}</p>
       </hgroup>
-      <p className="text-muted-foreground text-sm/relaxed">
-        {parseBold(aboutMe.bio).map((part, index) => {
+
+      <p className="text-muted-foreground text-read/read">
+        {parseBold(author.bio).map((part, index) => {
           const key = `${index}-${part.text}`;
 
           return part.bold ? (

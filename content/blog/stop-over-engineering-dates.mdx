@@ -1,0 +1,66 @@
+---
+title: "Stop Over-Engineering Dates: Use Native Intl"
+date: "2026-04-16"
+description: "Discover why native Intl.DateTimeFormat beats Moment.js and date-fns for date formatting. Zero bundle bloat, built-in localization, and better performance."
+tags: ["typescript", "webperf", "javascript", "nextjs", "developer-experience"]
+published: true
+---
+
+Date formatting is one of those tasks that shouldn't require a 70kB dependency. Yet, countless projects still bundle Moment.js or reach for date-fns for something as simple as displaying "April 16, 2026." It's time to reconsider.
+
+## The Bundle Bloat Problem
+
+Moment.js adds roughly **70kB gzipped** to your bundle. For what? Parsing and formatting dates—a task the browser already solves natively. Date-fns, while more modular, still introduces overhead and configuration complexity.
+
+The `Intl` API is built directly into every JavaScript engine. Zero bytes added. Zero dependencies. Zero maintenance burden.
+
+```typescript
+export function formatDate(date: Date) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) return "Invalid Date";
+
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(parsedDate);
+}
+```
+
+## Code Analysis
+
+**Validation with `Number.isNaN(parsedDate.getTime())`**
+
+This pattern is more robust than checking `parsedDate === "Invalid Date"` or relying on falsy checks. Calling `getTime()` on an invalid date returns `NaN`, and `Number.isNaN()` accurately detects this edge case. It's the idiomatic way to validate date parsing in JavaScript.
+
+**The Power of Intl.DateTimeFormat**
+
+Instead of cryptic format strings like `"MMMM DD, YYYY"`, you get a declarative API:
+
+```typescript
+new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+}).format(parsedDate);
+// → "April 16, 2026"
+```
+
+Need a different locale? Change the locale string. Short month? Swap `"long"` for `"short"`. The API handles localization rules that you'd otherwise maintain yourself.
+
+## Performance & Tree-Shaking
+
+When you import an entire library, you're paying the cost upfront. With native APIs, the browser engine optimizes date formatting at a low level—often using platform-specific ICU data for consistent, performant output.
+
+Your utility function is also naturally tree-shakable. It's just a function. No side effects, no module initialization overhead, no hidden dependencies.
+
+## Integration with Shadcn UI / Tailwind
+
+In projects where dependency graph thinness is a priority—Shadcn UI, Tailwind-based portfolios, landing pages—every kilobyte matters. Native APIs align perfectly with this philosophy. You can drop this helper into `lib/utils.ts` and forget about it.
+
+## Conclusion
+
+Before reaching for a library, ask: does the browser already provide this? For date formatting, the answer is a clear yes. `Intl.DateTimeFormat` is battle-tested, locale-aware, and costs nothing.
+
+Stop over-engineering dates. Use the platform.

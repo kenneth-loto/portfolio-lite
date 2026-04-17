@@ -1,0 +1,163 @@
+---
+title: "Getting Started with Next.js App Router"
+date: "2025-04-14"
+description: "A practical introduction to Next.js App Router, covering routing, layouts, data fetching, and server components with real examples."
+tags: ["nextjs", "react", "typescript"]
+published: true
+---
+
+The App Router is Next.js's modern approach to building React applications. It introduces server components, nested layouts, and a file-based routing system that makes structuring large apps more intuitive. This post walks through the core concepts you'll use day to day.
+
+## File-based Routing
+
+Every folder inside `app/` becomes a route segment. A `page.tsx` file makes the route publicly accessible.
+
+```
+app/
+├── page.tsx           → /
+├── about/
+│   └── page.tsx       → /about
+└── blog/
+    ├── page.tsx       → /blog
+    └── [slug]/
+        └── page.tsx   → /blog/:slug
+```
+
+Dynamic segments use square brackets. To access the param:
+
+```tsx
+type Props = {
+  params: { slug: string };
+};
+
+export default function BlogPost({ params }: Props) {
+  return <h1>Post: {params.slug}</h1>;
+}
+```
+
+## Layouts
+
+Layouts wrap child routes and persist across navigation — great for shared UI like navbars or sidebars.
+
+```tsx
+// app/layout.tsx
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <nav>My Site</nav>
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+You can nest layouts — `app/blog/layout.tsx` only wraps blog routes, not the entire app.
+
+## Server vs Client Components
+
+By default, all components in the App Router are **Server Components**. They run only on the server and can directly access databases, file systems, or environment variables.
+
+```tsx
+// No "use client" — this runs on the server
+export default async function Page() {
+  const data = await fetch("https://api.example.com/posts");
+  const posts = await data.json();
+
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Add `"use client"` only when you need:
+
+- `useState` or `useEffect`
+- Event listeners (`onClick`, `onChange`)
+- Browser-only APIs
+
+```tsx
+"use client";
+
+import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return <button onClick={() => setCount(count + 1)}>Count: {count}</button>;
+}
+```
+
+## Data Fetching Patterns
+
+### Parallel Fetching
+
+Avoid waterfalls by fetching data in parallel with `Promise.all`:
+
+```tsx
+export default async function Page() {
+  const [user, posts] = await Promise.all([getUser(), getPosts()]);
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <PostList posts={posts} />
+    </div>
+  );
+}
+```
+
+### Streaming with Suspense
+
+Wrap slow components in `<Suspense>` to stream them in without blocking the whole page:
+
+```tsx
+import { Suspense } from "react";
+import PostList from "@/components/PostList";
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Blog</h1>
+      <Suspense fallback={<p>Loading posts...</p>}>
+        <PostList />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+## Key Conventions
+
+A few file conventions worth knowing:
+
+- **`loading.tsx`** — automatically wraps the route in a `<Suspense>` boundary
+- **`error.tsx`** — catches errors thrown in the route, must be a client component
+- **`not-found.tsx`** — renders when `notFound()` is called from a server component
+- **`route.ts`** — creates an API endpoint at that path
+
+## When to Use the Pages Router
+
+The App Router is the default for new projects, but the Pages Router is still supported. Stick with Pages Router if:
+
+1. You're maintaining an existing codebase that uses it
+2. You rely heavily on `getServerSideProps` or `getStaticProps` patterns
+3. Your team isn't ready to adopt the server/client component mental model yet
+
+Both routers can coexist in the same project, so migration can be incremental.
+
+## Summary
+
+The App Router shifts a lot of rendering to the server by default, which reduces client-side JavaScript and improves performance. The key ideas to internalize:
+
+- Folders define routes, `page.tsx` makes them accessible
+- Layouts persist and nest
+- Server components are the default — only opt into `"use client"` when needed
+- Fetch in parallel, stream with Suspense
+
+Once these click, the rest of the API follows naturally.
