@@ -1,16 +1,17 @@
+import type { Route } from "next";
 import type { NavLink } from "@/lib/types";
 
-export const navLinks: NavLink[] = [
+export const navLinks: NavLink<Route>[] = [
   {
-    href: "/",
     label: "Home",
+    href: "/",
   },
   {
-    href: "/projects",
     label: "Projects",
+    href: "/projects",
   },
   {
-    href: "/blog",
     label: "Blog",
+    href: "/blog",
   },
 ];
