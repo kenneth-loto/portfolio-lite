@@ -25,6 +25,9 @@ jobs:
       - name: Biome Check
         run: bun lint
 
+      - name: Generate content collections types
+        run: bun content-collections
+
       - name: Type Check
         run: bun typecheck
 
