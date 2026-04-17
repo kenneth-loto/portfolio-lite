@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const commitMono = localFont({
-  src: "./fonts/CommitMonoVariableFont.woff2",
-  variable: "--font-commit-mono",
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
@@ -14,7 +19,7 @@ export const metadata: Metadata = {
     default: "Kenneth Loto",
     template: "%s - Kenneth Loto",
   },
-  description: "",
+  description: "This is a sample description.",
 };
 
 export default function RootLayout({
@@ -25,10 +30,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", commitMono.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geist.variable,
+        geistMono.variable,
+      )}
       suppressHydrationWarning
     >
-      <body className="mx-auto flex min-h-full w-full max-w-2xl flex-col">
+      <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

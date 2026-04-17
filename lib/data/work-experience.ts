@@ -9,7 +9,7 @@ export const workExperiences: WorkExperience[] = [
   },
   {
     title: "IT Intern",
-    company: "CViSNET Inc.",
+    company: "CViSNet Inc.",
     period: "Jan 2025 — Mar 2025",
   },
   {

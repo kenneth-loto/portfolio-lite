@@ -2,7 +2,7 @@ import { Connect } from "@/components/sections/connect";
 import { Experience } from "@/components/sections/experience";
 import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { Hero } from "@/components/sections/hero";
-import { LatestBlog } from "@/components/sections/latest-blog";
+import { LatestPost } from "@/components/sections/latest-post";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <Hero />
       <FeaturedProjects />
       <Experience />
-      <LatestBlog />
+      <LatestPost />
       <Connect />
     </>
   );
