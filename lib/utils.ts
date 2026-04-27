@@ -1,10 +1,14 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
+/**
+ * Extends `tailwind-merge` with custom class groups for project-specific
+ * Tailwind utilities (`leading-reading`).
+ * @internal
+ */
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      "font-size": [{ text: ["read"] }],
       leading: [{ leading: ["reading"] }],
     },
   },
@@ -14,17 +18,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function parseBold(text: string): { text: string; bold: boolean }[] {
-  return text.split(/(\*\*.*?\*\*)/).map((part) => {
-    const bold = part.startsWith("**") && part.endsWith("**");
-
-    return {
-      text: bold ? part.slice(2, -2) : part,
-      bold,
-    };
-  });
-}
-
+/**
+ * Derives up to two initials from a full name.
+ *
+ * @param name - Full name string, or `null`/`undefined`.
+ * @returns Uppercased initials (e.g. `"JD"`), or `"??"` if no name is provided.
+ *
+ * @example
+ * getInitials("Juan Dela Cruz") // "JD"
+ * getInitials(null)             // "??"
+ */
 export function getInitials(name?: string | null): string {
   if (!name) return "??";
 
@@ -37,6 +40,15 @@ export function getInitials(name?: string | null): string {
     .slice(0, 2);
 }
 
+/**
+ * Formats a `Date` as a long human-readable string in US English.
+ *
+ * @param date - The date to format.
+ * @returns A string like `"April 25, 2026"`, or `"Invalid Date"` if parsing fails.
+ *
+ * @example
+ * formatDate(new Date("2026-04-25")) // "April 25, 2026"
+ */
 export function formatDate(date: Date) {
   const parsedDate = new Date(date);
 

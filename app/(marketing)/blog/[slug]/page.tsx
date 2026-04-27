@@ -32,15 +32,12 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
   if (!post) notFound();
 
   return (
-    <Section className="space-y-16">
+    <Section className="mt-4 space-y-16">
       <Link
         href="/blog"
-        className={cn(
-          buttonVariants({ variant: "ghost-text" }),
-          "px-0 font-sans",
-        )}
+        className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
       >
-        <MoveLeftIcon />
+        <MoveLeftIcon aria-hidden="true" />
         Back to Blog
       </Link>
 
@@ -53,7 +50,7 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
               {formatDate(post.date)}
             </p>
 
-            <h1 className="font-sans font-semibold text-3xl leading-tight tracking-tighter md:text-4xl">
+            <h1 className="font-medium text-3xl leading-tight tracking-tighter md:text-4xl">
               {post.title}
             </h1>
           </div>
@@ -66,7 +63,7 @@ export default async function BlogDetailPage({ params }: BlogDetailProps) {
                 <AvatarFallback>{getInitials(author.name)}</AvatarFallback>
               </Avatar>
 
-              <span className="font-sans text-sm">{author.name}</span>
+              <span className="text-sm">{author.name}</span>
             </div>
 
             {/* Vertical divider between author and reading time */}

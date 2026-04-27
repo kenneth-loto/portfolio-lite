@@ -1,3 +1,4 @@
+import { MoveRightIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
@@ -26,25 +27,28 @@ export default function Blog() {
                 </li>
               </ul>
 
-              <div className="flex flex-col gap-2">
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className={cn(
-                    buttonVariants({ variant: "link" }),
-                    "line-clamp-2 h-auto self-start whitespace-normal p-0 text-read",
-                  )}
-                >
-                  {post.title}
-                </Link>
+              <h3 className="line-clamp-2 font-medium text-sm">{post.title}</h3>
 
-                <span className="line-clamp-2 text-muted-foreground text-read/read">
-                  {post.description}
-                </span>
-              </div>
+              <span className="line-clamp-2 text-muted-foreground text-sm/read">
+                {post.description}
+              </span>
+
+              <Link
+                href={`/blog/${post.slug}`}
+                aria-label={`Read more about ${post.title}`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "h-auto self-start whitespace-normal p-0",
+                )}
+              >
+                Read more
+                <span className="sr-only">about {post.title}</span>
+                <MoveRightIcon aria-hidden="true" />
+              </Link>
             </div>
           ))
         ) : (
-          <p className="text-center text-muted-foreground text-read">
+          <p className="text-center text-muted-foreground text-sm">
             No posts yet. Check back soon!
           </p>
         )}

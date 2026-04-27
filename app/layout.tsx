@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
+import "@/app/globals.css";
+import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-geist",
+  variable: "--font-ibm-plex-sans",
 });
 
-const geistMono = Geist_Mono({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
@@ -33,10 +33,11 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
-        geist.variable,
-        geistMono.variable,
+        ibmPlexSans.variable,
+        jetBrainsMono.variable,
       )}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
         <ThemeProvider
