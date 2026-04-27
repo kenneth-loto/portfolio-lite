@@ -1,3 +1,4 @@
+import { MoveRightIcon } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
@@ -19,24 +20,26 @@ export function LatestPost() {
             </li>
           </ul>
 
-          <div className="flex flex-col gap-2">
-            <Link
-              href={`/blog/${latestPost.slug}`}
-              className={cn(
-                buttonVariants({ variant: "link" }),
-                "line-clamp-2 h-auto self-start whitespace-normal p-0 text-read",
-              )}
-            >
-              {latestPost.title}
-            </Link>
+          <h3 className="font-medium text-sm">{latestPost.title}</h3>
 
-            <span className="line-clamp-2 text-muted-foreground text-read/read">
-              {latestPost.description}
-            </span>
-          </div>
+          <p className="text-muted-foreground text-sm/read">
+            {latestPost.description}
+          </p>
+
+          <Link
+            href={`/blog/${latestPost.slug}`}
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "h-auto self-start whitespace-normal p-0",
+            )}
+          >
+            Read more
+            <span className="sr-only">about {latestPost.title}</span>
+            <MoveRightIcon aria-hidden="true" />
+          </Link>
         </div>
       ) : (
-        <p className="text-center text-muted-foreground text-read">
+        <p className="text-center text-muted-foreground text-sm">
           No posts yet. Check back soon!
         </p>
       )}

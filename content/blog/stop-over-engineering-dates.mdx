@@ -12,7 +12,7 @@ Date formatting is one of those tasks that shouldn't require a 70kB dependency. 
 
 Moment.js adds roughly **70kB gzipped** to your bundle. For what? Parsing and formatting dates—a task the browser already solves natively. Date-fns, while more modular, still introduces overhead and configuration complexity.
 
-The `Intl` API is built directly into every JavaScript engine. Zero bytes added. Zero dependencies. Zero maintenance burden.
+The `Intl` API is built directly into every JavaScript engine. Zero bytes added. Zero dependencies. Zero maintenance burden. You can read the full spec on [MDN's Intl.DateTimeFormat page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat).
 
 ```typescript
 export function formatDate(date: Date) {
@@ -48,6 +48,8 @@ new Intl.DateTimeFormat("en-US", {
 ```
 
 Need a different locale? Change the locale string. Short month? Swap `"long"` for `"short"`. The API handles localization rules that you'd otherwise maintain yourself.
+
+You can drop this helper into [`lib/utils.ts`](https://github.com/shadcn-ui/ui/blob/main/lib/utils.ts) and forget about it.
 
 ## Performance & Tree-Shaking
 

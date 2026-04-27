@@ -1,11 +1,20 @@
-"use client";
+import { useSyncExternalStore } from "react";
 
-import { useEffect, useState } from "react";
+const emptySubscribe = () => () => {};
 
+/**
+ * Returns `true` on the client, `false` on the server (SSR).
+ *
+ * Useful for skipping hydration mismatches when rendering client-only content.
+ *
+ * @example
+ * const mounted = useMounted();
+ * if (!mounted) return null;
+ */
 export function useMounted() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-
-  return mounted;
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 }

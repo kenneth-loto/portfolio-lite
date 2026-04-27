@@ -19,11 +19,14 @@ export interface WorkExperience {
   company: string;
   period: string;
   current?: boolean;
+  description: string;
 }
 
 export interface Project {
   title: string;
   description: string;
+  live_demo?: string;
+  github_url?: string;
   href: string;
   year: string;
 }
