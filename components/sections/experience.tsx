@@ -18,14 +18,17 @@ export function Experience() {
                 </li>
               </ul>
 
-              <hgroup>
-                <h3 className="font-medium text-foreground text-read">
+              <p className="text-sm/read">
+                <span className="font-medium text-foreground">
                   {experience.title}
-                </h3>
-                <p className="text-muted-foreground text-read">
-                  {experience.company}
-                </p>
-              </hgroup>
+                </span>{" "}
+                <span className="text-muted-foreground">—</span>{" "}
+                <em className="text-muted-foreground">{experience.company}</em>
+              </p>
+
+              <p className="text-muted-foreground text-sm/read">
+                {experience.description}
+              </p>
             </div>
           );
         })}

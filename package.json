@@ -11,7 +11,7 @@
     "lint:fix:unsafe": "biome check --write --unsafe",
     "format": "biome format --write",
     "typecheck": "tsc --noEmit",
-    "prepare": "husky || true",
+    "prepare": "husky",
     "ui": "bunx --bun shadcn@latest add",
     "content-collections": "content-collections build"
   },

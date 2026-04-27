@@ -2,17 +2,16 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { ModeToggleSkeleton } from "@/components/skeletons";
+import { ModeToggleSkeleton } from "@/components/skeletons/mode-toggle-skeleton";
 import { Button } from "@/components/ui/button";
 import { useMounted } from "@/hooks/use-mounted";
 
 export function ModeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
   const mounted = useMounted();
+  const isDark = resolvedTheme === "dark";
 
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  };
+  const nextTheme = isDark ? "light" : "dark";
 
   if (!mounted) return <ModeToggleSkeleton />;
 
@@ -21,10 +20,10 @@ export function ModeToggle() {
       variant="ghost"
       size="icon"
       className="cursor-pointer"
-      onClick={toggleTheme}
+      onClick={() => setTheme(nextTheme)}
+      aria-label={`Switch to ${nextTheme} theme`}
     >
-      {resolvedTheme === "dark" ? <Sun /> : <Moon />}
-      <span className="sr-only">Toggle theme</span>
+      {isDark ? <Sun /> : <Moon />}
     </Button>
   );
 }
