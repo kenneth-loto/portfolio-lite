@@ -1,0 +1,53 @@
+---
+title: "Building a Dog Stool Classifier: My Dataset Struggles"
+date: "2026-05-12"
+description: "What I learned training a MobileNetV2 model on 1,050 images — dataset problems, model selection, and the fifth class I never wanted to add."
+tags: ["machine-learning", "tensorflow", "flutter", "tflite"]
+published: true
+---
+
+When I started building the Dog Stool Classifier, I thought the hard part would be the model. It wasn't. The hard part was everything before the model — finding data, cleaning it, and making a series of compromises I didn't fully want to make.
+
+This is a breakdown of what that actually looked like.
+
+## The Dataset Problem
+
+The first wall I hit was data. Dog stool image datasets are not exactly common on Kaggle. What I found was either too small to be useful, locked behind requests, or — the one I kept running into — already augmented.
+
+Augmented datasets look fine on the surface. More images, better variety. But when the source pool is small, augmentation creates near-duplicates: same image, slightly rotated, slightly brightened. The model sees them as different training samples but they're not. What you end up with is a model that's quietly memorizing a small set of base images rather than learning generalizable features. You don't notice until validation starts underperforming.
+
+I ended up being careful about which sources I pulled from and building my own augmentation pipeline on top of clean data — flips, rotation, zoom, brightness, contrast, translation, and Gaussian noise. That way I controlled what variation was being introduced and why.
+
+## Choosing the Right Model
+
+With around 1,050 training images across 5 classes, I had a small dataset. That ruled out training a large model from scratch — not enough data, too many parameters to fit. But I also couldn't go too small or the feature extraction capacity would be insufficient for what is actually a visually subtle task (the difference between Normal and Soft Poop is not dramatic).
+
+MobileNetV2 landed in the right place. It's designed for mobile deployment, computationally light, and its pretrained ImageNet weights give it a solid foundation for visual feature extraction even when fine-tuned on a narrow domain. I kept the base frozen initially, trained only the new classification head, then unfrozen the top layers and fine-tuned at a lower learning rate. Two phases: establish the head, then let the top of the base adapt to the domain. That approach worked well given the dataset size.
+
+The model exported cleanly to TFLite and runs fully on-device — no network call at inference time, which was a requirement for the Flutter app.
+
+## The Fifth Class I Didn't Want
+
+Here's where it gets frustrating.
+
+I had a working model with four classes: Normal, Lack of Water, Diarrhea, Soft Poop. It was trained, validated, and hitting good numbers. Then the requirement came in: add a "Not a Feces" class.
+
+The intention was reasonable — without a rejection class, the model will confidently classify anything you point it at. A blurry floor, a shadow, someone's shoe. So you need a way to say "this isn't what we're looking for." Fair enough.
+
+The problem is how it should have been done. The proper architecture is two models: a YOLO-based object detector that finds and confirms feces in the image first, then passes the crop to the CNN for classification. Detection handles the "is this even stool" question; classification handles the "what kind" question. Trying to do both with one CNN is a compromise.
+
+I knew this. But time didn't allow for a two-model pipeline, so instead I added "Not a Feces" as a fifth class in the existing training set and retrained. It works — the model does reject clearly irrelevant inputs. But it's not the right solution, and it introduces edge cases that a proper detection stage would handle cleanly.
+
+If I were doing this again, I'd push harder on scoping the requirement correctly from the start. "Not a Feces" as a CNN class is a workaround, not a feature.
+
+## What I'd Do Differently
+
+A few things stand out in hindsight:
+
+Dataset curation matters more than dataset size. 1,050 clean, varied images trained a better model than 3,000 near-duplicate augmented ones would have.
+
+Two-phase fine-tuning is worth the extra training time. Freezing the base first and only unfreezing later meant the head had stable gradients before the base layers started adapting. Jumping straight to full fine-tuning on a small dataset is a fast way to overfit.
+
+Scope the rejection class properly. If the app is meant to only accept intentional captures, handle that at the UX layer — guide the user to capture stool correctly — rather than patching it with a classifier class. A YOLO stage is the right technical answer if the classification model needs to be robust to arbitrary inputs.
+
+The model ended up at 92% accuracy validated on 150+ real-world samples, including images taken under different lighting conditions. That number held up reasonably well. But the "Not a Feces" class and the dataset sourcing are the parts I'd revisit first if this project continued.

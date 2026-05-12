@@ -38,7 +38,10 @@ export function getRelatedPosts(
     };
   });
 
-  const sortedByRelevance = scoredPosts.sort((a, b) => b.score - a.score);
+  const sortedByRelevance = scoredPosts.sort(
+    (a, b) =>
+      b.score - a.score || b.post.date.getTime() - a.post.date.getTime(),
+  );
 
   return sortedByRelevance.slice(0, limit).map((item) => item.post);
 }

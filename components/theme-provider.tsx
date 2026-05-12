@@ -1,7 +1,10 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import { type ComponentProps, useEffect } from "react";
+import {
+  ThemeProvider as NextThemesProvider,
+  useTheme,
+} from "@/components/theme";
 
 const THEME_TOGGLE_KEY = "m";
 
@@ -52,22 +55,14 @@ function ThemeHotkey() {
   return null;
 }
 
-function ThemeProvider({
+export function ThemeProvider({
   children,
   ...props
 }: ComponentProps<typeof NextThemesProvider>) {
   return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-      {...props}
-    >
+    <NextThemesProvider {...props}>
       <ThemeHotkey />
       {children}
     </NextThemesProvider>
   );
 }
-
-export { ThemeProvider };

@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Lite
+
+A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/ui. Monospace-themed for a dev-native feel. Blog and projects are MDX-powered via Content Collections — content is compiled at build time, so pages load fast with no runtime parsing.
+
+🌐 **Live Demo:** [your-portfolio-url.com](https://your-portfolio-url.com)
+
+## Tech Stack
+
+- **Framework:** [Next.js 16](https://nextjs.org) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com), [base-ui](https://base-ui.com)
+- **Content:** [Content Collections](https://www.content-collections.io) (MDX — blog + projects)
+- **Linting & Formatting:** [Biome](https://biomejs.dev)
+- **Package Manager:** [Bun](https://bun.sh)
+- **Git Hooks:** [Husky](https://typicode.github.io/husky/), [commitlint](https://commitlint.js.org/)
+
+## Features
+
+- Monospace font throughout for a dev-native aesthetic
+- Dark/light mode toggle
+- Mobile-responsive with shadcn/ui Sheet for navigation
+- MDX blog and project pages with syntax highlighting via Shiki
+- Reading time estimates on blog posts and projects
+- Auto-updating local time display
+- SEO-validated frontmatter (title, description, tags with length constraints)
+- Strict linting with Biome and conventional commit enforcement via commitlint
+
+## File Structure
+
+```
+portfolio-lite/
+├── app/
+│   ├── (marketing)/          # Route group: blog, projects, home
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── not-found.tsx
+├── components/
+│   ├── pages/                # Page-level components
+│   ├── sections/             # Hero, experience, and other page sections
+│   ├── shared/               # Header (with mobile sheet nav), footer
+│   ├── skeletons/            # Loading skeletons
+│   └── ui/                   # shadcn/ui base components
+├── content/
+│   ├── blog/                 # MDX blog posts
+│   └── projects/             # MDX project pages
+├── hooks/                    # use-local-time, use-scroll-to, use-share, etc.
+├── lib/
+│   ├── data/                 # Static data: nav, social media, work experience
+│   ├── posts.ts              # Blog post utilities
+│   ├── projects.ts           # Project utilities
+│   └── utils.ts
+├── public/images/            # Static images and project screenshots
+├── CLAUDE.md                 # Claude-specific instructions
+├── content-collections.ts    # Content Collections schema and config
+└── biome.json                # Biome linter config
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- [Bun](https://bun.sh) or Node.js 18+
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+bun run build
+bun run start
+```
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command | Description |
+| --- | --- |
+| `bun dev` | Start development server |
+| `bun run build` | Build content collections + production app |
+| `bun run lint` | Check code with Biome |
+| `bun run lint:fix` | Auto-fix linting issues |
+| `bun run format` | Format code with Biome |
+| `bun run typecheck` | Run TypeScript type checking |
+| `bun run ui` | Add shadcn/ui components |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Customization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Personal Info
 
-## Deploy on Vercel
+Update your details in `lib/data/`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `about-me.ts` — Name, bio, avatar, email
+- `nav.ts` — Navigation links
+- `social-media.ts` — Social profiles
+- `work-experience.ts` — Work history
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Adding Blog Posts
+
+Create a `.mdx` file in `content/blog/`. Use `content/blog/_template.mdx` as a starting point. Frontmatter is validated at build time — see `content-collections.ts` for the full schema and character limits.
+
+### Adding Projects
+
+Create a `.mdx` file in `content/projects/`. Same frontmatter validation applies. Place project screenshots in `public/images/projects/` — missing images will cause a build error.
+
+## Deployment
+
+Deploy to [Vercel](https://vercel.com/new) by importing the repository. No environment variables required for the base setup.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
