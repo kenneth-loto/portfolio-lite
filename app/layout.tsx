@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -42,9 +41,7 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
-        <RscBoundaryProvider>
-          <ThemeProvider>{children}</ThemeProvider>
-        </RscBoundaryProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
