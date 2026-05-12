@@ -1,0 +1,72 @@
+---
+title: "Dog Stool Classifier"
+year: 2024
+description: "Android app that classifies dog stool into 5 health categories with confidence scores, health descriptions, and remedy recommendations."
+images:
+  [
+    "/images/projects/dog-stool-classifier/1.png",
+    "/images/projects/dog-stool-classifier/2.png",
+    "/images/projects/dog-stool-classifier/3.png",
+    "/images/projects/dog-stool-classifier/4.png",
+    "/images/projects/dog-stool-classifier/5.png",
+    "/images/projects/dog-stool-classifier/6.png",
+    "/images/projects/dog-stool-classifier/7.png",
+    "/images/projects/dog-stool-classifier/8.png",
+  ]
+tags: ["flutter", "tensorflow", "tflite", "machine-learning", "android"]
+githubUrl: "https://github.com/kenneth-loto/dog-stool-classifier"
+featured: true
+published: true
+---
+
+When a dog is sick at night or the nearest vet is hours away, a fur parent's options are limited. This app gives dog owners a first-line tool — scan a photo of their dog's stool, get an immediate classification, and receive relevant remedies while they figure out next steps. It's not a replacement for a vet, but it makes the gap between concern and care a little shorter.
+
+## Overview
+
+A Flutter-based Android app that classifies dog stool images into 5 health categories using an on-device TFLite model fine-tuned from MobileNetV2. The model was trained on 1,050 images and validated on 150+ real-world samples, achieving 92% accuracy. Each classification comes with a confidence score, a plain-language health description, and a split list of herbal and over-the-counter remedies.
+
+The primary users are fur parents and dog owners. Veterinarians are a secondary audience — the app can serve as an additional monitoring tool, particularly for tracking a dog's stool history over time.
+
+## Features
+
+- **Image Capture & Upload** — Capture a photo directly in-app or upload from the gallery. Flashlight toggle included for low-light or nighttime use.
+- **5-Class Classification** — Results are one of: Normal, Lack of Water, Diarrhea, Soft Poop, or Not a Feces. Each result includes a confidence score and a description of what that stool condition indicates about the dog's health.
+- **Remedy Recommendations** — Below each result, remedies are divided into two sections: herbal remedies and over-the-counter options. The intent is to give owners something actionable when professional care isn't immediately accessible.
+- **Scan History** — Saved scan results let owners track patterns over time — useful both for personal monitoring and for providing a vet with context during a visit.
+
+## Model
+
+The classifier uses MobileNetV2 pretrained on ImageNet as a feature extractor, with a custom classification head replacing the original top layer — a global average pooling layer, dropout (0.2), and a dense output layer with softmax over 5 classes.
+
+Training followed a two-phase approach:
+
+**Phase 1 — Feature extraction.** The base model was frozen and only the new head was trained. Adam optimizer at a learning rate of 0.0001, up to 100 epochs with early stopping on validation loss (patience of 10).
+
+**Phase 2 — Fine-tuning.** The top layers of the base model (from layer 120 onward) were unfrozen and retrained at a reduced learning rate (base / 10) using RMSprop, for up to 50 additional epochs with the same early stopping setup.
+
+Data augmentation was applied during training — horizontal/vertical flips, rotation (±40%), zoom (±30%), contrast, brightness, translation, and Gaussian noise — to improve robustness on real-world photos taken under varied lighting and angles.
+
+The trained model was exported to TFLite for on-device inference, keeping classification entirely local with no network dependency.
+
+**Dataset:** 1,050 training images across 5 classes. Validated on 150+ real-world samples to stress-test against conditions outside the training set (lowered and heightened brightness variants included).
+
+## Tech Stack
+
+- **Flutter** — Android app (Android-only scope)
+- **TensorFlow / Keras** — Model training and fine-tuning
+- **TFLite** — On-device inference
+- **MobileNetV2** — Pretrained base model (ImageNet weights)
+
+## Challenges
+
+**Dataset size and quality** — 1,050 images across 5 classes is a small dataset for a visual classification task, especially one where the categories are subtle (Normal vs. Soft Poop, for example, can be difficult to distinguish even for humans). Aggressive data augmentation compensated for the limited size, and real-world validation on 150+ samples helped surface cases the training set didn't cover well.
+
+**Real-world lighting variability** — Stool photos taken at night, under indoor lighting, or with a phone flashlight look very different from controlled photos. The flashlight feature in the app helps standardize capture conditions, and the model was validated on brightened and darkened test sets to measure degradation.
+
+**"Not a Feces" as a class** — Including a rejection class was important for usability. Without it, the model would confidently classify any image — a blurry floor photo, a shadow — as one of the four health categories. The Not a Feces class acts as a soft guard against bad inputs.
+
+## Reflection
+
+The scope was kept deliberately narrow — Android only, five classes, remedies rather than diagnosis. That constraint was intentional. A tool that does one thing reliably is more useful to a dog owner at midnight than one that promises more than it can deliver.
+
+The 92% accuracy figure is meaningful but not the full story. The harder question is how the model performs on the tail cases: unusual lighting, mixed stool textures, ambiguous presentations. Real-world validation helped characterize that, but field use would surface things no constructed test set can predict. The scan history feature exists partly for that reason — so patterns can be reviewed rather than each result treated as a standalone verdict.

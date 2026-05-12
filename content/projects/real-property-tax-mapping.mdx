@@ -1,0 +1,48 @@
+---
+title: "Real Property Tax Mapping with Tax Collection System"
+year: 2024
+description: "Web-based GIS for real property tax monitoring and collection with interactive parcel maps, payment status visualization, and a multi-stage collection workflow."
+images:
+  [
+    "/images/projects/real-property-tax-mapping/1.png",
+    "/images/projects/real-property-tax-mapping/2.png",
+    "/images/projects/real-property-tax-mapping/3.png",
+  ]
+tags: ["leafletjs", "php", "mysql", "gis", "tax"]
+githubUrl: "https://github.com/kenneth-loto/real-property-tax-mapping"
+published: true
+---
+
+Real property tax collection in local government units often runs on disconnected processes — paper declarations, manual computation, and no clear picture of which properties have paid and which haven't. This project brings that workflow into a single web-based system, pairing a geographic property map with a structured collection pipeline.
+
+## Overview
+
+A web-based GIS built with Leaflet.js, PHP, and MySQL that maps property parcels across a target area and tracks their tax payment status in real time. Properties are color-coded by type and fill state — paid vs. unpaid is visible at a glance on the map. Behind the map sits a full multi-stage workflow: applicants submit tax declaration requests, staff reviews and computes the tax due, admin approves, and the treasurer records payment. Four distinct user roles keep each stage separated with appropriate access controls.
+
+## Features
+
+- **Interactive Property Map** — Leaflet polygons color-coded by property type (Commercial, Residential, Industrial, Agricultural, Mixed). Paid parcels are filled; unpaid are outlined. Hover tooltips surface name, lot number, type, and payment status without leaving the map.
+- **Map / Table Toggle** — Switch between the spatial map view and a DataTable-powered tabular list of all properties — useful when searching by name or lot number rather than location.
+- **Tax Computation Engine** — Calculates assessed value, basic tax, SEF, and total tax due from market value and assessment rate. Removes the manual math that introduces errors in paper-based workflows.
+- **Multi-Stage Request Workflow** — Applicant submits → Staff reviews and computes → Admin approves → Treasurer records payment and OR number. Each stage has its own dashboard view and action set.
+- **Collection Reports** — Barangay-level collection overview with efficiency rate tracking, installment support, and ApexCharts visualizations.
+
+## Tech Stack
+
+- **Leaflet.js** — Interactive map rendering with polygon overlays and tooltip layers
+- **PHP** — Backend routing, role-based access, tax computation logic, and PHPMailer integration
+- **MySQL** — Relational database for properties, requests, transactions, and user accounts
+
+## Challenges
+
+**Polygon data for individual parcels** — Unlike municipality or barangay boundaries, individual property parcel data isn't available in any standard public dataset. Coordinates were encoded manually as JSON polygon arrays and seeded into the database — a practical workaround for the pilot area, but one that doesn't scale without a proper cadastral data source or digitization pipeline.
+
+**Multi-role workflow design** — Designing four distinct role flows (Admin, Staff, Treasurer, Applicant) that are independent but coherent took careful thought around what each role needs to see and do at each stage. Getting that separation right early made the permission logic and dashboard structure much easier to maintain.
+
+**Tax computation accuracy** — Philippine real property tax involves assessed value multipliers that vary by property classification, plus the SEF component. Making the computation engine accurate and auditable — so staff and applicants can trace how a tax figure was reached — required modeling each step explicitly rather than outputting a single number.
+
+## Reflection
+
+The map is the most visible part of the system, but the workflow behind it does the heavier work. The real value isn't just seeing which properties are paid — it's that the path from declaration to payment is now tracked, auditable, and role-appropriate at every step. That's what makes the data on the map trustworthy in the first place.
+
+The pilot is scoped to Naval, Biliran as a sample area. Extending it to full municipal or provincial coverage would require a proper cadastral data pipeline — the current manual polygon encoding doesn't scale. That's the most significant architectural gap to address before production deployment.

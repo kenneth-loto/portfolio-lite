@@ -1,7 +1,7 @@
 "use client";
 
+import { useTheme } from "@teispace/next-themes";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import { ModeToggleSkeleton } from "@/components/skeletons/mode-toggle-skeleton";
 import { Button } from "@/components/ui/button";
 import { useMounted } from "@/hooks/use-mounted";

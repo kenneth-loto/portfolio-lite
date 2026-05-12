@@ -9,8 +9,4 @@ export const socialMediaLinks: SocialMediaLink[] = [
     label: "LinkedIn",
     href: "https://linkedin.com/in/",
   },
-  {
-    label: "Facebook",
-    href: "https://facebook.com/",
-  },
 ];

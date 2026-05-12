@@ -22,16 +22,13 @@ export function LatestPost() {
 
           <h3 className="font-medium text-sm">{latestPost.title}</h3>
 
-          <p className="text-muted-foreground text-sm/read">
+          <p className="line-clamp-2 text-muted-foreground text-sm/read">
             {latestPost.description}
           </p>
 
           <Link
             href={`/blog/${latestPost.slug}`}
-            className={cn(
-              buttonVariants({ variant: "link" }),
-              "h-auto self-start whitespace-normal p-0",
-            )}
+            className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
           >
             Read more
             <span className="sr-only">about {latestPost.title}</span>

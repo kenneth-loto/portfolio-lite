@@ -2,7 +2,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { LocalTime } from "@/components/local-time";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
-import { author } from "@/lib/data/author";
+import { aboutMe } from "@/lib/data/about-me";
 import { socialMediaLinks } from "@/lib/data/social-media";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +23,9 @@ export function Connect() {
           <p className="font-medium text-foreground text-sm">Get in touch</p>
 
           <p className="text-muted-foreground text-sm/read">
-            Open to full-time Software Engineering roles — full-stack, frontend,
-            or backend. Let's talk if you're building something great.
+            Open to full-time Software Engineering roles, full-stack, frontend,
+            or backend. Let's talk if you're working on something worth
+            building.
           </p>
         </div>
 
@@ -35,13 +36,10 @@ export function Connect() {
           </ul>
 
           <a
-            href={`mailto:${author.email}`}
-            className={cn(
-              buttonVariants({ variant: "link" }),
-              "h-auto p-0 text-sm",
-            )}
+            href={`mailto:${aboutMe.email}`}
+            className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
           >
-            {author.email}
+            {aboutMe.email}
           </a>
         </div>
 

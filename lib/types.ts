@@ -5,28 +5,17 @@ export type NavLink<T extends string = string> = {
 
 export interface SocialMediaLink extends NavLink {}
 
-export type Author = {
+export type AboutMe = {
   name: string;
   bio: string;
-  role: string;
+  title: string;
   email: string;
   avatar: string;
-  github_url: string;
 };
 
 export interface WorkExperience {
   title: string;
   company: string;
   period: string;
-  current?: boolean;
   description: string;
-}
-
-export interface Project {
-  title: string;
-  description: string;
-  live_demo?: string;
-  github_url?: string;
-  href: string;
-  year: string;
 }
