@@ -3,24 +3,23 @@ import type { WorkExperience } from "@/lib/types";
 export const workExperiences: WorkExperience[] = [
   {
     title: "Full Stack Developer",
-    company: "Independent Projects",
+    company: "Personal Projects",
     period: "Sep 2025 — Present",
-    current: true,
     description:
-      "Building personal projects with a modern stack — Next.js, TypeScript, Neon PostgreSQL, Drizzle, Upstash Redis, and shadcn/ui — with a focus on scalable architecture and clean, maintainable code.",
+      "Building personal projects with Next.js and TypeScript, focusing on clean architecture, maintainable code structure, and modern full-stack patterns using Drizzle ORM, Better Auth, and shadcn/ui.",
   },
   {
     title: "IT Intern",
     company: "CViSNet Foundation Inc.",
     period: "Jan 2025 — Mar 2025",
     description:
-      "Worked with Laravel and WordPress, helped maintain and update content across multiple project sites, and built a portfolio site as a final internship project.",
+      "Developed web applications using Laravel, progressing from Blade templating to the React starter kit. Collaborated with a team of four via Git and GitHub across UI and CRUD tasks.",
   },
   {
     title: "Mobile App & Computer Vision Developer",
     company: "Undergraduate Thesis",
     period: "Aug 2024 — Nov 2024",
     description:
-      "Developed a Flutter app powered by a custom CNN model that analyzes dog stool images to detect health conditions and recommend remedies — combining mobile development, computer vision, and real-world utility.",
+      "Built a Flutter app powered by a TensorFlow/Keras CNN model trained on 1,050 images, classifying dog stool into 5 categories with 92% accuracy validated on 150+ real-world samples.",
   },
 ];

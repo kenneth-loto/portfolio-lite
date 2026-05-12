@@ -1,68 +1,52 @@
-import { ArrowUpRightIcon } from "lucide-react";
+import { MoveRightIcon } from "lucide-react";
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
-import { projects } from "@/lib/data/projects";
+import { getFeaturedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
 export function FeaturedProjects() {
+  const featuredProjects = getFeaturedProjects();
+
   return (
     <Section>
       <SectionTitle>Featured Projects</SectionTitle>
 
       <div className="space-y-8 border-t pt-4">
-        {projects.map((project, index) => {
-          const key = `${index}-${project.title}`;
-          return (
-            <div key={key} className="space-y-2 pl-4">
+        {featuredProjects.length > 0 ? (
+          featuredProjects.map((featuredProject) => (
+            <div key={`${featuredProject.title}`} className="space-y-2 pl-4">
               <ul className="list-disc">
                 <li className="text-muted-foreground text-xs">
-                  {project.year}
+                  {featuredProject.year}
                 </li>
               </ul>
 
-              <h3 className="font-medium text-sm">{project.title}</h3>
+              <h3 className="font-medium text-sm">{featuredProject.title}</h3>
 
               <p className="text-muted-foreground text-sm/read">
-                {project.description}
+                {featuredProject.description}
               </p>
 
-              {/* Action Buttons */}
-              {(project.live_demo || project.github_url) && (
-                <div className="flex gap-2">
-                  {project.live_demo && (
-                    <a
-                      href={project.live_demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        buttonVariants({ variant: "link" }),
-                        "h-auto gap-0.5 self-start whitespace-normal p-0",
-                      )}
-                    >
-                      Live Demo
-                      <ArrowUpRightIcon className="-translate-y-1 size-3 text-muted-foreground" />
-                    </a>
-                  )}
-
-                  {project.github_url && (
-                    <a
-                      href={project.github_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        buttonVariants({ variant: "link" }),
-                        "h-auto gap-0.5 p-0",
-                      )}
-                    >
-                      GitHub
-                      <ArrowUpRightIcon className="-translate-y-1 size-3 text-muted-foreground" />
-                    </a>
-                  )}
-                </div>
-              )}
+              <Link
+                href={`/projects/${featuredProject.slug}`}
+                aria-label={`Read more about ${featuredProject.title}`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "h-auto self-start whitespace-normal p-0",
+                )}
+              >
+                Read more
+                <span className="sr-only">about {featuredProject.title}</span>
+                <MoveRightIcon aria-hidden="true" />
+              </Link>
             </div>
-          );
-        })}
+          ))
+        ) : (
+          <p className="pt-4 text-center text-muted-foreground text-sm">
+            No featured projects yet. Check back soon!
+          </p>
+        )}
       </div>
     </Section>
   );

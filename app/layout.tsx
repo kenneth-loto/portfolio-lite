@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
@@ -22,10 +24,10 @@ export const metadata: Metadata = {
   description: "This is a sample description.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html
@@ -40,14 +42,9 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <RscBoundaryProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </RscBoundaryProvider>
       </body>
     </html>
   );
