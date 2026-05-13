@@ -1,4 +1,5 @@
 import { allPosts, type Post } from "content-collections";
+import { baseUrl } from "@/app/sitemap";
 
 const publishedPosts: Post[] = allPosts
   .filter((post) => post.published)
@@ -44,4 +45,8 @@ export function getRelatedPosts(
   );
 
   return sortedByRelevance.slice(0, limit).map((item) => item.post);
+}
+
+export function getPostOgImage(post: Post) {
+  return `${baseUrl}/og?title=${encodeURIComponent(post.title)}&description=${encodeURIComponent(post.description)}&type=blog`;
 }
