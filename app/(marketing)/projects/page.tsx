@@ -1,9 +1,16 @@
 import { MoveRightIcon } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
 import { getAllPublishedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Projects I've built — web apps, GIS systems, and machine learning tools.",
+};
 
 export default function Page() {
   const projects = getAllPublishedProjects();

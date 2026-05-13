@@ -8,6 +8,8 @@ import { cn, formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Blog",
+  description:
+    "Writing about software engineering, web development, and problems I've actually run into.",
 };
 
 export default function Blog() {
