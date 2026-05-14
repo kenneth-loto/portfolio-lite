@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
@@ -69,6 +71,8 @@ export default async function RootLayout({
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
         <ThemeProvider>{children}</ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
