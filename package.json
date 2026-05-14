@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "devv": "next dev",
     "dev": "bun --bun next dev",
     "build": "content-collections build && bun --bun next build",
     "start": "bun --bun next start",
@@ -26,6 +25,8 @@
     "@content-collections/mdx": "^0.2.2",
     "@content-collections/next": "^0.2.11",
     "@teispace/next-themes": "^0.4.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.6.0",
