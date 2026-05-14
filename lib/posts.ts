@@ -47,6 +47,6 @@ export function getRelatedPosts(
   return sortedByRelevance.slice(0, limit).map((item) => item.post);
 }
 
-export function getPostOgImage(post: Post) {
+export function getPostOgImage(post: Pick<Post, "title" | "description">) {
   return `${baseUrl}/og?title=${encodeURIComponent(post.title)}&description=${encodeURIComponent(post.description)}&type=blog`;
 }

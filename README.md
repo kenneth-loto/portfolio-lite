@@ -4,6 +4,8 @@ A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/
 
 🌐 **Live Demo:** [your-portfolio-url.com](https://your-portfolio-url.com)
 
+![Preview](public/images/portfolio-preview.png)
+
 ## Tech Stack
 
 - **Framework:** [Next.js 16](https://nextjs.org) (App Router)
@@ -18,12 +20,17 @@ A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/
 ## Features
 
 - Monospace font throughout for a dev-native aesthetic
-- Dark/light mode toggle
+- Dark/light mode toggle with system preference detection
 - Mobile-responsive with shadcn/ui Sheet for navigation
 - MDX blog and project pages with syntax highlighting via Shiki
 - Reading time estimates on blog posts and projects
 - Auto-updating local time display
+- Dynamic OG image generation for blog posts and projects
+- RSS feed for blog posts
+- Auto-generated sitemap and robots.txt
+- PWA manifest
 - SEO-validated frontmatter (title, description, tags with length constraints)
+- Test suite with Vitest + Testing Library (hooks, lib utilities)
 - Strict linting with Biome and conventional commit enforcement via commitlint
 
 ## File Structure
@@ -32,28 +39,73 @@ A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/
 portfolio-lite/
 ├── app/
 │   ├── (marketing)/          # Route group: blog, projects, home
+│   │   ├── blog/
+│   │   │   ├── [slug]/page.tsx
+│   │   │   └── page.tsx
+│   │   ├── projects/
+│   │   │   ├── [slug]/page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── og/route.tsx          # Open Graph image generation
+│   ├── rss/route.ts          # RSS feed
 │   ├── globals.css
 │   ├── layout.tsx
-│   └── not-found.tsx
+│   ├── manifest.json
+│   ├── not-found.tsx
+│   ├── robots.ts
+│   └── sitemap.ts
 ├── components/
-│   ├── pages/                # Page-level components
-│   ├── sections/             # Hero, experience, and other page sections
-│   ├── shared/               # Header (with mobile sheet nav), footer
-│   ├── skeletons/            # Loading skeletons
-│   └── ui/                   # shadcn/ui base components
+│   ├── pages/
+│   │   ├── blog-detail-page.tsx
+│   │   └── projects-detail-page/
+│   │       ├── image-carousel.tsx
+│   │       └── index.tsx
+│   ├── sections/             # Hero, experience, connect, featured-projects, latest-post
+│   ├── shared/
+│   │   ├── footer.tsx
+│   │   └── header/           # Header, mobile nav, nav links, logo
+│   ├── skeletons/            # Loading skeletons (local-time, mode-toggle)
+│   ├── ui/                   # shadcn/ui base components
+│   ├── local-time.tsx
+│   ├── mode-toggle.tsx
+│   ├── share-button.tsx
+│   ├── theme-provider.tsx
+│   └── theme.ts
 ├── content/
 │   ├── blog/                 # MDX blog posts
 │   └── projects/             # MDX project pages
-├── hooks/                    # use-local-time, use-scroll-to, use-share, etc.
+├── hooks/
+│   ├── __tests__/
+│   ├── use-local-time.ts
+│   ├── use-mounted.ts
+│   ├── use-scroll-to.ts
+│   ├── use-scroll-to-top.ts
+│   └── use-share.ts
 ├── lib/
-│   ├── data/                 # Static data: nav, social media, work experience
-│   ├── posts.ts              # Blog post utilities
-│   ├── projects.ts           # Project utilities
+│   ├── __tests__/
+│   ├── data/                 # Static data: about-me, nav, social-media, work-experience
+│   ├── posts.ts
+│   ├── projects.ts
+│   ├── types.ts
 │   └── utils.ts
-├── public/images/            # Static images and project screenshots
-├── CLAUDE.md                 # Claude-specific instructions
-├── content-collections.ts    # Content Collections schema and config
-└── biome.json                # Biome linter config
+├── public/
+│   ├── fonts/                # JetBrains Mono (local font)
+│   └── images/               # Avatar, preview, project screenshots
+├── .husky/                   # Git hooks (commit-msg, pre-commit, pre-push)
+├── AGENTS.md
+├── biome.json
+├── commitlint.config.ts
+├── components.json
+├── content-collections.ts
+├── LICENSE.md
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+├── vitest.config.ts
+└── vitest.setup.ts
 ```
 
 ## Getting Started
@@ -80,15 +132,20 @@ bun run start
 
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `bun dev` | Start development server |
-| `bun run build` | Build content collections + production app |
-| `bun run lint` | Check code with Biome |
-| `bun run lint:fix` | Auto-fix linting issues |
-| `bun run format` | Format code with Biome |
-| `bun run typecheck` | Run TypeScript type checking |
-| `bun run ui` | Add shadcn/ui components |
+| Command                       | Description                                |
+| ----------------------------- | ------------------------------------------ |
+| `bun dev`                     | Start development server                   |
+| `bun run build`               | Build content collections + production app |
+| `bun run lint`                | Check code with Biome                      |
+| `bun run lint:fix`            | Auto-fix linting issues                    |
+| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms            |
+| `bun run format`              | Format code with Biome                     |
+| `bun run typecheck`           | Run TypeScript type checking               |
+| `bun test`                    | Run tests in watch mode                    |
+| `bun test:run`                | Run tests once                             |
+| `bun test:coverage`           | Run tests with coverage report             |
+| `bun run ui`                  | Add shadcn/ui components                   |
+| `bun run content-collections` | Build content collections manually         |
 
 ## Customization
 
