@@ -1,6 +1,6 @@
 import { allPosts, allProjects } from "content-collections";
 
-export const baseUrl = "https://kennethloto.dev";
+export const baseUrl = "https://www.kennethloto.dev";
 
 export default async function sitemap() {
   const staticRoutes = ["", "/blog", "/projects"].map((route) => ({
