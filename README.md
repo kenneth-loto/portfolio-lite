@@ -2,7 +2,7 @@
 
 A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/ui. Monospace-themed for a dev-native feel. Blog and projects are MDX-powered via Content Collections — content is compiled at build time, so pages load fast with no runtime parsing.
 
-🌐 **Live Demo:** [your-portfolio-url.com](https://your-portfolio-url.com)
+🌐 **Live Demo:** [www.kennethloto.dev](https://www.kennethloto.dev)
 
 ![Preview](public/images/portfolio-preview.png)
 
