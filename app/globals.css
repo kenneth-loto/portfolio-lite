@@ -237,16 +237,16 @@
     }
   }
 
-  & a code {
-    color: var(--prose-link);
-  }
-
   & code {
     &::before,
     &::after {
       content: "";
     }
     @apply font-medium bg-muted text-foreground border py-0.5 px-1 text-sm;
+  }
+
+  & a code {
+    color: var(--prose-link);
   }
 
   & pre {
