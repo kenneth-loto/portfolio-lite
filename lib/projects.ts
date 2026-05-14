@@ -23,6 +23,8 @@ export function getProjectStaticParams(): { slug: string }[] {
   return publishedProjects.map((project) => ({ slug: project.slug }));
 }
 
-export function getProjectOgImage(project: Project) {
+export function getProjectOgImage(
+  project: Pick<Project, "title" | "description">,
+) {
   return `${baseUrl}/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.description)}&type=project`;
 }
