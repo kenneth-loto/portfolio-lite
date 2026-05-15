@@ -13,7 +13,7 @@ export type AboutMe = {
   avatar: string;
 };
 
-export interface WorkExperience {
+export interface Experience {
   title: string;
   company: string;
   period: string;

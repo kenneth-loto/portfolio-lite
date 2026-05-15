@@ -14,7 +14,7 @@ export function ShareButton({ title }: ShareButtonProps) {
     <Button
       onClick={() => share(title)}
       variant="link"
-      className="h-auto gap-0.5 p-0"
+      className="h-auto cursor-pointer gap-0.5 p-0"
     >
       {copied ? "Link copied!" : "Share"}
     </Button>

@@ -85,7 +85,7 @@ portfolio-lite/
 │   └── use-share.ts
 ├── lib/
 │   ├── __tests__/
-│   ├── data/                 # Static data: about-me, nav, social-media, work-experience
+│   ├── data/                 # Static data: about-me, nav, social-media, experience
 │   ├── posts.ts
 │   ├── projects.ts
 │   ├── types.ts
@@ -156,7 +156,7 @@ Update your details in `lib/data/`:
 - `about-me.ts` — Name, bio, avatar, email
 - `nav.ts` — Navigation links
 - `social-media.ts` — Social profiles
-- `work-experience.ts` — Work history
+- `experience.ts` — Work history
 
 ### Adding Blog Posts
 
