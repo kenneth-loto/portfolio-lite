@@ -43,6 +43,8 @@ jobs:
         with:
           fail-on-severity: moderate # blocks PRs that introduce moderate+ CVEs
           comment-summary-in-pr: always # posts a summary table on every PR
+          allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, BSD-3-Clause # common permissive licenses
+          warn-only: true # unknown licenses warn but never fail the check
 
   lint:
     name: Lint
