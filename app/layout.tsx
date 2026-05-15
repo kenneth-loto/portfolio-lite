@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s - Kenneth Loto",
   },
   description:
-    "Full-stack software engineer based in the Philippines. Building web apps that are well-structured, maintainable, and built to last.",
+    "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
   appleWebApp: {
     title: "Kenneth Loto",
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kenneth Loto",
     description:
-      "Full-stack software engineer based in the Philippines. Building web apps that are well-structured, maintainable, and built to last.",
+      "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",

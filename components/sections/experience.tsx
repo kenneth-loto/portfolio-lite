@@ -1,5 +1,5 @@
 import { Section, SectionTitle } from "@/components/ui/section";
-import { workExperiences } from "@/lib/data/work-experience";
+import { experiences } from "@/lib/data/experience";
 
 export function Experience() {
   return (
@@ -7,7 +7,7 @@ export function Experience() {
       <SectionTitle>Experience</SectionTitle>
 
       <div className="space-y-8 border-t pt-4">
-        {workExperiences.map((experience, index) => {
+        {experiences.map((experience, index) => {
           const key = `${index}-${experience.period}`;
 
           return (
