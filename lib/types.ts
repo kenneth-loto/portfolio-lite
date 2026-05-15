@@ -3,7 +3,7 @@ export type NavLink<T extends string = string> = {
   label: string;
 };
 
-export interface SocialMediaLink extends NavLink {}
+export interface SocialLink extends NavLink {}
 
 export type AboutMe = {
   name: string;

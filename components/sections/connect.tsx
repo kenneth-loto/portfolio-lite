@@ -3,7 +3,7 @@ import { LocalTime } from "@/components/local-time";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
 import { aboutMe } from "@/lib/data/about-me";
-import { socialMediaLinks } from "@/lib/data/social-media";
+import { socialLinks } from "@/lib/data/social-link";
 import { cn } from "@/lib/utils";
 
 export function Connect() {
@@ -50,7 +50,7 @@ export function Connect() {
           </ul>
 
           <div className="flex flex-wrap gap-2">
-            {socialMediaLinks.map(({ label, href }) => (
+            {socialLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
