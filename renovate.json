@@ -5,8 +5,28 @@
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],
-      "groupName": "Dev Dependencies",
-      "schedule": ["before 6am on Monday"]
+      "groupName": "Dev Tooling",
+      "schedule": ["after 4am and before 6am on Monday"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["patch", "minor"]
+    },
+    {
+      "matchPackageNames": ["next", "react", "react-dom"],
+      "groupName": "React & Next.js Core",
+      "schedule": ["after 4am and before 6am on Monday"],
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["@teispace/next-themes"],
+      "enabled": false
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "excludePackageNames": ["next", "react", "react-dom", "@teispace/next-themes"],
+      "groupName": "Production Dependencies",
+      "schedule": ["after 4am and before 6am on Monday"],
+      "automerge": false
     }
   ]
 }
