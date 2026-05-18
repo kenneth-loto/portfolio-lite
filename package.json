@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "devv": "next dev",
     "dev": "bun --bun next dev",
     "build": "content-collections build && bun --bun next build",
     "start": "bun --bun next start",

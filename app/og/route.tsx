@@ -1,20 +1,11 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
 import { ImageResponse } from "next/og";
-
-const fontRegular = readFileSync(
-  path.join(process.cwd(), "public/fonts/JetBrainsMono-Regular.ttf"),
-);
-
-const fontSemiBold = readFileSync(
-  path.join(process.cwd(), "public/fonts/JetBrainsMono-SemiBold.ttf"),
-);
+import { fontRegular, fontSemiBold } from "@/lib/og-fonts";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = (searchParams.get("title") ?? "").slice(0, 60);
   const description = (searchParams.get("description") ?? "").slice(0, 160);
-  const type = searchParams.get("type") === "project" ? "project" : "blog";
+  const type = searchParams.get("type") ?? "";
 
   return new ImageResponse(
     <div
@@ -35,7 +26,7 @@ export async function GET(request: Request) {
           Kenneth Loto
         </span>
         <span style={{ color: "#a1a1aa", fontSize: 16, fontWeight: 400 }}>
-          Software Engineer
+          Full Stack Developer
         </span>
       </div>
 
@@ -49,7 +40,7 @@ export async function GET(request: Request) {
             textTransform: "uppercase",
           }}
         >
-          {type === "project" ? "Project" : "Blog"}
+          {type}
         </span>
 
         {/* Title + Desc grouped */}

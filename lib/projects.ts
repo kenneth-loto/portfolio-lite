@@ -26,5 +26,5 @@ export function getProjectStaticParams(): { slug: string }[] {
 export function getProjectOgImage(
   project: Pick<Project, "title" | "description">,
 ) {
-  return `${baseUrl}/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.description)}&type=project`;
+  return `${baseUrl}/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.description)}&type=Project`;
 }
