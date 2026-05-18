@@ -4,7 +4,7 @@ A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/
 
 🌐 **Live Demo:** [www.kennethloto.dev](https://www.kennethloto.dev)
 
-![Preview](public/images/portfolio-preview.png)
+![Preview](public/images/project-preview.png)
 
 ## Tech Stack
 
@@ -44,13 +44,16 @@ portfolio-lite/
 │   │   │   └── page.tsx
 │   │   ├── projects/
 │   │   │   ├── [slug]/page.tsx
-│   │   │   ├── layout.tsx
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── og/route.tsx          # Open Graph image generation
 │   ├── rss/route.ts          # RSS feed
+│   ├── apple-icon.png
+│   ├── favicon.ico
 │   ├── globals.css
+│   ├── icon0.svg
+│   ├── icon1.png
 │   ├── layout.tsx
 │   ├── manifest.json
 │   ├── not-found.tsx
@@ -65,7 +68,11 @@ portfolio-lite/
 │   ├── sections/             # Hero, experience, connect, featured-projects, latest-post
 │   ├── shared/
 │   │   ├── footer.tsx
-│   │   └── header/           # Header, mobile nav, nav links, logo
+│   │   └── header/
+│   │       ├── index.tsx
+│   │       ├── logo-link.tsx
+│   │       ├── mobile-nav.tsx
+│   │       └── nav-links.tsx
 │   ├── skeletons/            # Loading skeletons (local-time, mode-toggle)
 │   ├── ui/                   # shadcn/ui base components
 │   ├── local-time.tsx
@@ -85,26 +92,31 @@ portfolio-lite/
 │   └── use-share.ts
 ├── lib/
 │   ├── __tests__/
-│   ├── data/                 # Static data: about-me, nav, social-media, experience
+│   ├── data/                 # Static data: about-me, nav, social-link, experience
+│   ├── og-fonts.ts
 │   ├── posts.ts
 │   ├── projects.ts
 │   ├── types.ts
 │   └── utils.ts
 ├── public/
 │   ├── fonts/                # JetBrains Mono (local font)
-│   └── images/               # Avatar, preview, project screenshots
+│   └── images/               # Avatar, project screenshots
 ├── .husky/                   # Git hooks (commit-msg, pre-commit, pre-push)
 ├── AGENTS.md
 ├── biome.json
+├── CLAUDE.md
 ├── commitlint.config.ts
 ├── components.json
 ├── content-collections.ts
 ├── LICENSE.md
+├── .lintstagedrc.json
 ├── next.config.ts
 ├── package.json
 ├── postcss.config.mjs
+├── renovate.json
 ├── tsconfig.json
-├── vitest.config.ts
+├── vercel.json
+├── vitest.config.mts
 └── vitest.setup.ts
 ```
 
@@ -155,7 +167,7 @@ Update your details in `lib/data/`:
 
 - `about-me.ts` — Name, bio, avatar, email
 - `nav.ts` — Navigation links
-- `social-media.ts` — Social profiles
+- `social-link.ts` — Social profiles
 - `experience.ts` — Work history
 
 ### Adding Blog Posts
