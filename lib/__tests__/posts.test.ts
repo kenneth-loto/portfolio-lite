@@ -187,7 +187,7 @@ describe("getPostOgImage()", () => {
     const url = getPostOgImage(mockPosts[0]);
 
     expect(url).toBe(
-      "https://example.com/og?title=Post%20A&description=Desc%20A&type=blog",
+      "https://example.com/og?title=Post%20A&description=Desc%20A&type=Blog Post",
     );
   });
 

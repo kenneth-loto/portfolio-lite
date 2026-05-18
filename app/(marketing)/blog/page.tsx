@@ -1,18 +1,34 @@
 import { MoveRightIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { baseUrl } from "@/app/sitemap";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
 import { getAllPublishedPosts } from "@/lib/posts";
 import { cn, formatDate } from "@/lib/utils";
 
+const blogOgImage = `${baseUrl}/og?title=Writing Thoughts&description=Writing about software engineering, web development, and problems I've actually run into.`;
+
 export const metadata: Metadata = {
   title: "Blog",
   description:
     "Writing about software engineering, web development, and problems I've actually run into.",
+  openGraph: {
+    images: [
+      {
+        url: blogOgImage,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [blogOgImage],
+  },
 };
 
-export default function Blog() {
+export default function Page() {
   const posts = getAllPublishedPosts();
 
   return (

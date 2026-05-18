@@ -1,15 +1,31 @@
 import { MoveRightIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { baseUrl } from "@/app/sitemap";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
 import { getAllPublishedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
+const projectsOgImage = `${baseUrl}/og?title=Things I've Built&description=Full-stack web apps, geospatial systems, and machine learning.`;
+
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Projects I've built — web apps, GIS systems, and machine learning tools.",
+    "Projects I've built — full-stack web apps, geospatial systems, and machine learning.",
+  openGraph: {
+    images: [
+      {
+        url: projectsOgImage,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [projectsOgImage],
+  },
 };
 
 export default function Page() {
