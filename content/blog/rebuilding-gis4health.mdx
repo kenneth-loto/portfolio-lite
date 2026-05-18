@@ -1,0 +1,87 @@
+---
+title: "Rebuilding GIS4Health: PHP/Leaflet to Laravel + React"
+date: "2026-05-18"
+description: "A before-and-after on rewriting a health mapping GIS — architecture decisions, mapping in React, and when a rewrite is actually worth it."
+tags: ["laravel", "react", "gis", "maplibre", "typescript"]
+published: true
+---
+
+I built the same system twice. The first time was a web-based GIS for monitoring disease cases in Biliran Province — Leaflet.js, raw PHP, MySQL. It worked. It visualized heatmaps, flagged high-incidence barangays, and gave health officers a spatial view of data they'd only seen in spreadsheets before. I shipped it and moved on.
+
+Then I rebuilt it from scratch.
+
+Not because the first version was broken, but because I could see exactly where it was holding itself back — and I wanted to know what the right version looked like.
+
+## What the First Version Was
+
+The original system — Heat Mapping of Various Health Cases in Biliran Province — was a PHP/MySQL backend serving a Leaflet.js frontend. No framework, no bundler, no type safety. Just PHP handling routes and queries, jQuery wiring up interactions, and Leaflet rendering two map views: a weighted heatmap and a choropleth at the barangay level.
+
+It did the core job. The heatmap surfaced clusters that were invisible in raw case logs. The choropleth let health officers compare disease density across administrative units at a glance. A threshold alert engine flagged barangays when weekly case counts crossed 10 — a blunt instrument, but a functional one.
+
+The problems weren't in what it did. They were in how it was built.
+
+State lived everywhere and nowhere. Filter changes triggered full PHP round-trips. The GeoJSON boundary data was missing for Biliran to begin with — I had to digitize administrative maps manually and cross-reference PSA datasets just to have polygons to work with. And the heatmap calibration — getting point radius, blur intensity, and weight scaling to behave sensibly across Biliran's mix of dense and sparse populations — was a continuous wrestling match with Leaflet's plugin internals.
+
+It worked. But it wasn't well-built.
+
+## Why I Rewrote It
+
+Rewrites are usually a mistake. The second-system effect is real: you throw away hard-won bug fixes along with the complexity you actually wanted to remove. I've read Joel Spolsky's argument enough times to be skeptical of my own instincts here.
+
+But this case was specific. The original wasn't maintained production software with years of accumulated fixes — it was an academic project with a narrow scope and clear architectural ceiling. The question wasn't "is this worth the risk?" It was "what does this look like when it's actually well-built?"
+
+That's a different question, and it justified starting fresh.
+
+## The Stack Decision
+
+GIS4Health runs on the Laravel React starter kit — TypeScript, Inertia.js, Laravel on the backend. MapLibre GL JS replaced Leaflet. MapTiler provides the vector tiles.
+
+The Laravel + Inertia combination meant I didn't have to choose between a traditional server-rendered app and a full SPA. Inertia handles page routing through Laravel while React owns the component tree. That's a meaningful simplification for a data-heavy dashboard: I get Laravel's ORM and routing without building a separate API, and React handles all the interactive map state without page reloads.
+
+TypeScript was non-negotiable after the first version. Map state is complex — filter combinations, zoom levels, layer toggles, bounding boxes — and having types enforced across that surface area catches a category of bugs before they exist.
+
+## Mapping in React Is Not Like Mapping in jQuery
+
+This was the most technically interesting part of the rewrite.
+
+Leaflet was designed for imperative DOM manipulation. You create a map, you call methods on it, it updates. In a jQuery world that's fine. In React, it creates a fundamental tension: React wants to own the DOM; Leaflet also wants to own the DOM. You end up with a `useEffect` that initializes the map once, a ref that holds the map instance, and a carefully managed imperative interface that you keep isolated from React's render cycle.
+
+MapLibre has the same model — it's still imperative under the hood — but the patterns around it in a React codebase are better understood now. I used `useRef` to hold the map instance, `useEffect` to synchronize filter state to map layers, and kept all the MapLibre calls inside callbacks that never touched React state directly. The separation is strict: React manages UI state, MapLibre manages the map, and they communicate through a narrow interface.
+
+The payoff was that filters — municipality, barangay, disease category, severity, date range — update the map in place without a page reload. Selecting a municipality flies the camera to that area via `flyTo`. Adding a barangay narrows it further with `fitBounds` computed by Turf.js. The map responds to the filter state, but the filter state lives in React.
+
+That reactive-but-imperative boundary is the core challenge of mapping in React. Getting it right is the difference between a map that fights you and one that just works.
+
+## The Choropleth Upgrade
+
+The original choropleth was a flat 2D color map. GIS4Health uses `fill-extrusion` — MapLibre's 3D layer type where each barangay is rendered as a column, with height and color both encoding case count.
+
+Height is `value × 100` meters. Color interpolates from light yellow through orange to deep red, with the scale maximum adjusting automatically based on the selected time range (7 / 30 / 90 days). The result is that geographic distribution and magnitude are readable simultaneously — you see both where cases are concentrated and how severe the concentration is, without switching between views.
+
+This was only possible because MapLibre supports it natively. Leaflet doesn't. The renderer upgrade enabled the feature, not just the ambition.
+
+## Several Smaller Upgrades
+
+A few other things improved in the rewrite that are worth naming:
+
+**shadcn/ui** replaced hand-rolled filter components. The filter panel is cleaner, more consistent, and took a fraction of the time to build.
+
+**Bounded map panning** — both maps are constrained to Biliran Province. In the original, you could accidentally pan to the middle of the Pacific. A one-line `fitBounds` call on initialization fixed it.
+
+**An embedded AI assistant** — the system includes a chat panel powered by OpenRouter that lets users ask questions about the system in natural language. It's scoped to explaining the GIS features rather than querying live data (the next version of this would connect it to the database directly), but it's a useful onboarding layer for health officers who aren't GIS-literate.
+
+**Proper TypeScript throughout.** The filter state, map layer configs, API response shapes — all typed. This isn't exciting, but it made the codebase substantially easier to reason about.
+
+## What I'd Tell Myself Before Starting
+
+**Rewrites are only worth it when you have a clear ceiling.** The original had one — the PHP architecture couldn't support reactive filtering without a complete restructure. That made the rewrite defensible. If the first version had just been "messy but extensible," I'd have refactored instead.
+
+**The mapping/React boundary is the hardest part.** Not the map features, not the data pipeline — keeping the imperative map instance isolated from React's render cycle. Get that architecture right first and everything else follows.
+
+**The GeoJSON boundary problem doesn't go away.** Digitizing Biliran's barangay boundaries was painful in the first version and would be painful again if I extended this to another province. This is a data infrastructure problem, not a code problem, and it needs to be scoped explicitly before any expansion.
+
+**3D choropleths are genuinely more readable.** I was skeptical that the fill-extrusion was more than aesthetic novelty. It's not — encoding magnitude in height alongside color gives you a second visual channel that matters when the differences between barangays are subtle.
+
+The rebuild took longer than patching the original would have. But GIS4Health is a system I'd actually hand to a health officer and trust. The first version proved the concept. The second version asked what the concept looks like when it's built properly.
+
+Those are different things, and the gap between them was worth closing.
