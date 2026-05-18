@@ -4,7 +4,7 @@ import { FeaturedProjects } from "@/components/sections/featured-projects";
 import { Hero } from "@/components/sections/hero";
 import { LatestPost } from "@/components/sections/latest-post";
 
-export default function Home() {
+export default function Page() {
   return (
     <>
       <Hero />

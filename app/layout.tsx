@@ -8,6 +8,8 @@ import { baseUrl } from "@/app/sitemap";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
+const ogImage = `${baseUrl}/og?title=Full-Stack Developer&description=Building web applications that are well-structured, maintainable, and built to last.&type=Home`;
+
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   variable: "--font-ibm-plex-sans",
@@ -21,8 +23,8 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Kenneth Loto",
-    template: "%s - Kenneth Loto",
+    default: "Kenneth Loto — Full-Stack Developer",
+    template: "%s — Kenneth Loto",
   },
   description:
     "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
@@ -31,13 +33,31 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Kenneth Loto",
+    title: "Kenneth Loto — Full-Stack Developer",
     description:
       "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: ogImage,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kenneth Loto — Full-Stack Developer",
+    description:
+      "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+    images: [
+      {
+        url: ogImage,
+      },
+    ],
   },
   robots: {
     index: true,
@@ -70,6 +90,26 @@ export default async function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data is static and trusted
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Kenneth Loto",
+              url: "https://www.kennethloto.dev",
+              jobTitle: "Full-Stack Developer",
+              email: "kennethloto.dev@gmail.com",
+              sameAs: [
+                "https://github.com/kenneth-loto",
+                "https://www.linkedin.com/in/kenneth-loto/",
+              ],
+              description:
+                "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+            }),
+          }}
+        />
         <ThemeProvider>{children}</ThemeProvider>
         <Analytics />
         <SpeedInsights />
