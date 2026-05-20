@@ -36,7 +36,7 @@ jobs:
       pull-requests: write # needed to post summary comment on the PR
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v5.0.0
@@ -52,7 +52,7 @@ jobs:
     timeout-minutes: 3
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
@@ -68,7 +68,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -91,7 +91,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -115,7 +115,7 @@ jobs:
     needs: [lint, typecheck, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -149,7 +149,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
