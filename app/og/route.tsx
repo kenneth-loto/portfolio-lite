@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
-import { fontRegular, fontSemiBold } from "@/lib/og-fonts";
+import { getFonts } from "@/lib/og-fonts";
+
+export const runtime = "edge";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const title = (searchParams.get("title") ?? "").slice(0, 60);
   const description = (searchParams.get("description") ?? "").slice(0, 160);
   const type = searchParams.get("type") ?? "";
+
+  const { fontRegular, fontSemiBold } = await getFonts();
 
   return new ImageResponse(
     <div
@@ -30,7 +34,7 @@ export async function GET(request: Request) {
         </span>
       </div>
 
-      {/* Middle — type label + title + description */}
+      {/* Middle */}
       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <span
           style={{
@@ -42,8 +46,6 @@ export async function GET(request: Request) {
         >
           {type}
         </span>
-
-        {/* Title + Desc grouped */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <div
             style={{
@@ -80,6 +82,10 @@ export async function GET(request: Request) {
     {
       width: 1200,
       height: 630,
+      headers: {
+        "Cache-Control":
+          "public, max-age=31536000, s-maxage=31536000, immutable",
+      },
       fonts: [
         {
           name: "JetBrains Mono",

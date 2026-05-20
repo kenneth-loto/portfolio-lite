@@ -1,10 +1,15 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import { baseUrl } from "@/app/sitemap";
 
-export const fontRegular = readFileSync(
-  path.join(process.cwd(), "public/fonts/JetBrainsMono-Regular.ttf"),
-);
+export async function getFonts() {
+  const [regularRes, semiBoldRes] = await Promise.all([
+    fetch(`${baseUrl}/fonts/JetBrainsMono-Regular.ttf`),
+    fetch(`${baseUrl}/fonts/JetBrainsMono-SemiBold.ttf`),
+  ]);
 
-export const fontSemiBold = readFileSync(
-  path.join(process.cwd(), "public/fonts/JetBrainsMono-SemiBold.ttf"),
-);
+  const [fontRegular, fontSemiBold] = await Promise.all([
+    regularRes.arrayBuffer(),
+    semiBoldRes.arrayBuffer(),
+  ]);
+
+  return { fontRegular, fontSemiBold };
+}
