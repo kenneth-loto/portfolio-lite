@@ -17,7 +17,10 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:load:og": "docker run --rm -i grafana/k6 run - < app/og/__tests__/og.load.js",
+    "test:stress:og": "docker run --rm -i grafana/k6 run - < app/og/__tests__/og.stress.js",
+    "test:load:rss": "docker run --rm -i grafana/k6 run - < app/rss/__tests__/rss.load.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

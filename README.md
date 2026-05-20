@@ -25,12 +25,13 @@ A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/
 - MDX blog and project pages with syntax highlighting via Shiki
 - Reading time estimates on blog posts and projects
 - Auto-updating local time display
-- Dynamic OG image generation for blog posts and projects
-- RSS feed for blog posts
+- Dynamic OG image generation via Edge runtime with 1-year immutable CDN caching
+- RSS feed for blog posts with 1-week CDN caching
 - Auto-generated sitemap and robots.txt
 - PWA manifest
 - SEO-validated frontmatter (title, description, tags with length constraints)
 - Test suite with Vitest + Testing Library (hooks, lib utilities)
+- Load and stress testing with k6 via Docker
 - Strict linting with Biome and conventional commit enforcement via commitlint
 
 ## File Structure
@@ -47,8 +48,15 @@ portfolio-lite/
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
 │   │   └── page.tsx
-│   ├── og/route.tsx          # Open Graph image generation
-│   ├── rss/route.ts          # RSS feed
+│   ├── og/
+│   │   ├── __tests__/
+│   │   │   └── og.load.js    # k6 load test
+│   │   │   └── og.stress.js  # k6 stress test
+│   │   └── route.tsx         # OG image generation (Edge runtime)
+│   ├── rss/
+│   │   ├── __tests__/
+│   │   │   └── rss.load.js   # k6 load test
+│   │   └── route.ts          # RSS feed
 │   ├── apple-icon.png
 │   ├── favicon.ico
 │   ├── globals.css
@@ -99,7 +107,7 @@ portfolio-lite/
 │   ├── types.ts
 │   └── utils.ts
 ├── public/
-│   ├── fonts/                # JetBrains Mono (local font)
+│   ├── fonts/                # JetBrains Mono (local font, used by OG route)
 │   └── images/               # Avatar, project screenshots
 ├── .husky/                   # Git hooks (commit-msg, pre-commit, pre-push)
 ├── AGENTS.md
@@ -125,6 +133,7 @@ portfolio-lite/
 ### Prerequisites
 
 - [Bun](https://bun.sh) or Node.js 18+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (for load/stress testing only)
 
 ### Installation
 
@@ -144,20 +153,43 @@ bun run start
 
 ## Scripts
 
-| Command                       | Description                                |
-| ----------------------------- | ------------------------------------------ |
-| `bun dev`                     | Start development server                   |
-| `bun run build`               | Build content collections + production app |
-| `bun run lint`                | Check code with Biome                      |
-| `bun run lint:fix`            | Auto-fix linting issues                    |
-| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms            |
-| `bun run format`              | Format code with Biome                     |
-| `bun run typecheck`           | Run TypeScript type checking               |
-| `bun test`                    | Run tests in watch mode                    |
-| `bun test:run`                | Run tests once                             |
-| `bun test:coverage`           | Run tests with coverage report             |
-| `bun run ui`                  | Add shadcn/ui components                   |
-| `bun run content-collections` | Build content collections manually         |
+| Command                       | Description                                   |
+| ----------------------------- | --------------------------------------------- |
+| `bun dev`                     | Start development server                      |
+| `bun run build`               | Build content collections + production app    |
+| `bun run lint`                | Check code with Biome                         |
+| `bun run lint:fix`            | Auto-fix linting issues                       |
+| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms               |
+| `bun run format`              | Format code with Biome                        |
+| `bun run typecheck`           | Run TypeScript type checking                  |
+| `bun test`                    | Run tests in watch mode                       |
+| `bun test:run`                | Run tests once                                |
+| `bun test:coverage`           | Run tests with coverage report                |
+| `bun run test:load:og`        | k6 load test — `/og` route (20 VUs, 1m)       |
+| `bun run test:stress:og`      | k6 stress test — `/og` route (200 VUs, 2m10s) |
+| `bun run test:load:rss`       | k6 load test — `/rss` route (20 VUs, 1m)      |
+| `bun run ui`                  | Add shadcn/ui components                      |
+| `bun run content-collections` | Build content collections manually            |
+
+### Load & Stress Testing
+
+Tests run against the live production URL using [k6](https://k6.io) via Docker. Make sure Docker Desktop is running before executing any `test:load` or `test:stress` commands.
+
+```bash
+# Pull the k6 image once
+docker pull grafana/k6
+
+# Then run any test script
+bun run test:load:og
+bun run test:stress:og
+bun run test:load:rss
+```
+
+Tests are colocated with their routes following the same `__tests__/` convention as Vitest unit tests:
+
+- `app/og/__tests__/og.load.js` — load test (20 VUs)
+- `app/og/__tests__/og.stress.js` — stress test (200 VUs)
+- `app/rss/__tests__/rss.load.js` — load test (20 VUs)
 
 ## Customization
 
@@ -180,7 +212,13 @@ Create a `.mdx` file in `content/projects/`. Same frontmatter validation applies
 
 ## Deployment
 
-Deploy to [Vercel](https://vercel.com/new) by importing the repository. No environment variables required for the base setup.
+Deployed via [Vercel CLI](https://vercel.com/docs/cli):
+
+```bash
+bunx vercel --prod
+```
+
+No environment variables required for the base setup.
 
 ## License
 
