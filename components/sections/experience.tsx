@@ -7,16 +7,12 @@ export function Experience() {
       <SectionTitle>Experience</SectionTitle>
 
       <div className="space-y-8 border-t pt-4">
-        {experiences.map((experience, index) => {
-          const key = `${index}-${experience.period}`;
-
+        {experiences.map((experience) => {
           return (
-            <div key={key} className="space-y-2 pl-4">
-              <ul className="list-disc">
-                <li className="text-muted-foreground text-xs">
-                  {experience.period}
-                </li>
-              </ul>
+            <div key={experience.period} className="space-y-2 pl-4">
+              <p className="list-item list-disc text-muted-foreground text-xs">
+                {experience.period}
+              </p>
 
               <p className="text-sm/read">
                 <span className="font-medium text-foreground">
@@ -26,9 +22,16 @@ export function Experience() {
                 <em className="text-muted-foreground">{experience.company}</em>
               </p>
 
-              <p className="text-muted-foreground text-sm/read">
-                {experience.description}
-              </p>
+              <ul className="space-y-2">
+                {experience.descriptions.map((description) => (
+                  <li
+                    key={description}
+                    className="flex shrink-0 items-start text-muted-foreground text-sm/read before:mr-2 before:text-muted-foreground before:content-['—']"
+                  >
+                    <span>{description}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           );
         })}

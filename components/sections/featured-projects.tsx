@@ -16,11 +16,9 @@ export function FeaturedProjects() {
         {featuredProjects.length > 0 ? (
           featuredProjects.map((featuredProject) => (
             <div key={`${featuredProject.title}`} className="space-y-2 pl-4">
-              <ul className="list-disc">
-                <li className="text-muted-foreground text-xs">
-                  {featuredProject.year}
-                </li>
-              </ul>
+              <p className="list-item list-disc text-muted-foreground text-xs">
+                {featuredProject.year}
+              </p>
 
               <h3 className="font-medium text-sm">{featuredProject.title}</h3>
 

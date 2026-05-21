@@ -1,13 +1,11 @@
 import { MoveRightIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { baseUrl } from "@/app/sitemap";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
+import { ogImages } from "@/lib/og-images";
 import { getAllPublishedPosts } from "@/lib/posts";
 import { cn, formatDate } from "@/lib/utils";
-
-const blogOgImage = `${baseUrl}/og?title=Writing Thoughts&description=Writing about software engineering, web development, and problems I've actually run into.`;
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -16,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: blogOgImage,
+        url: ogImages.blog,
         width: 1200,
         height: 630,
       },
@@ -24,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: [blogOgImage],
+    images: [ogImages.blog],
   },
 };
 
