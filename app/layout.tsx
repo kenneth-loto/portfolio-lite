@@ -6,9 +6,8 @@ import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ogImages } from "@/lib/og-images";
 import { cn } from "@/lib/utils";
-
-const ogImage = `${baseUrl}/og?title=Full-Stack Developer&description=Building web applications that are well-structured, maintainable, and built to last.&type=Home`;
 
 const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s — Kenneth Loto",
   },
   description:
-    "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+    "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
   appleWebApp: {
     title: "Kenneth Loto",
   },
@@ -35,14 +34,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kenneth Loto — Full-Stack Developer",
     description:
-      "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+      "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: ogImage,
+        url: ogImages.home,
         width: 1200,
         height: 630,
       },
@@ -52,10 +51,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Kenneth Loto — Full-Stack Developer",
     description:
-      "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+      "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
     images: [
       {
-        url: ogImage,
+        url: ogImages.home,
       },
     ],
   },
@@ -106,7 +105,7 @@ export default async function RootLayout({
                 "https://www.linkedin.com/in/kenneth-loto/",
               ],
               description:
-                "Full-Stack Developer building web applications that are well-structured, maintainable, and built to last.",
+                "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
             }),
           }}
         />

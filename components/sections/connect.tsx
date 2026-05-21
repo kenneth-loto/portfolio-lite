@@ -14,16 +14,14 @@ export function Connect() {
       <div className="space-y-8 border-t pt-4">
         {/* Get in touch */}
         <div className="space-y-2 pl-4">
-          <ul className="list-disc">
-            <li className="text-muted-foreground text-xs">
-              <LocalTime />
-            </li>
-          </ul>
+          <span className="list-item list-disc text-muted-foreground text-xs">
+            <LocalTime />
+          </span>
 
           <p className="font-medium text-foreground text-sm">Get in touch</p>
 
           <p className="text-muted-foreground text-sm/read">
-            Open to full-time Full-Stack Developer roles — frontend, backend, or
+            Open to full-time Full-Stack Developer roles, frontend, backend, or
             anywhere in between. Let's talk if you're working on something worth
             building.
           </p>
