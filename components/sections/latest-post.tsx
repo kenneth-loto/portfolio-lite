@@ -14,11 +14,9 @@ export function LatestPost() {
 
       {latestPost ? (
         <div className="space-y-2 border-t pt-4 pl-4">
-          <ul className="list-disc">
-            <li className="text-muted-foreground text-xs">
-              {formatDate(latestPost.date)}
-            </li>
-          </ul>
+          <p className="list-item list-disc text-muted-foreground text-xs">
+            {formatDate(latestPost.date)}
+          </p>
 
           <h3 className="font-medium text-sm">{latestPost.title}</h3>
 
