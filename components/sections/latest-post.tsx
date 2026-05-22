@@ -20,7 +20,7 @@ export function LatestPost() {
 
           <h3 className="font-medium text-sm">{latestPost.title}</h3>
 
-          <p className="line-clamp-2 text-muted-foreground text-sm/read">
+          <p className="text-muted-foreground text-sm/read">
             {latestPost.description}
           </p>
 
@@ -28,8 +28,7 @@ export function LatestPost() {
             href={`/blog/${latestPost.slug}`}
             className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
           >
-            Read more
-            <span className="sr-only">about {latestPost.title}</span>
+            Read more <span className="sr-only">about {latestPost.title}</span>
             <MoveRightIcon aria-hidden="true" />
           </Link>
         </div>

@@ -57,8 +57,7 @@ export default function Page() {
                   "h-auto self-start whitespace-normal p-0",
                 )}
               >
-                Read more
-                <span className="sr-only">about {post.title}</span>
+                Read more <span className="sr-only">about {post.title}</span>
                 <MoveRightIcon aria-hidden="true" />
               </Link>
             </div>
