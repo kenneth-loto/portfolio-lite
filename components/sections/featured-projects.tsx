@@ -34,7 +34,7 @@ export function FeaturedProjects() {
                   "h-auto self-start whitespace-normal p-0",
                 )}
               >
-                Read more
+                Read more{" "}
                 <span className="sr-only">about {featuredProject.title}</span>
                 <MoveRightIcon aria-hidden="true" />
               </Link>

@@ -44,8 +44,8 @@ export function MobileNav() {
         }
       />
 
-      <SheetContent side="right" className="flex flex-col gap-6 pt-12">
-        <ul className="flex flex-col gap-4 px-4">
+      <SheetContent side="right" className="flex flex-col gap-8 pt-16">
+        <ul className="flex flex-col gap-4 px-6">
           {navLinks.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -86,7 +86,7 @@ export function MobileNav() {
               onClick={handleScrollToConnect}
               className={cn(
                 buttonVariants({ variant: "link" }),
-                "h-auto self-start p-0 px-4",
+                "h-auto self-start p-0 px-6",
               )}
             >
               Hire me

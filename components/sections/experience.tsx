@@ -14,7 +14,7 @@ export function Experience() {
                 {experience.period}
               </p>
 
-              <p className="text-sm/read">
+              <p className="font-medium text-sm">
                 <span className="font-medium text-foreground">
                   {experience.title}
                 </span>{" "}
