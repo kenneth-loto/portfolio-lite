@@ -29,9 +29,11 @@ export async function GET(request: Request) {
         <span style={{ color: "#fdfdfd", fontSize: 18, fontWeight: 600 }}>
           Kenneth Loto
         </span>
-        <span style={{ color: "#a1a1aa", fontSize: 16, fontWeight: 400 }}>
-          Full Stack Developer
-        </span>
+        {type !== "Home" && (
+          <span style={{ color: "#a1a1aa", fontSize: 16, fontWeight: 400 }}>
+            Full Stack Developer
+          </span>
+        )}
       </div>
 
       {/* Middle */}
