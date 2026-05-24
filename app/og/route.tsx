@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getFonts } from "@/lib/og-fonts";
+import { getFonts } from "@/lib/og";
 
 export const runtime = "edge";
 

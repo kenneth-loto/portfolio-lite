@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Section, SectionTitle } from "@/components/ui/section";
-import { ogImages } from "@/lib/og-images";
+import { ogImages } from "@/lib/og";
 import { getAllPublishedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 

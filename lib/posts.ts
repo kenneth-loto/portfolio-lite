@@ -1,5 +1,5 @@
 import { allPosts, type Post } from "content-collections";
-import { baseUrl } from "@/app/sitemap";
+import { ogUrl } from "@/lib/utils";
 
 const publishedPosts: Post[] = allPosts
   .filter((post) => post.published)
@@ -48,5 +48,9 @@ export function getRelatedPosts(
 }
 
 export function getPostOgImage(post: Pick<Post, "title" | "description">) {
-  return `${baseUrl}/og?title=${encodeURIComponent(post.title)}&description=${encodeURIComponent(post.description)}&type=Blog Post`;
+  return ogUrl({
+    title: post.title,
+    description: post.description,
+    type: "Blog Post",
+  });
 }
