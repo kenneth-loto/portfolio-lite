@@ -1,5 +1,5 @@
 import { allProjects, type Project } from "content-collections";
-import { baseUrl } from "@/app/sitemap";
+import { ogUrl } from "@/lib/utils";
 
 const publishedProjects: Project[] = allProjects
   .filter((project) => project.published)
@@ -26,5 +26,9 @@ export function getProjectStaticParams(): { slug: string }[] {
 export function getProjectOgImage(
   project: Pick<Project, "title" | "description">,
 ) {
-  return `${baseUrl}/og?title=${encodeURIComponent(project.title)}&description=${encodeURIComponent(project.description)}&type=Project`;
+  return ogUrl({
+    title: project.title,
+    description: project.description,
+    type: "Project",
+  });
 }
