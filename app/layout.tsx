@@ -6,7 +6,7 @@ import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ogImages } from "@/lib/og-images";
+import { ogImages } from "@/lib/og";
 import { cn } from "@/lib/utils";
 
 const ibmPlexSans = IBM_Plex_Sans({

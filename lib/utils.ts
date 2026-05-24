@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
+import { baseUrl } from "@/app/sitemap";
 
 /**
  * Extends `tailwind-merge` with custom class groups for project-specific
@@ -59,4 +60,26 @@ export function formatDate(date: Date) {
     month: "long",
     day: "numeric",
   }).format(parsedDate);
+}
+
+/**
+ * Builds a fully-encoded OG image URL for the `/og` route.
+ *
+ * @param params - The title, description, and page type for the OG image.
+ * @returns A URL string with all query params properly encoded.
+ *
+ * @example
+ * ogUrl({ title: "My Post", description: "A great read.", type: "Blog Post" })
+ * // "https://kennethloto.dev/og?title=My%20Post&description=A%20great%20read.&type=Blog%20Post"
+ */
+export function ogUrl({
+  title,
+  description,
+  type,
+}: {
+  title: string;
+  description: string;
+  type: string;
+}) {
+  return `${baseUrl}/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&type=${encodeURIComponent(type)}`;
 }
