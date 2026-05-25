@@ -1,0 +1,83 @@
+---
+title: "When a Rewrite Is Actually Worth It"
+date: "2026-05-25"
+description: "Not every rewrite is a mistake. Here's the framework I used to decide when rebuilding from scratch was the right call — and when it wasn't."
+tags: ["software-engineering", "architecture", "laravel", "react"]
+published: true
+---
+
+There's a well-worn piece of advice in software development: don't rewrite. Joel Spolsky made the case definitively back in 2000 — things you throw away contain hard-won bug fixes you've already forgotten about, and the second system is almost always worse than the first. I've read it enough times to be suspicious of my own instincts whenever I feel the urge to start over.
+
+But I rewrote GIS4Health anyway. And I think it was the right call.
+
+The question worth asking isn't "should I rewrite this?" It's a more specific one: _what are the conditions that actually make a rewrite defensible?_ Because sometimes the answer is yes — and sometimes it's just boredom wearing the costume of good engineering judgment.
+
+## The Case That Made Me Reconsider
+
+GIS4Health was a health mapping system I built for Biliran Province — heatmaps, choropleth layers, disease case tracking across barangays. Version one ran on raw PHP, jQuery, and Leaflet.js. It worked. It visualized clusters that were invisible in raw spreadsheets, and health officers could actually use it.
+
+But I rebuilt it in Laravel, React, TypeScript, and MapLibre GL.
+
+The natural question is: why? The system wasn't broken. Users weren't complaining. The obvious answer — "the new stack is better" — isn't good enough on its own. Better for whom? Better for what? Plenty of systems run fine on stacks that aren't fashionable.
+
+## The Spolsky Test
+
+Spolsky's argument is essentially that rewrites fail because developers mistake _complexity_ for _mess_. The ugly parts of an old codebase often look like bad decisions but are actually accumulated knowledge: edge cases someone hit in production, subtle bugs that took weeks to track down, workarounds for behavior that wasn't documented anywhere. When you throw it all away, you throw that away too.
+
+The test, then, is whether what you're throwing out is _mess_ or _knowledge_.
+
+In the case of GIS4Health v1, the answer was mostly mess. It was an academic project, not maintained production software. The "hard-won bug fixes" argument doesn't apply the same way when there's no long tail of production incidents. What I was throwing away was a narrow codebase with a clear architectural ceiling — not years of institutional knowledge embedded in carefully placed conditionals.
+
+That made the rewrite defensible. Not desirable by default — defensible.
+
+## The Architectural Ceiling Problem
+
+The specific reason I rewrote rather than refactored was that the original architecture couldn't support what I wanted to build without becoming unrecognizable.
+
+The core issue: every filter interaction in v1 — municipality, disease category, date range — triggered a full PHP round-trip. The page reloaded. That's not a bug, it's a consequence of building a stateful, interactive map in a framework with no state management. Fixing it wouldn't have meant "improving the code" — it would have meant replacing the rendering model entirely. At some point, that's just a rewrite with extra steps and a messier git history.
+
+This is the architectural ceiling condition: when the changes required to support the next version of the product are so structural that they affect the fundamental model of how the application works, not just how it's organized. Refactoring moves things around. A rewrite changes what kind of thing you're building.
+
+The filter state problem required React. React required a frontend bundler and component model. The component model made TypeScript worthwhile. TypeScript made the map layer configuration actually safe to work with. One structural change pulled everything else with it.
+
+## The Boredom Test
+
+Here's the harder question, the one I had to be honest with myself about: was I rewriting because of the ceiling, or because I was just bored with the old stack?
+
+Boredom is a legitimate feeling. It's not always a bad reason to work on something. But it's a terrible engineering justification, and it leads to the second-system effect — you solve the problems you wanted to solve, add the features you thought were interesting, and quietly introduce all the bugs the first version had already fixed.
+
+The way I check myself: can I name the specific thing the current architecture _cannot do_ that I need it to do? Not "it's messy" — that's boredom. Not "I'd build it differently now" — that's also boredom, just dressed up. The ceiling has to be concrete. A specific feature, a specific integration, a specific performance characteristic that is structurally blocked by the current implementation.
+
+For GIS4Health, it was reactive filtering without page reloads. That was blocked. Concrete, nameable, architectural.
+
+If you can't name it specifically, you're probably bored.
+
+## What the Rewrite Actually Changed
+
+Two things made it worth it in hindsight, beyond the reactive filters.
+
+The first was MapLibre's `fill-extrusion` layer — 3D choropleth rendering where each barangay is a column with height and color both encoding case count. I was skeptical this was more than aesthetic novelty. It wasn't. Encoding magnitude in height gives you a second visual channel, and it matters when the differences between adjacent barangays are subtle. Leaflet doesn't support this. The renderer upgrade enabled the feature.
+
+The second was TypeScript across the entire surface area. Map state is genuinely complex: filter combinations, zoom levels, layer toggles, bounding boxes, the interface between React's render cycle and MapLibre's imperative DOM model. Having types enforced across all of that catches a category of bugs before they exist. In the PHP/jQuery version, that surface area was just... implicit. You hoped you'd threaded it correctly.
+
+Neither of these is exciting to say. But they're the actual reasons the rewrite paid off.
+
+## A Framework, Not a Rule
+
+The thing I'd push back on in the "never rewrite" advice is that it's usually framed as a universal rule when it's actually a heuristic against a specific mistake — mistaking complexity for mess, and throwing away knowledge in the process.
+
+The conditions where a rewrite is actually defensible are narrower than most developers want them to be, but they exist:
+
+The codebase is not long-running production software with accumulated edge-case fixes baked into it. You're not throwing away years of institutional knowledge — you're throwing away a design that didn't work out.
+
+There is a concrete architectural ceiling. Not "it's messy" or "I'd do it differently now." A specific thing the current implementation structurally cannot support.
+
+The refactor path would touch the fundamental model anyway. When you look at what refactoring actually requires, it stops looking like refactoring and starts looking like a rewrite with worse diffs.
+
+If all three are true, start over. If any of them aren't, refactor — or more likely, just live with what you have and keep shipping features.
+
+## The Part I'd Do Differently
+
+I still haven't resolved the GeoJSON boundary problem. Digitizing Biliran's barangay polygons manually was painful in v1, and it would be painful again for any province that doesn't have clean open geodata. That's a data infrastructure problem I carried intact from the first version into the second, and it's the part that would actually block expansion.
+
+The rewrite was worth it. But rewrites don't fix data problems — they just give you a cleaner place to notice them.
