@@ -6,8 +6,8 @@ export const experiences: Experience[] = [
     company: "Independent  Projects",
     period: "Sep 2025 — Present",
     descriptions: [
-      "Developed  personal projects exploring modern full-stack patterns, implementing authentication with Better Auth and data layers with Neon and Drizzle ORM.",
-      "Built this portfolio in Next.js, TypeScript, and Tailwind with MDX-powered blog and project pages, dynamic OG image generation, RSS feed, and PWA support.",
+      "Built a Next.js portfolio with TypeScript and Tailwind CSS, featuring MDX-powered blog and project pages, dynamic OG image generation via Edge runtime, RSS feed, and PWA support.",
+      "Implemented authentication and data layers across personal projects using Better Auth, Neon, and Drizzle ORM, applying full-stack patterns in isolation outside of team or course constraints.",
     ],
   },
   {
@@ -15,8 +15,8 @@ export const experiences: Experience[] = [
     company: "CViSNet Foundation Inc.",
     period: "Jan 2025 — Mar 2025",
     descriptions: [
-      "Collaborated with 4 interns to build a full-stack CRUD application in Laravel and React, implementing role-based access control via Gates and Policies with Laravel's built-in validation.",
-      "Managed feature branch workflows via Git and GitHub, dividing responsibilities between backend logic and UI development",
+      "Developed a full-stack CRUD application in Laravel and React with role-based access control via Gates and Policies across multiple user roles.",
+      "Collaborated with a 4-person intern team using Git feature branch workflows, owning backend logic while coordinating with frontend responsibilities to deliver a functional system.",
     ],
   },
   {
@@ -24,8 +24,8 @@ export const experiences: Experience[] = [
     company: "Undergraduate Thesis",
     period: "Aug 2024 — Nov 2024",
     descriptions: [
-      "Fine-tuned a MobileNetV2 model in TensorFlow/Keras on 1,050 images to classify dog stool into 5 health categories, achieving 92% accuracy validated on 150+ real-world samples.",
-      "Built a Flutter Android app with on-device TFLite inference, displaying confidence scores, health descriptions, and remedy recommendations per classification result.",
+      "Fine-tuned a MobileNetV2 model using TensorFlow/Keras on 1,050 images across 5 health categories, achieving 92% classification accuracy on 150+ real-world samples.",
+      "Integrated on-device TFLite inference into a Flutter Android app, eliminating network dependency and displaying confidence scores, health descriptions, and remedy recommendations per classification.",
     ],
   },
 ];
