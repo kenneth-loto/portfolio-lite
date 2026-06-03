@@ -1,0 +1,81 @@
+---
+title: "From Leaflet to MapLibre: Open-Source Web Maps in 2026"
+date: "2026-06-03"
+description: "How open-source web maps evolved from Leaflet to MapLibre — performance, 3D rendering, vector tiles, and where the ecosystem is heading in 2026."
+tags: ["gis", "maplibre", "leafletjs", "javascript", "web-development"]
+published: true
+---
+
+I built the same GIS twice. The first version — a health heatmapping system for Biliran Province — used Leaflet.js with a PHP backend. The second version, GIS4Health, used MapLibre GL JS with a React frontend. The project was the same. The renderer was not.
+
+Switching from Leaflet to MapLibre wasn't a casual upgrade. It was a migration between fundamentally different approaches to web mapping — and the gap between them tells you most of what you need to know about where open-source maps are in 2026.
+
+## The Leaflet Era
+
+Leaflet is still the most popular open-source JavaScript mapping library by a wide margin. It's small (~40KB gzipped), simple to set up, and works with a tile overlay model that has been stable for over a decade. You give it a tile URL, add some markers, and you're done. That model made it the default choice for thousands of projects, including my first health mapping system.
+
+The simplicity is genuine. If you need a map with markers, a heatmap overlay, and some interactive controls, Leaflet is the fastest path to a working result. The plugin ecosystem is mature — for any common mapping need, there's a Leaflet plugin that handles it.
+
+But the limitations become visible when you push past basic use cases. Leaflet renders tiles as raster images in `<img>` tags. Every zoom level, every pan, every tile boundary is a full raster load. There's no WebGL support, no hardware-accelerated rendering, no 3D. The API is imperative by design — you call methods on the map object, and it updates the DOM directly. That works fine with jQuery. It creates friction in React or any framework that manages its own rendering cycle.
+
+For my first GIS, those limitations were tolerable. The heatmap plugin worked. The choropleth rendered. It shipped.
+
+For the rewrite, they were dealbreakers.
+
+## The Fork That Changed Open-Source Maps
+
+To understand MapLibre, you need to understand what happened to Mapbox GL JS in 2020.
+
+Mapbox GL JS v1 was open-source under a BSD license. It was the first truly modern web map renderer — vector tiles, WebGL acceleration, hardware-accelerated rendering, smooth 60fps interaction. Then Mapbox switched v2 to a proprietary license. Any project using v2 had to use Mapbox-hosted tiles or pay for a commercial license.
+
+The community fork — MapLibre GL JS — was created to preserve the open-source version and continue development independently. It's now maintained by a consortium that includes AWS, Meta, and Elastic, plus individual contributors. It's at version 4 as of 2026.
+
+MapLibre is not a Leaflet competitor in the strict sense. It's a different category of renderer. Leaflet loads raster tiles. MapLibre loads vector tiles, parses style JSON, and renders the map client-side using WebGL. Every element — roads, labels, polygons, buildings — is a separate geometric object that can be styled, filtered, and animated in real time.
+
+That distinction is the entire story.
+
+## Vector Tiles Changed Everything
+
+The difference between raster and vector tiles sounds academic until you work with both.
+
+With Leaflet, a tile is a PNG. When you change a filter — say, highlight barangays with more than 50 cases — you need to regenerate the tile server-side or overlay a separate layer. The map doesn't know about the data under the tile; it just displays images.
+
+With MapLibre, a tile is GeoJSON or MBTiles data. The map parses the geometry client-side and renders it with WebGL. When you want to change a filter, you update the paint properties on a layer and the map re-renders instantly — no server round-trip, no tile reload. The `fill-extrusion` layer type takes existing polygon geometry and extrudes it into 3D columns by setting a height property. No new data required.
+
+This is what made the GIS4Health rewrite worth it. The original Leaflet system required a full page reload every time a filter changed because the map couldn't re-style itself on the client. MapLibre's vector tile model makes that reactive by default. Feature state, paint properties, filter expressions — they're all evaluated in the render loop. The map is a real-time visualization engine, not a tile viewer.
+
+## The Practical Comparison
+
+Here's what the two libraries look like side by side for common tasks from my projects:
+
+**Rendering model.** Leaflet loads raster images. MapLibre renders vector data with WebGL. For any application where the map needs to respond to user interaction — filter changes, data toggles, real-time updates — MapLibre's model is strictly more capable.
+
+**3D support.** Leaflet has no 3D. Stick-on solutions exist (Leaflet.heat, Leaflet-gl) but they're plugins bolted onto a 2D raster engine. MapLibre has native `fill-extrusion`, sky layers, terrain, and camera pitch/bearing controls. The 3D choropleth in GIS4Health — where each barangay's case count is encoded in column height — was the feature that convinced me the rewrite was worth it. It's not decorative; height as a second visual channel genuinely makes magnitude comparisons easier.
+
+**Performance.** Leaflet is lighter at startup — smaller bundle, simpler initialization. For a map with a few markers and a tile layer, it loads faster. MapLibre's WebGL pipeline has higher initial overhead but scales better with complexity. For the choropleth with 300+ barangay polygons with per-feature styling, MapLibre maintains smooth 60fps. Leaflet with a comparable overlay would stutter.
+
+**React compatibility.** Neither library is React-native. Both use imperative APIs that require `useRef` + `useEffect` patterns. But MapLibre's data-driven styling model means you write less glue code. You define the layer style declaratively using expressions, and the map handles the rest. With Leaflet, every filter change means iterating over features and calling imperative methods. The surface area for bugs is larger.
+
+**Tile providers.** Leaflet is agnostic — any tile service works. MapLibre requires vector tile sources that serve data in the Mapbox Vector Tile (MVT) format. MapTiler, Planetiler, and self-hosted TileServer-GL are common options. The requirement is higher, but the payoff is styling flexibility.
+
+## Where the Ecosystem Is in 2026
+
+MapLibre GL JS hit v4 earlier this year. The major additions include improved terrain rendering, better globe projection support, and a new expression API for data-driven styling. The maintenance consortium structure has stabilized — releases are predictable, breaking changes are documented, and the project has outgrown its "fork of Mapbox GL" origin story.
+
+Leaflet v2.0 was released in 2025 — a significant update that added proper TypeScript definitions, a new plugin API, and performance improvements. It's still raster-only, but the maintainers have been clear that's by design. Leaflet is meant to be simple, stable, and lightweight. It's not trying to compete with WebGL renderers.
+
+The practical question in 2026 isn't "which library is better?" It's "what kind of map are you building?"
+
+If you're embedding a single-location map on a contact page, adding a store locator, or visualizing a small dataset with markers — start with Leaflet. The setup is trivial, the bundle is tiny, and WebGL rendering would add complexity you don't need.
+
+If you're building a data-heavy dashboard with multiple layers, real-time filtering, 3D visualizations, or complex vector styling — use MapLibre. The initial setup cost is higher, but the rendering model will save you from rebuilding your map logic when requirements inevitably grow.
+
+My rule of thumb: if you need the user to interact with the data, not just see the map, pick the renderer that understands data, not images.
+
+## What I'd Tell Myself Before the First Project
+
+Looking back at the original PHP/Leaflet system, I would have made the same choice. Leaflet was the right tool for a proof-of-concept GIS — quick to prototype, widely documented, no vector tile infrastructure needed. The project demonstrated that spatial disease visualization was useful.
+
+But I should have scoped the renderer decision to the second version earlier. The heatmap calibration problem, the full-page reload on filter changes, the inability to add 3D layers — every pain point in v1 traced back to the raster rendering model. Not Leaflet being "bad." Leaflet being the wrong category of renderer for what the project needed to become.
+
+The state of open-source maps in 2026 is healthy. You have a clear raster option (Leaflet) and a clear vector option (MapLibre), both well-maintained, both with mature ecosystems. The mistake is picking one and hoping it handles the other's use case. Pick the rendering model that matches your data, not the one that's easier to start.
