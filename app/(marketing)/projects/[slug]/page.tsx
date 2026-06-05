@@ -8,10 +8,6 @@ import {
   getPublishedProjectBySlug,
 } from "@/lib/projects";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
-
 export async function generateStaticParams() {
   return getProjectStaticParams();
 }
@@ -20,7 +16,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = getPublishedProjectBySlug(slug);
 
@@ -47,7 +43,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const project = getPublishedProjectBySlug(slug);
 

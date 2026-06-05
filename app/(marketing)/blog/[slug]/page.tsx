@@ -8,10 +8,6 @@ import {
   getPublishedPostBySlug,
 } from "@/lib/posts";
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
-
 export async function generateStaticParams() {
   return getPostStaticParams();
 }
@@ -20,7 +16,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const post = getPublishedPostBySlug(slug);
 
@@ -48,7 +44,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps<"/blog/[slug]">) {
   const { slug } = await params;
 
   const post = getPublishedPostBySlug(slug);
