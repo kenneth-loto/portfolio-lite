@@ -1,7 +1,7 @@
 import { allPosts, allProjects } from "content-collections";
 
 export const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kennethloto.dev";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export default async function sitemap() {
   const staticRoutes = ["", "/blog", "/projects"].map((route) => ({
