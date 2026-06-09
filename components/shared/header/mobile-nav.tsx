@@ -9,6 +9,8 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useScrollTo } from "@/hooks/use-scroll-to";
@@ -45,6 +47,10 @@ export function MobileNav() {
       />
 
       <SheetContent side="right" className="flex flex-col gap-8 pt-16">
+        <SheetHeader className="sr-only">
+          <SheetTitle>Navigation</SheetTitle>
+        </SheetHeader>
+
         <ul className="flex flex-col gap-4 px-6">
           {navLinks.map((link) => {
             const isActive =

@@ -12,10 +12,13 @@ export function FeaturedProjects() {
     <Section>
       <SectionTitle>Featured Projects</SectionTitle>
 
-      <div className="space-y-8 border-t pt-4">
+      <div className="flex flex-col gap-8 border-t pt-4">
         {featuredProjects.length > 0 ? (
           featuredProjects.map((featuredProject) => (
-            <div key={`${featuredProject.title}`} className="space-y-2 pl-4">
+            <div
+              key={`${featuredProject.title}`}
+              className="flex flex-col gap-2 pl-4"
+            >
               <p className="list-item list-disc text-muted-foreground text-xs">
                 {featuredProject.year}
               </p>
@@ -31,12 +34,12 @@ export function FeaturedProjects() {
                 aria-label={`Read more about ${featuredProject.title}`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "h-auto self-start whitespace-normal p-0",
+                  "h-auto self-start p-0",
                 )}
               >
                 Read more{" "}
                 <span className="sr-only">about {featuredProject.title}</span>
-                <MoveRightIcon aria-hidden="true" />
+                <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
               </Link>
             </div>
           ))

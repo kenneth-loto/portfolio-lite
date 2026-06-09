@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 function Section({ children, className, ...props }: ComponentProps<"section">) {
   return (
-    <section className={cn("space-y-8 py-8", className)} {...props}>
+    <section className={cn("flex flex-col gap-8 py-8", className)} {...props}>
       {children}
     </section>
   );
