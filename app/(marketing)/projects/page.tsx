@@ -60,7 +60,7 @@ export default function Page() {
                 )}
               >
                 Read more <span className="sr-only">about {project.title}</span>
-                <MoveRightIcon aria-hidden="true" />
+                <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
               </Link>
             </div>
           ))

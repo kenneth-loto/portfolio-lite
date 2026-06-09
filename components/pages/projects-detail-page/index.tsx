@@ -21,9 +21,12 @@ export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
     <Section className="mt-4 space-y-16">
       <Link
         href="/projects"
-        className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
+        className={cn(
+          buttonVariants({ variant: "link" }),
+          "h-auto self-start p-0",
+        )}
       >
-        <MoveLeftIcon aria-hidden="true" />
+        <MoveLeftIcon data-icon="inline-start" aria-hidden="true" />
         Back to projects
       </Link>
 
@@ -105,7 +108,10 @@ export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
                   )}
                 >
                   Live Demo
-                  <ArrowUpRightIcon className="-translate-y-1 size-3 text-muted-foreground" />
+                  <ArrowUpRightIcon
+                    data-icon="inline-end"
+                    className="size-3 -translate-y-1 text-muted-foreground"
+                  />
                 </a>
               )}
 
@@ -120,7 +126,10 @@ export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
                   )}
                 >
                   GitHub
-                  <ArrowUpRightIcon className="-translate-y-1 size-3 text-muted-foreground" />
+                  <ArrowUpRightIcon
+                    data-icon="inline-end"
+                    className="size-3 -translate-y-1 text-muted-foreground"
+                  />
                 </a>
               )}
 

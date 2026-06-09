@@ -58,7 +58,7 @@ export default function Page() {
                 )}
               >
                 Read more <span className="sr-only">about {post.title}</span>
-                <MoveRightIcon aria-hidden="true" />
+                <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
               </Link>
             </div>
           ))
