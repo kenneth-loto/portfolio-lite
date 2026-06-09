@@ -13,7 +13,7 @@ export function LatestPost() {
       <SectionTitle>Latest Post</SectionTitle>
 
       {latestPost ? (
-        <div className="space-y-2 border-t pt-4 pl-4">
+        <div className="flex flex-col gap-2 border-t pt-4 pl-4">
           <p className="list-item list-disc text-muted-foreground text-xs">
             {formatDate(latestPost.date)}
           </p>
@@ -26,10 +26,13 @@ export function LatestPost() {
 
           <Link
             href={`/blog/${latestPost.slug}`}
-            className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "h-auto self-start p-0",
+            )}
           >
             Read more <span className="sr-only">about {latestPost.title}</span>
-            <MoveRightIcon aria-hidden="true" />
+            <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
           </Link>
         </div>
       ) : (

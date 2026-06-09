@@ -23,9 +23,12 @@ export function BlogDetailPage({ post }: BlogDetailPageProps) {
     <Section className="mt-4 space-y-16">
       <Link
         href="/blog"
-        className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
+        className={cn(
+          buttonVariants({ variant: "link" }),
+          "h-auto self-start p-0",
+        )}
       >
-        <MoveLeftIcon aria-hidden="true" />
+        <MoveLeftIcon data-icon="inline-start" aria-hidden="true" />
         Back to blog
       </Link>
 
@@ -129,7 +132,7 @@ export function BlogDetailPage({ post }: BlogDetailPageProps) {
                   >
                     Read more
                     <span className="sr-only">about {relatedPost.title}</span>
-                    <MoveRightIcon aria-hidden="true" />
+                    <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
                   </Link>
                 </div>
               ))}

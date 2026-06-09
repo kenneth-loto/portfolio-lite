@@ -11,9 +11,9 @@ export function Connect() {
     <Section id="connect">
       <SectionTitle>Connect</SectionTitle>
 
-      <div className="space-y-8 border-t pt-4">
+      <div className="flex flex-col gap-8 border-t pt-4">
         {/* Get in touch */}
-        <div className="space-y-2 pl-4">
+        <div className="flex flex-col gap-2 pl-4">
           <span className="list-item list-disc text-muted-foreground text-xs">
             <LocalTime />
           </span>
@@ -28,21 +28,24 @@ export function Connect() {
         </div>
 
         {/* Email */}
-        <div className="space-y-2 pl-4">
+        <div className="flex flex-col gap-2 pl-4">
           <ul className="list-disc">
             <li className="text-muted-foreground text-xs">Email</li>
           </ul>
 
           <a
             href={`mailto:${aboutMe.email}`}
-            className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "h-auto self-start p-0",
+            )}
           >
             {aboutMe.email}
           </a>
         </div>
 
         {/* Social */}
-        <div className="space-y-2 pl-4">
+        <div className="flex flex-col gap-2 pl-4">
           <ul className="list-disc">
             <li className="text-muted-foreground text-xs">Social</li>
           </ul>
@@ -60,7 +63,10 @@ export function Connect() {
                 )}
               >
                 {label}
-                <ArrowUpRightIcon className="-translate-y-1 size-3 text-muted-foreground" />
+                <ArrowUpRightIcon
+                  data-icon="inline-end"
+                  className="size-3 -translate-y-1 text-muted-foreground"
+                />
               </a>
             ))}
           </div>
