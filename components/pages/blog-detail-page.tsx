@@ -108,7 +108,7 @@ export function BlogDetailPage({ post }: BlogDetailPageProps) {
             <div className="space-y-8 border-t pt-4">
               {relatedPosts.map((relatedPost) => (
                 <div key={relatedPost.slug} className="space-y-2 pl-4">
-                  <ul className="list-disc">
+                  <ul className="list-disc" role="presentation">
                     <li className="text-muted-foreground text-xs">
                       {formatDate(relatedPost.date)}
                     </li>

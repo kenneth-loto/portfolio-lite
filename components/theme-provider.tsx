@@ -5,6 +5,7 @@ import {
   ThemeProvider as NextThemesProvider,
   useTheme,
 } from "@/components/theme";
+import { announce } from "@/lib/announce";
 
 const THEME_TOGGLE_KEY = "m";
 
@@ -23,6 +24,7 @@ function isTypingTarget(target: EventTarget | null) {
 
 function ThemeHotkey() {
   const { resolvedTheme, setTheme } = useTheme();
+  const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -42,7 +44,8 @@ function ThemeHotkey() {
         return;
       }
 
-      setTheme(resolvedTheme === "dark" ? "light" : "dark");
+      setTheme(nextTheme);
+      announce(`Switched to ${nextTheme} theme`);
     }
 
     window.addEventListener("keydown", onKeyDown);
@@ -50,7 +53,7 @@ function ThemeHotkey() {
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [resolvedTheme, setTheme]);
+  }, [nextTheme, setTheme]);
 
   return null;
 }
@@ -61,6 +64,12 @@ export function ThemeProvider({
 }: ComponentProps<typeof NextThemesProvider>) {
   return (
     <NextThemesProvider {...props}>
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        id="announcer"
+        className="sr-only"
+      />
       <ThemeHotkey />
       {children}
     </NextThemesProvider>

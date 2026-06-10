@@ -2,7 +2,7 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import {
   Carousel,
@@ -20,6 +20,14 @@ interface ImageCarouselProps {
 export function ImageCarousel({ images, title }: ImageCarouselProps) {
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
 
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (mq.matches) plugin.current.stop();
+  }, []);
+
+  if (images.length === 0) return null;
+
   return (
     <Carousel
       plugins={[plugin.current]}
@@ -30,6 +38,8 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
       className="relative w-full"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
+      onFocus={plugin.current.stop}
+      onBlur={plugin.current.reset}
     >
       <CarouselContent>
         {images.map((image, index) => (

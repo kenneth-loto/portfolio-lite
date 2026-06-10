@@ -29,7 +29,9 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
         <EmptyMedia variant="icon">
           <ServerCrash />
         </EmptyMedia>
-        <EmptyTitle className="text-base">Something went wrong</EmptyTitle>
+        <EmptyTitle as="h1" className="text-base">
+          Something went wrong
+        </EmptyTitle>
         <EmptyDescription>
           An unexpected error occurred. Try again, it might be temporary.
         </EmptyDescription>

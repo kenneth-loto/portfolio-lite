@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 function Empty({ className, ...props }: ComponentProps<"div">) {
@@ -55,9 +55,15 @@ function EmptyMedia({
   );
 }
 
-function EmptyTitle({ className, ...props }: ComponentProps<"div">) {
+function EmptyTitle<T extends "h1" | "h2" | "h3" | "div" = "div">({
+  className,
+  as,
+  ...props
+}: ComponentProps<T> & { as?: T }) {
+  const Tag = (as ?? "div") as ElementType;
+
   return (
-    <div
+    <Tag
       data-slot="empty-title"
       className={cn("font-medium text-lg tracking-tight", className)}
       {...props}
@@ -67,7 +73,7 @@ function EmptyTitle({ className, ...props }: ComponentProps<"div">) {
 
 function EmptyDescription({ className, ...props }: ComponentProps<"p">) {
   return (
-    <div
+    <p
       data-slot="empty-description"
       className={cn(
         "text-muted-foreground text-sm/read [&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
@@ -93,9 +99,9 @@ function EmptyContent({ className, ...props }: ComponentProps<"div">) {
 
 export {
   Empty,
-  EmptyHeader,
-  EmptyTitle,
-  EmptyDescription,
   EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
   EmptyMedia,
+  EmptyTitle,
 };

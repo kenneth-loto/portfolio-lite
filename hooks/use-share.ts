@@ -18,7 +18,7 @@ export function useShare() {
         setCopied(true);
         setTimeout(() => setCopied(false), 3000);
       } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") return;
+        if (error instanceof Error && error.name === "NotAllowedError") return;
         console.error("Failed to copy:", error);
       }
     }

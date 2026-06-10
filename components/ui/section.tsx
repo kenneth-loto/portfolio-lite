@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 function Section({ children, className, ...props }: ComponentProps<"section">) {
@@ -9,16 +9,24 @@ function Section({ children, className, ...props }: ComponentProps<"section">) {
   );
 }
 
-function SectionTitle({ children, className }: ComponentProps<"h2">) {
+function SectionTitle<T extends "h1" | "h2" | "h3" | "h4" | "div" = "h2">({
+  children,
+  className,
+  as,
+  ...props
+}: ComponentProps<T> & { as?: T }) {
+  const Tag = (as ?? "h2") as ElementType;
+
   return (
-    <h2
+    <Tag
       className={cn(
         "font-medium text-muted-foreground text-xs uppercase tracking-wide",
         className,
       )}
+      {...props}
     >
       {children}
-    </h2>
+    </Tag>
   );
 }
 
