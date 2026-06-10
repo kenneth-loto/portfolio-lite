@@ -3,7 +3,10 @@ import * as v from "valibot";
 
 export const clientEnv = createEnv({
   client: {
-    NEXT_PUBLIC_SITE_URL: v.pipe(v.string(), v.url()),
+    NEXT_PUBLIC_SITE_URL: v.optional(
+      v.pipe(v.string(), v.url()),
+      "http://localhost:3000",
+    ),
     NEXT_PUBLIC_SENTRY_DSN: v.pipe(v.string(), v.url()),
   },
   /*
@@ -11,7 +14,8 @@ export const clientEnv = createEnv({
    * can statically analyze and inline them into the browser bundle.
    */
   runtimeEnv: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NEXT_PUBLIC_SITE_URL:
+      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
 });
