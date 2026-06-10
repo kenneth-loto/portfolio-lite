@@ -1,6 +1,15 @@
 import { baseUrl } from "@/app/sitemap";
 import { getAllPublishedPosts } from "@/lib/posts";
 
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export async function GET() {
   const posts = getAllPublishedPosts();
 
@@ -8,9 +17,9 @@ export async function GET() {
     .map(
       (post) =>
         `<item>
-          <title>${post.title}</title>
-          <link>${baseUrl}/blog/${post.slug}</link>
-          <description>${post.description}</description>
+        <title>${escapeXml(post.title)}</title>
+        <link>${escapeXml(`${baseUrl}/blog/${post.slug}`)}</link>
+        <description>${escapeXml(post.description)}</description>
           <pubDate>${post.date.toUTCString()}</pubDate>
         </item>`,
     )
@@ -20,7 +29,7 @@ export async function GET() {
   <rss version="2.0">
     <channel>
       <title>Kenneth Loto</title>
-      <link>${baseUrl}</link>
+      <link>${escapeXml(baseUrl)}</link>
       <description>Thoughts on software engineering and web development.</description>
       ${itemsXml}
     </channel>

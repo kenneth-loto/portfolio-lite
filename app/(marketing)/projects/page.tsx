@@ -31,21 +31,21 @@ export default function Page() {
 
   return (
     <Section className="mt-4">
-      <SectionTitle>All Projects</SectionTitle>
+      <SectionTitle as="h1">All Projects</SectionTitle>
 
       <div className="space-y-8 border-t pt-4">
         {projects.length > 0 ? (
           projects.map((project) => (
             <div key={project.slug} className="space-y-2 pl-4">
-              <ul className="list-disc">
+              <ul className="list-disc" role="presentation">
                 <li className="text-muted-foreground text-xs">
                   {project.year}
                 </li>
               </ul>
 
-              <h3 className="line-clamp-2 font-medium text-sm">
+              <h2 className="line-clamp-2 font-medium text-sm">
                 {project.title}
-              </h3>
+              </h2>
 
               <span className="line-clamp-2 text-muted-foreground text-sm/read">
                 {project.description}

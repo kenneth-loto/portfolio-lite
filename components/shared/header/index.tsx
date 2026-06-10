@@ -8,10 +8,12 @@ import { cn } from "@/lib/utils";
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-background">
-      <nav className="flex items-center justify-between border-b py-4">
+      <div className="flex items-center justify-between border-b py-4">
         <LogoLink />
 
-        <NavLinks />
+        <nav aria-label="Main navigation">
+          <NavLinks />
+        </nav>
 
         <Link
           href="/#connect"
@@ -24,7 +26,7 @@ export function Header() {
         </Link>
 
         <MobileNav />
-      </nav>
+      </div>
     </header>
   );
 }

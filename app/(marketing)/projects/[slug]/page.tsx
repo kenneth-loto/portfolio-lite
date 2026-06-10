@@ -69,7 +69,6 @@ export default async function Page({ params }: PageProps) {
             description: project.description,
             url: `${baseUrl}/projects/${project.slug}`,
             image: ogImage,
-            dateCreated: String(project.year),
             author: {
               "@type": "Person",
               name: "Kenneth Loto",

@@ -1,4 +1,5 @@
 import { allPosts, type Post } from "content-collections";
+import { baseUrl } from "@/app/sitemap";
 import { ogUrl } from "@/lib/utils";
 
 const publishedPosts: Post[] = allPosts
@@ -49,6 +50,7 @@ export function getRelatedPosts(
 
 export function getPostOgImage(post: Pick<Post, "title" | "description">) {
   return ogUrl({
+    baseUrl,
     title: post.title,
     description: post.description,
     type: "Blog Post",

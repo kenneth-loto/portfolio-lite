@@ -1,6 +1,9 @@
 {
   "name": "Kenneth Loto",
   "short_name": "Kenneth Loto",
+  "description": "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+  "start_url": "/",
+  "lang": "en",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

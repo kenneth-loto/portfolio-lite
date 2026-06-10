@@ -1,12 +1,14 @@
 import { allPosts, allProjects } from "content-collections";
+import { clientEnv } from "@/env";
 
-export const baseUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export const baseUrl = clientEnv.NEXT_PUBLIC_SITE_URL;
 
 export default async function sitemap() {
+  const today = new Date().toISOString().split("T")[0];
+
   const staticRoutes = ["", "/blog", "/projects"].map((route) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
+    lastModified: today,
   }));
 
   const blogRoutes = allPosts.map((post) => ({

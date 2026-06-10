@@ -1,4 +1,5 @@
 import { allProjects, type Project } from "content-collections";
+import { baseUrl } from "@/app/sitemap";
 import { ogUrl } from "@/lib/utils";
 
 const publishedProjects: Project[] = allProjects
@@ -27,6 +28,7 @@ export function getProjectOgImage(
   project: Pick<Project, "title" | "description">,
 ) {
   return ogUrl({
+    baseUrl,
     title: project.title,
     description: project.description,
     type: "Project",

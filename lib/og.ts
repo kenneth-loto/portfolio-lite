@@ -17,6 +17,7 @@ export async function getFonts() {
 
 export const ogImages = {
   home: ogUrl({
+    baseUrl,
     title: "Full-Stack Developer",
     description:
       "Building web applications that are well-structured, maintainable, and easy to change tomorrow.",
@@ -24,6 +25,7 @@ export const ogImages = {
   }),
 
   blog: ogUrl({
+    baseUrl,
     title: "Writing Thoughts",
     description:
       "Writing about software engineering, web development, and problems I've actually run into.",
@@ -31,6 +33,7 @@ export const ogImages = {
   }),
 
   projects: ogUrl({
+    baseUrl,
     title: "Things I've Built",
     description:
       "Full-stack web apps, geospatial systems, and machine learning.",

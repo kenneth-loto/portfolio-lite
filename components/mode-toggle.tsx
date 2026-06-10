@@ -21,7 +21,7 @@ export function ModeToggle() {
       size="icon"
       className="cursor-pointer"
       onClick={() => setTheme(nextTheme)}
-      aria-label={`Switch to ${nextTheme} theme`}
+      aria-label={`Switch to ${nextTheme} theme (press M)`}
     >
       {isDark ? <Sun /> : <Moon />}
     </Button>
