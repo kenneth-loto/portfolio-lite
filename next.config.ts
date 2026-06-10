@@ -3,9 +3,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 import "./env/server";
 import "./env/client";
-import { serverEnv } from "./env/server";
 
-const isDev = serverEnv.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === "development";
 
 const cspHeader = `
   default-src 'self';
