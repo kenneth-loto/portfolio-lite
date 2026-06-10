@@ -112,6 +112,7 @@ export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
                     data-icon="inline-end"
                     className="size-3 -translate-y-1 text-muted-foreground"
                   />
+                  <span className="sr-only">(opens in new tab)</span>
                 </a>
               )}
 
@@ -130,6 +131,7 @@ export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
                     data-icon="inline-end"
                     className="size-3 -translate-y-1 text-muted-foreground"
                   />
+                  <span className="sr-only">(opens in new tab)</span>
                 </a>
               )}
 

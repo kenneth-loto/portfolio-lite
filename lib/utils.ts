@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
-import { baseUrl } from "@/app/sitemap";
 
 /**
  * Extends `tailwind-merge` with custom class groups for project-specific
@@ -74,10 +73,12 @@ export function formatDate(date: Date) {
  * // "https://kennethloto.dev/og?title=My%20Post&description=A%20great%20read.&type=Blog%20Post"
  */
 export function ogUrl({
+  baseUrl,
   title,
   description,
   type,
 }: {
+  baseUrl: string;
   title: string;
   description: string;
   type: string;

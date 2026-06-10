@@ -14,9 +14,11 @@ export function Connect() {
       <div className="flex flex-col gap-8 border-t pt-4">
         {/* Get in touch */}
         <div className="flex flex-col gap-2 pl-4">
-          <span className="list-item list-disc text-muted-foreground text-xs">
-            <LocalTime />
-          </span>
+          <ul className="list-disc" role="presentation">
+            <li className="text-muted-foreground text-xs">
+              <LocalTime />
+            </li>
+          </ul>
 
           <p className="font-medium text-foreground text-sm">Get in touch</p>
 
@@ -29,7 +31,7 @@ export function Connect() {
 
         {/* Email */}
         <div className="flex flex-col gap-2 pl-4">
-          <ul className="list-disc">
+          <ul className="list-disc" role="presentation">
             <li className="text-muted-foreground text-xs">Email</li>
           </ul>
 
@@ -46,7 +48,7 @@ export function Connect() {
 
         {/* Social */}
         <div className="flex flex-col gap-2 pl-4">
-          <ul className="list-disc">
+          <ul className="list-disc" role="presentation">
             <li className="text-muted-foreground text-xs">Social</li>
           </ul>
 
@@ -67,6 +69,7 @@ export function Connect() {
                   data-icon="inline-end"
                   className="size-3 -translate-y-1 text-muted-foreground"
                 />
+                <span className="sr-only">(opens in new tab)</span>
               </a>
             ))}
           </div>

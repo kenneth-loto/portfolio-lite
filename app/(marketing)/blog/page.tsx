@@ -31,19 +31,19 @@ export default function Page() {
 
   return (
     <Section className="mt-4">
-      <SectionTitle>All Posts</SectionTitle>
+      <SectionTitle as="h1">All Posts</SectionTitle>
 
       <div className="space-y-8 border-t pt-4">
         {posts.length > 0 ? (
           posts.map((post) => (
             <div key={post.slug} className="space-y-2 pl-4">
-              <ul className="list-disc">
+              <ul className="list-disc" role="presentation">
                 <li className="text-muted-foreground text-xs">
                   {formatDate(post.date)}
                 </li>
               </ul>
 
-              <h3 className="line-clamp-2 font-medium text-sm">{post.title}</h3>
+              <h2 className="line-clamp-2 font-medium text-sm">{post.title}</h2>
 
               <span className="line-clamp-2 text-muted-foreground text-sm/read">
                 {post.description}

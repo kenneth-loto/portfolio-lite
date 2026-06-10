@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useShare } from "@/hooks/use-share";
+import { announce } from "@/lib/announce";
 
 interface ShareButtonProps {
   title: string;
@@ -12,7 +13,10 @@ export function ShareButton({ title }: ShareButtonProps) {
 
   return (
     <Button
-      onClick={() => share(title)}
+      onClick={() => {
+        share(title);
+        announce("Link copied to clipboard");
+      }}
       variant="link"
       className="h-auto cursor-pointer gap-0.5 p-0"
     >

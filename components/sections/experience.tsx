@@ -10,9 +10,11 @@ export function Experience() {
         {experiences.map((experience) => {
           return (
             <div key={experience.period} className="flex flex-col gap-2 pl-4">
-              <p className="list-item list-disc text-muted-foreground text-xs">
-                {experience.period}
-              </p>
+              <ul className="list-disc" role="presentation">
+                <li className="text-muted-foreground text-xs">
+                  {experience.period}
+                </li>
+              </ul>
 
               <p className="font-medium text-sm">
                 <span className="font-medium text-foreground">

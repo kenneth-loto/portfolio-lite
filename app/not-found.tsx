@@ -18,7 +18,9 @@ export default function NotFound() {
         <EmptyMedia variant="icon">
           <FileQuestionMark />
         </EmptyMedia>
-        <EmptyTitle className="text-base">404 - Page Not Found</EmptyTitle>
+        <EmptyTitle as="h1" className="text-base">
+          404 - Page Not Found
+        </EmptyTitle>
         <EmptyDescription>
           The page you're looking for doesn't exist or has been moved.
         </EmptyDescription>

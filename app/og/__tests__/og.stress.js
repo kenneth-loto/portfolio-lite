@@ -3,7 +3,7 @@ import http from "k6/http";
 import { Rate, Trend } from "k6/metrics";
 
 // Keep in sync with baseUrl in app/sitemap.ts
-const BASE_URL = "https://www.kennethloto.dev";
+const BASE_URL = __ENV.SITE_URL ?? "https://www.kennethloto.dev";
 
 // Custom metrics to track og-specific performance under stress
 const ogDuration = new Trend("og_response_time");

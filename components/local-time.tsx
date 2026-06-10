@@ -10,5 +10,13 @@ export function LocalTime() {
 
   if (!mounted) return <LocalTimeSkeleton />;
 
-  return <time dateTime={new Date().toISOString()}>{time}</time>;
+  return (
+    <time
+      dateTime={new Date()
+        .toLocaleString("sv-SE", { timeZone: "Asia/Manila" })
+        .replace(" ", "T")}
+    >
+      {time}
+    </time>
+  );
 }

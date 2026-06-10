@@ -19,9 +19,11 @@ export function FeaturedProjects() {
               key={`${featuredProject.title}`}
               className="flex flex-col gap-2 pl-4"
             >
-              <p className="list-item list-disc text-muted-foreground text-xs">
-                {featuredProject.year}
-              </p>
+              <ul className="list-disc" role="presentation">
+                <li className="text-muted-foreground text-xs">
+                  {featuredProject.year}
+                </li>
+              </ul>
 
               <h3 className="font-medium text-sm">{featuredProject.title}</h3>
 
