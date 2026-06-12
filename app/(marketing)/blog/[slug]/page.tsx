@@ -35,6 +35,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.description,
       type: "article",
+      siteName: "Kenneth Loto",
       publishedTime: post.date.toISOString(),
       url: `${baseUrl}/blog/${post.slug}`,
       images: [{ url: ogPostImage, width: 1200, height: 630 }],

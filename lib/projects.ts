@@ -32,5 +32,6 @@ export function getProjectOgImage(
     title: project.title,
     description: project.description,
     type: "Project",
+    cta: "View Project ⟶",
   });
 }

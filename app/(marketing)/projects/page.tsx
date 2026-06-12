@@ -8,10 +8,14 @@ import { getAllPublishedProjects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "All Projects — Things I've Built",
   description:
-    "Projects I've built — full-stack web apps, geospatial systems, and machine learning.",
+    "Full-stack web apps, geospatial systems, and ML-powered mobile apps built with React, Laravel, Flutter, and TypeScript.",
   openGraph: {
+    title: "All Projects",
+    description:
+      "Full-stack web apps, geospatial systems, and ML-powered mobile apps built with React, Laravel, Flutter, and TypeScript.",
+    siteName: "Kenneth Loto",
     images: [
       {
         url: ogImages.projects,

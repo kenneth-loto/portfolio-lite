@@ -12,7 +12,7 @@
     "format": "biome format --write",
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
-    "ui": "bunx --bun shadcn@latest add",
+    "ui": "bun x shadcn@latest add",
     "content-collections": "content-collections build",
     "test": "vitest",
     "test:ui": "vitest --ui",

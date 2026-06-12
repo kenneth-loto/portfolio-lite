@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s — Kenneth Loto",
   },
   description:
-    "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+    "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
   appleWebApp: {
     title: "Kenneth Loto",
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kenneth Loto — Full-Stack Developer",
     description:
-      "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+      "Full-stack developer building apps with React, Laravel, Flutter & TypeScript. Currently open to junior & entry-level roles.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Kenneth Loto — Full-Stack Developer",
     description:
-      "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+      "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
     images: [
       {
         url: ogImages.home,
@@ -105,7 +105,7 @@ export default async function RootLayout({
                 "https://www.linkedin.com/in/kenneth-loto/",
               ],
               description:
-                "Full-Stack Developer building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+                "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
             }),
           }}
         />

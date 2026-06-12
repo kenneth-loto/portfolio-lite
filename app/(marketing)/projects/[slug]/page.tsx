@@ -34,6 +34,7 @@ export async function generateMetadata({
     openGraph: {
       title: project.title,
       description: project.description,
+      siteName: "Kenneth Loto",
       type: "website",
       url: `${baseUrl}/projects/${project.slug}`,
       images: [{ url: ogImage, width: 1200, height: 630 }],

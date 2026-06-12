@@ -20,7 +20,7 @@ export function BlogDetailPage({ post }: BlogDetailPageProps) {
   const relatedPosts = getRelatedPosts(post.slug, post.tags ?? []);
 
   return (
-    <Section className="mt-4 space-y-16">
+    <Section className="mt-4 space-y-8">
       <Link
         href="/blog"
         className={cn(
