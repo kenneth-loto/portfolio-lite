@@ -11,6 +11,7 @@ export function Experience() {
   return (
     <Section>
       <SectionTitle>Experience</SectionTitle>
+
       <Accordion multiple={false} className="flex flex-col gap-8 border-t pt-4">
         {experiences.map((experience) => (
           <AccordionItem
@@ -23,7 +24,7 @@ export function Experience() {
                 {experience.period}
               </li>
             </ul>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <div className="w-fit">
                 <AccordionTrigger className="cursor-pointer py-0 hover:no-underline [&_svg]:hidden [&_svg]:group-aria-expanded/accordion-trigger:hidden">
                   <span className="font-medium text-foreground text-sm underline underline-offset-2">
@@ -41,7 +42,7 @@ export function Experience() {
                 {experience.descriptions.map((description) => (
                   <li
                     key={description}
-                    className="flex shrink-0 items-start text-muted-foreground text-sm/relaxed before:mr-2 before:text-muted-foreground before:content-['—']"
+                    className="flex shrink-0 items-start text-muted-foreground text-sm/relaxed before:mr-2 before:text-muted-foreground before:content-['▸']"
                   >
                     <span>{description}</span>
                   </li>
