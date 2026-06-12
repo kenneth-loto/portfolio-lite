@@ -158,7 +158,7 @@ describe("getProjectOgImage()", () => {
     expect(
       getProjectOgImage({ title: "Project A", description: "Desc A" }),
     ).toBe(
-      "https://example.com/og?title=Project%20A&description=Desc%20A&type=Project",
+      "https://example.com/og?title=Project%20A&description=Desc%20A&type=Project&cta=View%20Project%20%E2%9F%B6",
     );
   });
 
@@ -176,5 +176,11 @@ describe("getProjectOgImage()", () => {
     const url = getProjectOgImage({ title: "X", description: "Y" });
 
     expect(url).toContain("type=Project");
+  });
+
+  it("includes cta=View Project →", () => {
+    const url = getProjectOgImage({ title: "X", description: "Y" });
+
+    expect(url).toContain("cta=View%20Project%20%E2%9F%B6");
   });
 });

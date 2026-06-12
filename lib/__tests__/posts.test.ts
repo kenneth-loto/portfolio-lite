@@ -187,7 +187,7 @@ describe("getPostOgImage()", () => {
     const url = getPostOgImage(mockPosts[0]);
 
     expect(url).toBe(
-      "https://example.com/og?title=Post%20A&description=Desc%20A&type=Blog%20Post",
+      "https://example.com/og?title=Post%20A&description=Desc%20A&type=Blog%20Post&cta=Read%20More%20%E2%9F%B6",
     );
   });
 
@@ -199,5 +199,17 @@ describe("getPostOgImage()", () => {
 
     expect(url).toContain("Hello%20%26%20World");
     expect(url).toContain("A%2BB%3DC");
+  });
+
+  it("uses type=Project not type=Blog", () => {
+    const url = getPostOgImage({ title: "X", description: "Y" });
+
+    expect(url).toContain("type=Blog%20Post");
+  });
+
+  it("includes cta=Read More →", () => {
+    const url = getPostOgImage({ title: "X", description: "Y" });
+
+    expect(url).toContain("cta=Read%20More%20%E2%9F%B6");
   });
 });

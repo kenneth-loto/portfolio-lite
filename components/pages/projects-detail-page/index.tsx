@@ -18,7 +18,7 @@ interface ProjectsDetailPageProps {
 
 export function ProjectsDetailPage({ project }: ProjectsDetailPageProps) {
   return (
-    <Section className="mt-4 space-y-16">
+    <Section className="mt-4 space-y-8">
       <Link
         href="/projects"
         className={cn(
