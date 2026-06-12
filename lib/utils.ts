@@ -69,19 +69,21 @@ export function formatDate(date: Date) {
  * @returns A URL string with all query params properly encoded.
  *
  * @example
- * ogUrl({ title: "My Post", description: "A great read.", type: "Blog Post" })
- * // "https://kennethloto.dev/og?title=My%20Post&description=A%20great%20read.&type=Blog%20Post"
+ * ogUrl({ title: "My Post", description: "A great read.", type: "Blog Post", cta: "Read More →" })
+ * // "https://kennethloto.dev/og?title=My%20Post&description=A%20great%20read.&type=Blog%20Post&cta=Read%20More%20→"
  */
 export function ogUrl({
   baseUrl,
   title,
   description,
   type,
+  cta,
 }: {
   baseUrl: string;
   title: string;
   description: string;
   type: string;
+  cta: string;
 }) {
-  return `${baseUrl}/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&type=${encodeURIComponent(type)}`;
+  return `${baseUrl}/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&type=${encodeURIComponent(type)}&cta=${encodeURIComponent(cta)}`;
 }

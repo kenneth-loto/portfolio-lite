@@ -20,8 +20,9 @@ export const ogImages = {
     baseUrl,
     title: "Full-Stack Developer",
     description:
-      "Building web applications that are well-structured, maintainable, and easy to change tomorrow.",
+      "Building web and mobile applications end to end across React, Laravel, Flutter, and TypeScript. Open to junior and entry-level roles.",
     type: "Home",
+    cta: "View Portfolio ⟶",
   }),
 
   blog: ogUrl({
@@ -30,13 +31,15 @@ export const ogImages = {
     description:
       "Writing about software engineering, web development, and problems I've actually run into.",
     type: "Blog",
+    cta: "Read Blog ⟶",
   }),
 
   projects: ogUrl({
     baseUrl,
     title: "Things I've Built",
     description:
-      "Full-stack web apps, geospatial systems, and machine learning.",
+      "GIS health monitoring systems, ML-powered Android apps, and full-stack web applications built with React, Laravel, and Flutter.",
     type: "Projects",
+    cta: "View Projects ⟶",
   }),
 };

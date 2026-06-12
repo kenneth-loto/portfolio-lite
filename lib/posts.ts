@@ -54,5 +54,6 @@ export function getPostOgImage(post: Pick<Post, "title" | "description">) {
     title: post.title,
     description: post.description,
     type: "Blog Post",
+    cta: "Read More ⟶",
   });
 }

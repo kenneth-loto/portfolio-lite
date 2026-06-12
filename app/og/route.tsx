@@ -8,6 +8,7 @@ export async function GET(request: Request) {
   const title = (searchParams.get("title") ?? "").slice(0, 60);
   const description = (searchParams.get("description") ?? "").slice(0, 160);
   const type = searchParams.get("type") ?? "";
+  const cta = searchParams.get("cta") ?? "View Details →";
 
   const { fontRegular, fontSemiBold } = await getFonts();
 
@@ -76,10 +77,59 @@ export async function GET(request: Request) {
         </div>
       </div>
 
-      {/* Domain */}
-      <span style={{ color: "#a1a1aa", fontSize: 16, fontWeight: 400 }}>
-        kennethloto.dev
-      </span>
+      {/* Bottom bar */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          maxWidth: 768, // aligned to content above
+        }}
+      >
+        <span style={{ color: "#a1a1aa", fontSize: 16, fontWeight: 400 }}>
+          kennethloto.dev
+        </span>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          {/* Only the text is underlined, not the arrow */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <span style={{ color: "#fdfdfd", fontSize: 16, fontWeight: 400 }}>
+              {cta.replace("⟶", "").trim()}
+            </span>
+            <div
+              style={{
+                height: "1px",
+                width: "100%",
+                backgroundColor: "#fdfdfd",
+              }}
+            />
+          </div>
+          <span
+            style={{
+              color: "#fdfdfd",
+              fontSize: 16,
+              fontWeight: 400,
+              marginLeft: 2,
+            }}
+          >
+            ⟶
+          </span>
+        </div>
+      </div>
     </div>,
     {
       width: 1200,
