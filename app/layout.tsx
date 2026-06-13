@@ -22,19 +22,19 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Kenneth Loto — Full-Stack Developer",
+    default: "Full-Stack Developer Philippines | Kenneth Loto",
     template: "%s — Kenneth Loto",
   },
   description:
-    "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
+    "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
   appleWebApp: {
     title: "Kenneth Loto",
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Kenneth Loto — Full-Stack Developer",
+    title: "Full-Stack Developer Philippines | Kenneth Loto",
     description:
-      "Full-stack developer building apps with React, Laravel, Flutter & TypeScript. Currently open to junior & entry-level roles.",
+      "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",
@@ -49,9 +49,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kenneth Loto — Full-Stack Developer",
+    title: "Full-Stack Developer Philippines | Kenneth Loto",
     description:
-      "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
+      "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
     images: [
       {
         url: ogImages.home,
@@ -100,12 +100,31 @@ export default async function RootLayout({
               url: "https://www.kennethloto.dev",
               jobTitle: "Full-Stack Developer",
               email: "kennethloto.dev@gmail.com",
+              description:
+                "Full-Stack Developer in the Philippines building web and mobile applications with React, Laravel, Flutter, and TypeScript. Open to remote junior and entry-level roles.",
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "PH",
+                addressRegion: "Eastern Visayas",
+              },
+              knowsAbout: [
+                "React",
+                "Next.js",
+                "Laravel",
+                "Flutter",
+                "TypeScript",
+                "Full-Stack Development",
+                "Mobile Development",
+                "GIS",
+              ],
+              alumniOf: {
+                "@type": "Organization",
+                name: "Biliran Province State University",
+              },
               sameAs: [
                 "https://github.com/kenneth-loto",
                 "https://www.linkedin.com/in/kenneth-loto/",
               ],
-              description:
-                "Full-Stack Developer building web and mobile applications with React, Laravel, Flutter, and TypeScript. Currently open to junior and entry-level roles.",
             }),
           }}
         />

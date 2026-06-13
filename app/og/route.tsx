@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const title = (searchParams.get("title") ?? "").slice(0, 60);
   const description = (searchParams.get("description") ?? "").slice(0, 160);
   const type = searchParams.get("type") ?? "";
-  const cta = searchParams.get("cta") ?? "View Details →";
+  const cta = searchParams.get("cta") ?? "";
 
   const { fontRegular, fontSemiBold } = await getFonts();
 

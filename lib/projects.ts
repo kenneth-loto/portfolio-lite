@@ -1,6 +1,7 @@
 import { allProjects, type Project } from "content-collections";
 import { baseUrl } from "@/app/sitemap";
 import { ogUrl } from "@/lib/utils";
+import { CURATED_PROJECT_TAGS } from "./contants";
 
 const publishedProjects: Project[] = allProjects
   .filter((project) => project.published)
@@ -22,6 +23,26 @@ export function getPublishedProjectBySlug(slug: string): Project | undefined {
 
 export function getProjectStaticParams(): { slug: string }[] {
   return publishedProjects.map((project) => ({ slug: project.slug }));
+}
+
+export function getProjectsByTechStack(techStack: string): Project[] {
+  const lowercased = techStack.toLowerCase();
+
+  return publishedProjects.filter((project) =>
+    project.tags.includes(lowercased),
+  );
+}
+
+export function getAllProjectsTags(): string[] {
+  return [
+    ...new Set(publishedProjects.flatMap((project) => project.tags)),
+  ].sort();
+}
+
+export function getCuratedProjectTags(): string[] {
+  return CURATED_PROJECT_TAGS.filter((tag) =>
+    publishedProjects.some((project) => project.tags.includes(tag)),
+  );
 }
 
 export function getProjectOgImage(

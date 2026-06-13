@@ -23,9 +23,9 @@ export function Connect() {
           <p className="font-medium text-foreground text-sm">Get in touch</p>
 
           <p className="text-muted-foreground text-sm/read">
-            Open to full-time Full-Stack Developer roles, frontend, backend, or
-            anywhere in between. Let's talk if you're working on something worth
-            building.
+            Based in the Philippines and open to remote full-time Full-Stack
+            Developer roles — frontend, backend, or anywhere in between. Let's
+            talk if you're working on something worth building.
           </p>
         </div>
 

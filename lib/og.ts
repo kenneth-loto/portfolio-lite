@@ -18,9 +18,9 @@ export async function getFonts() {
 export const ogImages = {
   home: ogUrl({
     baseUrl,
-    title: "Full-Stack Developer",
+    title: "Full-Stack Developer Philippines",
     description:
-      "Building web and mobile applications end to end across React, Laravel, Flutter, and TypeScript. Open to junior and entry-level roles.",
+      "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter, and TypeScript. Open to remote junior and entry-level roles.",
     type: "Home",
     cta: "View Portfolio ⟶",
   }),
