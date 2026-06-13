@@ -13,17 +13,53 @@
       "skillPath": "skills/best-practices/SKILL.md",
       "computedHash": "f84707a5ba30771f4c3e672846457e4b0ed4dff5fd268bf0fe6cd17583637671"
     },
+    "competitor-analysis": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/competitor-analysis/SKILL.md",
+      "computedHash": "29fa22c369de9096365d3a2e1aecac61c05c884f1febc91fe50abfe245c6e76d"
+    },
+    "content-gap-analysis": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/content-gap-analysis/SKILL.md",
+      "computedHash": "d5f4e0a7eab976d35542c6bc7876b7bc3397e471f19c842790b00d3ecc4c31a7"
+    },
     "core-web-vitals": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
       "skillPath": "skills/core-web-vitals/SKILL.md",
       "computedHash": "4684e264c8e3dd529aefe97c3102814e3b63a9ea21a163d0f835ed506773e3f8"
     },
+    "geo-content-optimizer": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "build/geo-content-optimizer/SKILL.md",
+      "computedHash": "e3268aa97651fcf5dd86d822fce155ab3ec693aac133f2cba47a6efe67865cdf"
+    },
+    "keyword-research": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/keyword-research/SKILL.md",
+      "computedHash": "20c55fa47d36add548957f852cadb4c3d1260427f1934bb23f6b1d58e7717de8"
+    },
+    "on-page-seo-auditor": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "optimize/on-page-seo-auditor/SKILL.md",
+      "computedHash": "3b62924ca42b3d5ef2f87314ab4e2d16deef0f3bf8e985264aa41c2cebc5580f"
+    },
     "performance": {
       "source": "addyosmani/web-quality-skills",
       "sourceType": "github",
       "skillPath": "skills/performance/SKILL.md",
       "computedHash": "646931a3af896ae12a3cad3d762668cb6487fe3ab179daf8fdc974fb79acfe49"
+    },
+    "schema-markup-generator": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "build/schema-markup-generator/SKILL.md",
+      "computedHash": "9a5eacb384210f6f6a53360f8e840f92cbae03b587fd5d77fbfa8519218b44f3"
     },
     "seo": {
       "source": "addyosmani/web-quality-skills",

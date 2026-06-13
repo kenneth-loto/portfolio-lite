@@ -87,3 +87,18 @@ export function ogUrl({
 }) {
   return `${baseUrl}/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}&type=${encodeURIComponent(type)}&cta=${encodeURIComponent(cta)}`;
 }
+
+/**
+ * Capitalizes the first letter of a string.
+ *
+ * @param str - The string to capitalize.
+ * @returns The string with its first letter uppercased.
+ *
+ * @example
+ * capitalize("react")      // "React"
+ * capitalize("typescript") // "Typescript"
+ * capitalize("")           // ""
+ */
+export function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
