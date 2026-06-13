@@ -10,6 +10,7 @@ const mockProjects = [
     published: true,
     featured: true,
     year: 2026,
+    tags: ["react", "typescript"],
   },
   {
     slug: "project-b",
@@ -18,6 +19,7 @@ const mockProjects = [
     published: true,
     featured: true,
     year: 2025,
+    tags: ["nextjs", "typescript"],
   },
   {
     slug: "project-c",
@@ -26,6 +28,7 @@ const mockProjects = [
     published: true,
     featured: false,
     year: 2024,
+    tags: ["react", "tailwindcss"],
   },
   {
     slug: "project-draft",
@@ -34,6 +37,7 @@ const mockProjects = [
     published: false,
     featured: true,
     year: 2026,
+    tags: ["react"],
   },
 ];
 
@@ -55,6 +59,9 @@ const {
   getPublishedProjectBySlug,
   getProjectStaticParams,
   getProjectOgImage,
+  getProjectsByTechStack,
+  getAllProjectsTags,
+  getCuratedProjectTags,
 } = await import("@/lib/projects");
 
 // getAllPublishedProjects()
@@ -182,5 +189,78 @@ describe("getProjectOgImage()", () => {
     const url = getProjectOgImage({ title: "X", description: "Y" });
 
     expect(url).toContain("cta=View%20Project%20%E2%9F%B6");
+  });
+});
+
+// getProjectsByTechStack()
+
+describe("getProjectsByTechStack()", () => {
+  it("returns projects that match the given tech stack", () => {
+    expect(
+      getProjectsByTechStack("react").map((project) => project.slug),
+    ).toEqual(["project-a", "project-c"]);
+  });
+
+  it("is case-insensitive for the input", () => {
+    expect(getProjectsByTechStack("React")).toEqual(
+      getProjectsByTechStack("react"),
+    );
+  });
+
+  it("returns empty array for unknown tech stack", () => {
+    expect(getProjectsByTechStack("svelte")).toEqual([]);
+  });
+
+  it("excludes draft projects", () => {
+    expect(
+      getProjectsByTechStack("react").find(
+        (project) => project.slug === "project-draft",
+      ),
+    ).toBeUndefined();
+  });
+});
+
+// getAllTags()
+
+describe("getAllTags()", () => {
+  it("returns all unique tags sorted alphabetically", () => {
+    expect(getAllProjectsTags()).toEqual([
+      "nextjs",
+      "react",
+      "tailwindcss",
+      "typescript",
+    ]);
+  });
+
+  it("does not contain duplicate tags", () => {
+    const tags = getAllProjectsTags();
+
+    expect(tags).toHaveLength(new Set(tags).size);
+  });
+});
+
+// getCuratedProjectTags()
+
+describe("getCuratedProjectTags()", () => {
+  it("returns only featured tags that exist in published projects", () => {
+    expect(getCuratedProjectTags()).toEqual(["react", "typescript"]);
+  });
+
+  it("excludes featured tags with no matching published projects", () => {
+    // laravel, flutter, php, gis are in FEATURED_TAGS but not in mock data
+    expect(getCuratedProjectTags()).not.toContain("laravel");
+    expect(getCuratedProjectTags()).not.toContain("flutter");
+  });
+
+  it("excludes tags from draft projects", () => {
+    // "react" is in draft but also in published — still returned
+    // no tag exclusive to drafts should appear
+    expect(getCuratedProjectTags()).not.toContain("svelte");
+  });
+
+  it("preserves the order of FEATURED_TAGS", () => {
+    const tags = getCuratedProjectTags();
+
+    expect(tags.indexOf("react")).toBeLessThan(tags.indexOf("typescript"));
   });
 });

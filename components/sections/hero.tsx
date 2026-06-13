@@ -6,7 +6,7 @@ export function Hero() {
     <Section className="mt-4">
       <div className="flex flex-col">
         <h1 className="font-semibold text-base">{aboutMe.name}</h1>
-        <p className="text-muted-foreground text-sm">{aboutMe.title}</p>
+        <p className="text-muted-foreground text-sm/read">{aboutMe.title}</p>
       </div>
       <p className="text-muted-foreground text-sm/read">{aboutMe.bio}</p>
     </Section>

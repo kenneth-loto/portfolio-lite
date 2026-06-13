@@ -42,7 +42,7 @@ export function Experience() {
                 {experience.descriptions.map((description) => (
                   <li
                     key={description}
-                    className="flex shrink-0 items-start text-muted-foreground text-sm/relaxed before:mr-2 before:text-muted-foreground before:content-['▸']"
+                    className="flex shrink-0 items-start text-muted-foreground text-sm/read before:mr-2 before:text-muted-foreground before:content-['▸']"
                   >
                     <span>{description}</span>
                   </li>
