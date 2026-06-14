@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectList } from "@/components/pages/projects/list";
 import { Section, SectionTitle } from "@/components/ui/section";
-import { getCuratedProjectTags, getProjectsByTechStack } from "@/lib/projects";
+import {
+  getCuratedProjectTags,
+  getProjectsByTechStack,
+  getProjectsTechStackOgImage,
+} from "@/lib/projects";
 import { capitalize } from "@/lib/utils";
 
 interface Props {
@@ -18,6 +22,7 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { techStack } = await params;
   const capitalized = capitalize(techStack);
+  const ogImage = getProjectsTechStackOgImage(techStack);
 
   return {
     title: `${capitalized} Developer Philippines | Kenneth Loto`,
@@ -26,9 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${capitalized} Developer Philippines`,
       description: `Browse full-stack ${capitalized} projects built by Kenneth Loto, a developer based in the Philippines.`,
       siteName: "Kenneth Loto",
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
+      images: [ogImage],
     },
   };
 }

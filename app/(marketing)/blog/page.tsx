@@ -8,13 +8,13 @@ import { getAllPublishedPosts } from "@/lib/posts";
 import { cn, formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Blog — Writing on Software & Web Dev",
+  title: "Blog — Writing on Software & Web Dev | Kenneth Loto",
   description:
-    "Writing about software engineering, web development, and real problems from building with React, Laravel, Flutter, and TypeScript.",
+    "Writing about software engineering and web development from a full-stack developer in the Philippines — React, Laravel, Flutter, and TypeScript.",
   openGraph: {
     title: "Blog Posts",
     description:
-      "Writing about software engineering, web development, and problems I've actually run into.",
+      "Writing about software engineering and web development from a full-stack developer in the Philippines.",
     siteName: "Kenneth Loto",
     images: [
       {

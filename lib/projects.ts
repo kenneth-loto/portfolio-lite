@@ -1,6 +1,6 @@
 import { allProjects, type Project } from "content-collections";
 import { baseUrl } from "@/app/sitemap";
-import { ogUrl } from "@/lib/utils";
+import { capitalize, ogUrl } from "@/lib/utils";
 import { CURATED_PROJECT_TAGS } from "./contants";
 
 const publishedProjects: Project[] = allProjects
@@ -54,5 +54,17 @@ export function getProjectOgImage(
     description: project.description,
     type: "Project",
     cta: "View Project ⟶",
+  });
+}
+
+export function getProjectsTechStackOgImage(techStack: string) {
+  const capitalized = capitalize(techStack);
+
+  return ogUrl({
+    baseUrl,
+    title: `${capitalized} Developer Philippines`,
+    description: `${capitalized} projects built by Kenneth Loto, a full-stack developer in the Philippines.`,
+    type: "Projects",
+    cta: "View Projects ⟶",
   });
 }
