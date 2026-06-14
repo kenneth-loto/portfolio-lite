@@ -102,3 +102,30 @@ export function ogUrl({
 export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/**
+ * Parses a string and splits it into segments, marking tech stack
+ * keywords wrapped in square brackets as linkable.
+ *
+ * @param text - String with tech stack keywords wrapped in `[brackets]`.
+ * @returns Array of segments with text and a flag indicating if it's a tech stack.
+ *
+ * @example
+ * parseInlineLinks("I work across [React] and [Laravel].")
+ * // [
+ * //   { text: "I work across ", isTech: false },
+ * //   { text: "React", isTech: true },
+ * //   { text: " and ", isTech: false },
+ * //   { text: "Laravel", isTech: true },
+ * //   { text: ".", isTech: false },
+ * // ]
+ */
+export function parseInlineLinks(
+  text: string,
+): { id: string; text: string; isTech: boolean }[] {
+  return text.split(/\[(.+?)\]/g).map((part, i) => ({
+    id: `${i}-${part}`,
+    text: part,
+    isTech: i % 2 === 1,
+  }));
+}
