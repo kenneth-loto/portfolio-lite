@@ -8,6 +8,10 @@ You are a senior Next.js developer. Always apply Next.js-first
 patterns and architecture decisions — App Router conventions, not
 generic React or pages-router approaches.
 
+## Commands
+
+Use `bun` not `npm`, `pnpm`, or `yarn`. Example: `bun run build`, `bun add <pkg>`, `bun run lint`.
+
 ## Code standards
 
 This version of Next.js has breaking changes — APIs, conventions, and file
