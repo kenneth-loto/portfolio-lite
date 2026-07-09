@@ -1,56 +1,65 @@
-import { MoveRightIcon } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { Section, SectionTitle } from "@/components/ui/section";
-import { getFeaturedProjects } from "@/lib/projects";
-import { cn } from "@/lib/utils";
+import {
+  Section,
+  SectionCommand,
+  SectionOutput,
+  SectionPwd,
+  SectionTerminal,
+} from "@/components/ui/section";
+import { featuredProjects } from "@/lib/data/featured-projects";
 
 export function FeaturedProjects() {
-  const featuredProjects = getFeaturedProjects();
-
   return (
     <Section>
-      <SectionTitle>Featured Projects</SectionTitle>
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>ls -ap featured-projects</SectionCommand>
 
-      <div className="flex flex-col gap-8 border-t pt-4">
-        {featuredProjects.length > 0 ? (
-          featuredProjects.map((featuredProject) => (
-            <div
-              key={`${featuredProject.title}`}
-              className="flex flex-col gap-2 pl-4"
-            >
-              <ul className="list-disc" role="presentation">
-                <li className="text-muted-foreground text-xs">
-                  {featuredProject.year}
-                </li>
-              </ul>
+        <SectionOutput
+          items={[
+            "./",
+            "../",
+            "dog-stool-classifier.md",
+            "solar-shading-estimator-api.md",
+          ]}
+        />
+      </SectionTerminal>
 
-              <h3 className="font-medium text-sm">{featuredProject.title}</h3>
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>
+          cat dog-stool-classifier.md solar-shading-estimator-api.md
+        </SectionCommand>
 
-              <p className="text-muted-foreground text-sm/read">
-                {featuredProject.description}
-              </p>
+        <div className="mt-4 flex select-none flex-col gap-4 text-sm">
+          {featuredProjects.map((project) => (
+            <div key={project.title} className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${project.title} (opens in new tab)`}
+                  className="w-fit font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+                >
+                  {project.title}
+                </a>
 
-              <Link
-                href={`/projects/${featuredProject.slug}`}
-                aria-label={`Read more about ${featuredProject.title}`}
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "h-auto self-start p-0",
-                )}
-              >
-                Read more{" "}
-                <span className="sr-only">about {featuredProject.title}</span>
-                <MoveRightIcon data-icon="inline-end" aria-hidden="true" />
-              </Link>
+                <div className="flex items-start text-muted-foreground">
+                  <span className="shrink-0">&ndash;&nbsp;</span>
+                  <span className="leading-relaxed">{project.description}</span>
+                </div>
+              </div>
+
+              <div className="pl-4">
+                <span className="text-foreground">tags: </span>
+                <span className="text-muted-foreground lowercase">
+                  {project.tags.join(", ")}
+                </span>
+              </div>
             </div>
-          ))
-        ) : (
-          <p className="pt-4 text-center text-muted-foreground text-sm">
-            No featured projects yet. Check back soon!
-          </p>
-        )}
-      </div>
+          ))}
+        </div>
+      </SectionTerminal>
     </Section>
   );
 }

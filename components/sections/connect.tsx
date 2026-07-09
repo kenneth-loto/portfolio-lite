@@ -1,80 +1,61 @@
-import { ArrowUpRightIcon } from "lucide-react";
-import { LocalTime } from "@/components/local-time";
-import { buttonVariants } from "@/components/ui/button";
-import { Section, SectionTitle } from "@/components/ui/section";
-import { aboutMe } from "@/lib/data/about-me";
-import { socialLinks } from "@/lib/data/social-link";
-import { cn } from "@/lib/utils";
+import {
+  Section,
+  SectionCommand,
+  SectionPwd,
+  SectionTerminal,
+} from "@/components/ui/section";
+import { connect } from "@/lib/data/connect";
 
 export function Connect() {
+  const contactInfo = {
+    title: connect.title,
+    desc: connect.desc,
+    links: [
+      { label: "email", url: `mailto:${connect.email}` },
+      { label: "linkedin", url: connect.linkedin },
+      { label: "github", url: connect.github },
+    ],
+  };
+
   return (
-    <Section id="connect">
-      <SectionTitle>Connect</SectionTitle>
+    <Section>
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>cat contact.json</SectionCommand>
 
-      <div className="flex flex-col gap-8 border-t pt-4">
-        {/* Get in touch */}
-        <div className="flex flex-col gap-2 pl-4">
-          <ul className="list-disc" role="presentation">
-            <li className="text-muted-foreground text-xs">
-              <LocalTime />
-            </li>
-          </ul>
+        <div className="mt-4 flex select-none flex-col gap-4 text-sm">
+          <div className="flex flex-col gap-1">
+            <h2 className="font-medium text-foreground">{contactInfo.title}</h2>
 
-          <p className="font-medium text-foreground text-sm">Get in touch</p>
+            <div className="flex items-start text-muted-foreground leading-relaxed">
+              <span className="shrink-0">-&nbsp;</span>
+              <span>{contactInfo.desc}</span>
+            </div>
+          </div>
 
-          <p className="text-muted-foreground text-sm/read">
-            Based in the Philippines and open to remote full-time Full-Stack
-            Developer roles — frontend, backend, or anywhere in between. Let's
-            talk if you're working on something worth building.
-          </p>
-        </div>
+          <div className="flex flex-wrap items-center gap-x-4 text-muted-foreground">
+            <span className="text-foreground">links:</span>
+            {contactInfo.links.map((link) => {
+              const isMailto = link.url.startsWith("mailto:");
 
-        {/* Email */}
-        <div className="flex flex-col gap-2 pl-4">
-          <ul className="list-disc" role="presentation">
-            <li className="text-muted-foreground text-xs">Email</li>
-          </ul>
-
-          <a
-            href={`mailto:${aboutMe.email}`}
-            className={cn(
-              buttonVariants({ variant: "link" }),
-              "h-auto self-start p-0",
-            )}
-          >
-            {aboutMe.email}
-          </a>
-        </div>
-
-        {/* Social */}
-        <div className="flex flex-col gap-2 pl-4">
-          <ul className="list-disc" role="presentation">
-            <li className="text-muted-foreground text-xs">Social</li>
-          </ul>
-
-          <div className="flex flex-wrap gap-2">
-            {socialLinks.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "h-auto gap-0.5 p-0",
-                )}
-              >
-                {label}
-                <ArrowUpRightIcon
-                  data-icon="inline-end"
-                  className="size-3 -translate-y-1 text-muted-foreground"
-                />
-                <span className="sr-only">(opens in new tab)</span>
-              </a>
-            ))}
+              return (
+                <a
+                  key={link.label}
+                  href={link.url}
+                  target={isMailto ? undefined : "_blank"}
+                  rel={isMailto ? undefined : "noreferrer"}
+                  aria-label={
+                    isMailto ? undefined : `${link.label} (opens in new tab)`
+                  }
+                  className="w-fit text-muted-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </SectionTerminal>
     </Section>
   );
 }

@@ -1,39 +1,34 @@
-import { FileQuestionMark, MoveLeftIcon } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
-import { cn } from "@/lib/utils";
+  Section,
+  SectionCommand,
+  SectionPwd,
+  SectionTerminal,
+} from "@/components/ui/section";
 
 export default function NotFound() {
   return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <FileQuestionMark />
-        </EmptyMedia>
-        <EmptyTitle as="h1" className="text-base">
-          404 - Page Not Found
-        </EmptyTitle>
-        <EmptyDescription>
-          The page you're looking for doesn't exist or has been moved.
-        </EmptyDescription>
-      </EmptyHeader>
-      <EmptyContent>
-        <Link
-          href="/"
-          className={cn(buttonVariants({ variant: "link" }), "h-auto p-0")}
-        >
-          <MoveLeftIcon aria-hidden="true" />
-          Back to home
-        </Link>
-      </EmptyContent>
-    </Empty>
+    <Section className="mx-auto h-svh max-w-2xl justify-center px-4 py-0">
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>cat 404.log</SectionCommand>
+
+        <div className="mt-4 flex flex-col">
+          <h1 className="font-medium text-sm">Page not found</h1>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            The page you're looking for doesn't exist or was moved.
+          </p>
+        </div>
+
+        <p className="mt-4 text-sm">
+          <Link
+            href="/"
+            className="w-fit font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+          >
+            Back to home
+          </Link>
+        </p>
+      </SectionTerminal>
+    </Section>
   );
 }
