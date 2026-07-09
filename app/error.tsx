@@ -1,17 +1,13 @@
 "use client";
 
 import * as Sentry from "@sentry/nextjs";
-import { RotateCcw, ServerCrash } from "lucide-react";
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/components/ui/empty";
+  Section,
+  SectionCommand,
+  SectionPwd,
+  SectionTerminal,
+} from "@/components/ui/section";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -24,33 +20,33 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
   }, [error]);
 
   return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <ServerCrash />
-        </EmptyMedia>
-        <EmptyTitle as="h1" className="text-base">
-          Something went wrong
-        </EmptyTitle>
-        <EmptyDescription>
-          An unexpected error occurred. Try again, it might be temporary.
-        </EmptyDescription>
-        {error.digest && (
-          <p className="font-mono text-muted-foreground text-xs">
-            Error ID: {error.digest}
+    <Section className="mx-auto h-svh max-w-2xl justify-center px-4 py-0">
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>cat error.log</SectionCommand>
+
+        <div className="mt-4 flex flex-col">
+          <h1 className="font-medium text-sm">Something went wrong</h1>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            An unexpected error occurred. Try again, it might be temporary.
           </p>
-        )}
-      </EmptyHeader>
-      <EmptyContent>
-        <Button
-          onClick={() => unstable_retry()}
-          variant="link"
-          className="h-auto p-0 px-6"
-        >
-          <RotateCcw aria-hidden="true" />
-          Try again
-        </Button>
-      </EmptyContent>
-    </Empty>
+          {error.digest && (
+            <p className="mt-2 font-mono text-muted-foreground text-xs">
+              error_id: {error.digest}
+            </p>
+          )}
+        </div>
+
+        <p className="mt-4 text-sm">
+          <button
+            type="button"
+            onClick={() => unstable_retry()}
+            className="w-fit px-2 py-1.5 font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+          >
+            Retry
+          </button>
+        </p>
+      </SectionTerminal>
+    </Section>
   );
 }

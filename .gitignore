@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# content collections
-.content-collections
+# auto-generated agent files
+# MEMORY.md
+# UI-REGISTRY.md

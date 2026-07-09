@@ -18,12 +18,8 @@
       "automerge": false
     },
     {
-      "matchPackageNames": ["@teispace/next-themes"],
-      "enabled": false
-    },
-    {
       "matchDepTypes": ["dependencies"],
-      "excludePackageNames": ["next", "react", "react-dom", "@teispace/next-themes"],
+      "excludePackageNames": ["next", "react", "react-dom"],
       "groupName": "Production Dependencies",
       "schedule": ["after 4am and before 6am on Monday"],
       "automerge": false

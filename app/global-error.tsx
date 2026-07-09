@@ -1,7 +1,23 @@
 "use client";
 
 import * as Sentry from "@sentry/nextjs";
-import { useEffect } from "react";
+import { Geist_Mono } from "next/font/google";
+import { useEffect, useState } from "react";
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+});
+
+const colors = {
+  identity: "#34c759",
+  env: "#b95cf0",
+  path: "#ff9500",
+  git: "#5ac8fa",
+  background: "#1c1c1e",
+  foreground: "#fdfdfd",
+  muted: "#27272a",
+  mutedForeground: "#a1a1aa",
+};
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };
@@ -12,12 +28,27 @@ export default function GlobalError({
   error,
   unstable_retry,
 }: GlobalErrorProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   return (
-    <html lang="en">
+    <html lang="en" className={geistMono.className}>
       <body
         style={{
           display: "flex",
@@ -25,102 +56,91 @@ export default function GlobalError({
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          fontFamily: '"JetBrains Mono", monospace',
-          gap: "0.5rem",
-          padding: "1rem",
-          backgroundColor: "#1C1C1E",
-          color: "#fdfdfd",
+          padding: "0 1rem",
+          backgroundColor: colors.background,
+          color: colors.foreground,
           margin: 0,
         }}
       >
-        {/* ShieldAlert icon */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#a1a1aa"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-          <path d="M12 8v4" />
-          <path d="M12 16h.01" />
-        </svg>
-        <h1
-          style={{
-            fontSize: "1rem",
-            fontWeight: 500,
-            letterSpacing: "-0.025em",
-            margin: 0,
-          }}
-        >
-          Something went wrong
-        </h1>
-        <p
-          style={{
-            fontSize: "0.875rem",
-            color: "#a1a1aa",
-            textAlign: "center",
-            maxWidth: "360px",
-            lineHeight: 1.75,
-            margin: 0,
-          }}
-        >
-          The app could not be loaded. Try again in a moment.
-        </p>
-        {error.digest && (
-          <p
-            style={{
-              fontSize: "0.75rem",
-              color: "#a1a1aa",
-              fontFamily: '"JetBrains Mono", monospace',
-              margin: 0,
-            }}
-          >
-            Error ID: {error.digest}
+        <div style={{ maxWidth: "672px" }}>
+          {/* Prompt line */}
+          <p style={{ fontSize: "0.875rem", margin: 0 }}>
+            <span style={{ color: colors.identity }}>
+              Kenneth@LAPTOP-F4NAR8GJ
+            </span>{" "}
+            <span style={{ color: colors.env }}>MINGW64</span>{" "}
+            <span style={{ color: colors.path }}>
+              /c/Next.js/portfolio-lite
+            </span>{" "}
+            <span style={{ color: colors.git }}>(main)</span>
           </p>
-        )}
-        <button
-          type="button"
-          onClick={() => unstable_retry()}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            background: "none",
-            border: "none",
-            color: "#fdfdfd",
-            fontFamily: '"JetBrains Mono", monospace',
-            fontSize: "0.875rem",
-            cursor: "pointer",
-            padding: 0,
-            textDecoration: "underline",
-            textUnderlineOffset: "2px",
-            marginTop: "0.25rem",
-          }}
-        >
-          {/* RotateCcw icon */}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-            <path d="M3 3v5h5" />
-          </svg>
-          Try again
-        </button>
+
+          {/* Command */}
+          <p style={{ fontSize: "0.875rem" }}>
+            <span style={{ color: colors.mutedForeground }}>$</span> cat
+            global-error.log
+          </p>
+
+          {/* Output */}
+          <div style={{ marginTop: "16px" }}>
+            <p
+              style={{
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                margin: 0,
+              }}
+            >
+              Something went wrong
+            </p>
+            <p
+              style={{
+                fontSize: "0.875rem",
+                color: colors.mutedForeground,
+                lineHeight: 1.75,
+              }}
+            >
+              The app could not be loaded. Try again in a moment.
+            </p>
+            {error.digest && (
+              <p
+                style={{
+                  fontSize: "0.75rem",
+                  color: colors.mutedForeground,
+                  margin: "8px 0 0",
+                }}
+              >
+                error_id: {error.digest}
+              </p>
+            )}
+
+            {/* Retry as a command */}
+            <p style={{ fontSize: "0.875rem", margin: "16px 0 0" }}>
+              <button
+                type="button"
+                onClick={() => unstable_retry()}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: colors.foreground,
+                  fontFamily: "inherit",
+                  fontSize: "0.875rem",
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  padding: "4px 8px",
+                  textDecoration: isHovered ? "underline" : "none",
+                  textUnderlineOffset: "2px",
+                  transition: prefersReducedMotion
+                    ? "none"
+                    : "color 200ms ease-in-out",
+                }}
+              >
+                Retry
+              </button>
+            </p>
+          </div>
+        </div>
       </body>
     </html>
   );
