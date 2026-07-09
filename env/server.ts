@@ -3,7 +3,6 @@ import * as v from "valibot";
 
 export const serverEnv = createEnv({
   server: {
-    VERCEL_OIDC_TOKEN: v.pipe(v.string(), v.minLength(1)),
     SENTRY_AUTH_TOKEN: v.pipe(v.string(), v.minLength(1)),
     NODE_ENV: v.optional(
       v.picklist(["development", "test", "production"]),
