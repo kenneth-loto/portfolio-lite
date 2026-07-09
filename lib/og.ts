@@ -1,13 +1,30 @@
-export async function getFonts() {
-  const [fontRegular, fontMedium] = await Promise.all([
-    fetch(
-      new URL("../public/fonts/GeistMono-Regular.ttf", import.meta.url),
-    ).then((res) => res.arrayBuffer()),
+async function loadFont(filename: string) {
+  const response = await fetch(
+    new URL(`../public/fonts/${filename}`, import.meta.url),
+  );
 
-    fetch(
-      new URL("../public/fonts/GeistMono-Medium.ttf", import.meta.url),
-    ).then((res) => res.arrayBuffer()),
+  if (!response.ok) {
+    throw new Error(`Failed to load font: ${filename}`);
+  }
+
+  return await response.arrayBuffer();
+}
+
+async function loadFonts() {
+  const [fontRegular, fontMedium] = await Promise.all([
+    loadFont("GeistMono-Regular.ttf"),
+    loadFont("GeistMono-Medium.ttf"),
   ]);
 
   return { fontRegular, fontMedium };
+}
+
+let fontsPromise: ReturnType<typeof loadFonts> | null = null;
+
+export function getFonts() {
+  if (!fontsPromise) {
+    fontsPromise = loadFonts();
+  }
+
+  return fontsPromise;
 }
