@@ -1,47 +1,43 @@
 import type { Metadata } from "next";
-import "@/app/globals.css";
+import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ogImages } from "@/lib/og";
 import { cn } from "@/lib/utils";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-ibm-plex-sans",
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Full-Stack Developer Philippines | Kenneth Loto",
+    default: "Full-Stack Developer in the Philippines | Kenneth Loto",
     template: "%s — Kenneth Loto",
   },
   description:
-    "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
+    "Philippines-based Full-Stack Developer building web apps and APIs with Next.js, NestJS & TypeScript. Open to remote junior and entry-level roles.",
+  alternates: {
+    canonical: "/",
+  },
   appleWebApp: {
     title: "Kenneth Loto",
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Full-Stack Developer Philippines | Kenneth Loto",
+    title: "Full-Stack Developer in the Philippines | Kenneth Loto",
     description:
-      "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
+      "Philippines-based Full-Stack Developer building web apps and APIs with Next.js, NestJS & TypeScript. Open to remote junior and entry-level roles.",
     url: baseUrl,
     siteName: "Kenneth Loto",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: ogImages.home,
+        url: `${baseUrl}/og`,
         width: 1200,
         height: 630,
       },
@@ -49,12 +45,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Full-Stack Developer Philippines | Kenneth Loto",
+    title: "Full-Stack Developer in the Philippines | Kenneth Loto",
     description:
-      "Full-Stack Developer in the Philippines building apps with React, Laravel, Flutter & TypeScript. Open to remote junior & entry-level roles. Let's connect.",
+      "Philippines-based Full-Stack Developer building web apps and APIs with Next.js, NestJS & TypeScript. Open to remote junior and entry-level roles.",
     images: [
       {
-        url: ogImages.home,
+        url: `${baseUrl}/og`,
       },
     ],
   },
@@ -79,16 +75,10 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        ibmPlexSans.variable,
-        jetBrainsMono.variable,
-      )}
+      className={cn("h-full", "antialiased", geistMono.variable)}
       suppressHydrationWarning
-      data-scroll-behavior="smooth"
     >
-      <body className="mx-auto flex min-h-full max-w-2xl flex-col px-6">
+      <body className="mx-auto flex min-h-full max-w-2xl flex-col">
         <script
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data is static and trusted
@@ -97,24 +87,25 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Kenneth Loto",
-              url: "https://www.kennethloto.dev",
+              url: baseUrl,
               jobTitle: "Full-Stack Developer",
               email: "kennethloto.dev@gmail.com",
               description:
-                "Full-Stack Developer in the Philippines building web and mobile applications with React, Laravel, Flutter, and TypeScript. Open to remote junior and entry-level roles.",
+                "Philippines-based Full-Stack Developer building web apps and APIs with Next.js, NestJS & TypeScript. Open to remote junior and entry-level roles.",
               address: {
                 "@type": "PostalAddress",
                 addressCountry: "PH",
                 addressRegion: "Eastern Visayas",
               },
               knowsAbout: [
-                "React",
                 "Next.js",
-                "Laravel",
-                "Flutter",
+                "NestJS",
                 "TypeScript",
+                "React",
+                "Laravel",
+                "PostgreSQL",
                 "Full-Stack Development",
-                "Mobile Development",
+                "Backend Development",
                 "GIS",
               ],
               alumniOf: {
@@ -128,7 +119,7 @@ export default async function RootLayout({
             }),
           }}
         />
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

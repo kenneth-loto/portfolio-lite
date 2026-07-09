@@ -3,20 +3,8 @@ name: CI
 on:
   push:
     branches: [main, develop]
-    paths-ignore:
-      - "**.md"
-      - ".gitignore"
-      - ".gitattributes"
-      - ".lintstagedrc.json"
-      - ".zed/**"
   pull_request:
     branches: [main, develop]
-    paths-ignore:
-      - "**.md"
-      - ".gitignore"
-      - ".gitattributes"
-      - ".lintstagedrc.json"
-      - ".zed/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,38 +14,59 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Filter paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            code:
+              - '!(**.md|.gitignore|.gitattributes|.lintstagedrc.json|.zed/**)'
+
   dependency-review:
     name: Dependency Review
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'pull_request' # only runs on PRs, not pushes
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.code == 'true'
     permissions:
       contents: read
-      pull-requests: write # needed to post summary comment on the PR
+      pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v5.0.0
         with:
-          fail-on-severity: moderate # blocks PRs that introduce moderate+ CVEs
-          comment-summary-in-pr: always # posts a summary table on every PR
-          allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, BSD-3-Clause # common permissive licenses
-          warn-only: true # unknown licenses warn but never fail the check
+          fail-on-severity: moderate
+          comment-summary-in-pr: always
+          allow-licenses: MIT, Apache-2.0, ISC, BSD-2-Clause, BSD-3-Clause
+          warn-only: true
 
   lint:
     name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 3
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
-          version: 2.2.0
+          version: 2.5.3
 
       - name: Run Biome CI
         run: biome ci
@@ -66,9 +75,11 @@ jobs:
     name: Typecheck
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -78,48 +89,23 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
-
-      - name: Generate content-collections types
-        run: bun content-collections
 
       - name: Run typecheck
         run: bun typecheck
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.3.14"
-          cache: true
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Generate content-collections types
-        run: bun content-collections
-
-      - name: Run tests
-        run: bun run test:run
 
   build:
     name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: [lint, typecheck, test]
+    needs: [changes, lint, typecheck]
+    if: needs.changes.outputs.code == 'true'
     env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
       NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -146,17 +132,18 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: [build]
-    if: github.event_name == 'push'
+    needs: [changes, build]
+    if: github.event_name == 'push' && needs.changes.outputs.code == 'true'
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
       NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -167,11 +154,21 @@ jobs:
       - name: Install Vercel CLI
         run: bun add -g vercel
 
+      - name: Set deploy environment
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "VERCEL_ENV=production" >> "$GITHUB_ENV"
+            echo "VERCEL_PROD_FLAG=--prod" >> "$GITHUB_ENV"
+          else
+            echo "VERCEL_ENV=preview" >> "$GITHUB_ENV"
+            echo "VERCEL_PROD_FLAG=" >> "$GITHUB_ENV"
+          fi
+
       - name: Pull Vercel environment
-        run: vercel pull --yes --environment=${{ github.ref_name == 'main' && 'production' || 'preview' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=${{ env.VERCEL_ENV }}
 
       - name: Build project artifacts
-        run: vercel build ${{ github.ref_name == 'main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build ${{ env.VERCEL_PROD_FLAG }}
 
       - name: Deploy to Vercel
-        run: vercel deploy --prebuilt ${{ github.ref_name == 'main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prebuilt ${{ env.VERCEL_PROD_FLAG }}

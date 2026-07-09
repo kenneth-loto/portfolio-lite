@@ -1,131 +1,94 @@
 # Portfolio Lite
 
-A minimal, fast personal portfolio built with Next.js, Tailwind CSS, and shadcn/ui. Monospace-themed for a dev-native feel. Blog and projects are MDX-powered via Content Collections — content is compiled at build time, so pages load fast with no runtime parsing.
+A single-page personal portfolio styled as a Windows Git Bash terminal session. Built with Next.js 16 and Tailwind CSS v4 — no blog, no CMS, no content collections. Just a prompt, a command, and output.
 
 🌐 **Live Demo:** [www.kennethloto.dev](https://www.kennethloto.dev)
 
-![Preview](public/images/project-preview.png)
+![Preview](public/image/portfolio-lite-preview.webp)
 
 ## Tech Stack
 
-- **Framework:** [Next.js 16](https://nextjs.org) (App Router)
+- **Framework:** [Next.js 16](https://nextjs.org) (App Router, Turbopack)
 - **Language:** [TypeScript](https://www.typescriptlang.org)
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com)
-- **UI Components:** [shadcn/ui](https://ui.shadcn.com), [base-ui](https://base-ui.com)
-- **Content:** [Content Collections](https://www.content-collections.io) (MDX — blog + projects)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com) (Terminal theme, OKLCH tokens)
+- **Font:** [Geist Mono](https://vercel.com/font) via `next/font/google`
 - **Linting & Formatting:** [Biome](https://biomejs.dev)
 - **Package Manager:** [Bun](https://bun.sh)
+- **Error Tracking:** [Sentry](https://sentry.io) (client, edge, server)
+- **Analytics:** [Vercel Analytics](https://vercel.com/analytics) + [Speed Insights](https://vercel.com/speed-insights)
 - **Git Hooks:** [Husky](https://typicode.github.io/husky/), [commitlint](https://commitlint.js.org/)
 
 ## Features
 
-- Monospace font throughout for a dev-native aesthetic
-- Dark/light mode toggle with system preference detection
-- Mobile-responsive with shadcn/ui Sheet for navigation
-- MDX blog and project pages with syntax highlighting via Shiki
-- Reading time estimates on blog posts and projects
-- Auto-updating local time display
-- Dynamic OG image generation via Edge runtime with 1-year immutable CDN caching
-- RSS feed for blog posts with 1-week CDN caching
-- Auto-generated sitemap and robots.txt
-- PWA manifest
-- SEO-validated frontmatter (title, description, tags with length constraints)
-- Test suite with Vitest + Testing Library (hooks, lib utilities)
-- Load and stress testing with k6 via Docker
-- Strict linting with Biome and conventional commit enforcement via commitlint
+- Terminal-themed UI: prompt line, `$ cat` commands, monospace output
+- OG image generation via `@vercel/og` (Edge runtime, Geist Mono TTFs)
+- Sitemap, robots.txt, PWA manifest, JSON-LD structured data
+- Security headers (CSP, HSTS, X-Frame-Options, etc.)
+- Sentry error capture (client + server)
+- Vercel Analytics & Speed Insights
 
 ## File Structure
 
 ```
 portfolio-lite/
 ├── app/
-│   ├── (marketing)/          # Route group: blog, projects, home
-│   │   ├── blog/
-│   │   │   ├── [slug]/page.tsx
-│   │   │   └── page.tsx
-│   │   ├── projects/
-│   │   │   ├── [slug]/page.tsx
-│   │   │   └── page.tsx
-│   │   ├── layout.tsx
-│   │   └── page.tsx
 │   ├── og/
-│   │   ├── __tests__/
-│   │   │   └── og.load.js    # k6 load test
-│   │   │   └── og.stress.js  # k6 stress test
-│   │   └── route.tsx         # OG image generation (Edge runtime)
-│   ├── rss/
-│   │   ├── __tests__/
-│   │   │   └── rss.load.js   # k6 load test
-│   │   └── route.ts          # RSS feed
-│   ├── apple-icon.png
-│   ├── favicon.ico
-│   ├── globals.css
-│   ├── icon0.svg
-│   ├── icon1.png
-│   ├── layout.tsx
+│   │   └── route.tsx          # OG image generation (Edge runtime)
+│   ├── error.tsx              # Client error boundary (terminal theme)
+│   ├── global-error.tsx       # Root error boundary (inline styles)
+│   ├── globals.css            # Tailwind v4 theme, OKLCH tokens
+│   ├── layout.tsx             # Root layout, metadata, JSON-LD
 │   ├── manifest.json
-│   ├── not-found.tsx
+│   ├── not-found.tsx          # 404 page (terminal theme)
+│   ├── page.tsx               # Single-page layout (6 sections)
 │   ├── robots.ts
-│   └── sitemap.ts
+│   └── sitemap.ts             # Single-URL sitemap
 ├── components/
-│   ├── pages/
-│   │   ├── blog-detail-page.tsx
-│   │   └── projects-detail-page/
-│   │       ├── image-carousel.tsx
-│   │       └── index.tsx
-│   ├── sections/             # Hero, experience, connect, featured-projects, latest-post
-│   ├── shared/
-│   │   ├── footer.tsx
-│   │   └── header/
-│   │       ├── index.tsx
-│   │       ├── logo-link.tsx
-│   │       ├── mobile-nav.tsx
-│   │       └── nav-links.tsx
-│   ├── skeletons/            # Loading skeletons (local-time, mode-toggle)
-│   ├── ui/                   # shadcn/ui base components
-│   ├── local-time.tsx
-│   ├── mode-toggle.tsx
-│   ├── share-button.tsx
-│   ├── theme-provider.tsx
-│   └── theme.ts
-├── content/
-│   ├── blog/                 # MDX blog posts
-│   └── projects/             # MDX project pages
-├── hooks/
-│   ├── __tests__/
-│   ├── use-local-time.ts
-│   ├── use-mounted.ts
-│   ├── use-scroll-to.ts
-│   ├── use-scroll-to-top.ts
-│   └── use-share.ts
+│   ├── sections/              # Page sections (hero, about-me, etc.)
+│   │   ├── about-me.tsx
+│   │   ├── connect.tsx
+│   │   ├── experience.tsx
+│   │   ├── featured-projects.tsx
+│   │   ├── hero.tsx
+│   │   └── technical-skills.tsx
+│   └── ui/
+│       └── section.tsx        # Terminal primitives (Section, SectionPwd, etc.)
 ├── lib/
-│   ├── __tests__/
-│   ├── data/                 # Static data: about-me, nav, social-link, experience
-│   ├── og-fonts.ts
-│   ├── posts.ts
-│   ├── projects.ts
-│   ├── types.ts
-│   └── utils.ts
+│   ├── data/                  # Static content (JSON data objects)
+│   │   ├── about-me.ts
+│   │   ├── connect.ts
+│   │   ├── experience.ts
+│   │   ├── featured-projects.ts
+│   │   └── technical-skills.ts
+│   ├── og.ts                  # OG image paths & helpers
+│   └── utils.ts               # cn(), ogUrl(), getAutoGridColumnWidth()
+├── types/                     # TypeScript interfaces for all data
+│   ├── about-me.ts
+│   ├── connect.ts
+│   ├── experience.ts
+│   ├── featured-projects.ts
+│   └── technical-skills.ts
 ├── public/
-│   ├── fonts/                # JetBrains Mono (local font, used by OG route)
-│   └── images/               # Avatar, project screenshots
-├── .husky/                   # Git hooks (commit-msg, pre-commit, pre-push)
+│   ├── fonts/                 # Geist Mono TTF files (for @vercel/og)
+│   ├── image/                 # Preview, verification files
+│   └── web-app-manifest-*.png
+├── .github/workflows/         # CI (Biome lint), CodeQL, auto-target-develop
+├── .husky/                    # Git hooks (commit-msg)
 ├── AGENTS.md
-├── biome.json
 ├── CLAUDE.md
+├── DESIGN.md                  # Terminal theme design system
+├── UI-REGISTRY.md             # Visual pattern registry
+├── MEMORY.md                  # Session continuity log
+├── biome.json
 ├── commitlint.config.ts
-├── components.json
-├── content-collections.ts
-├── LICENSE.md
-├── .lintstagedrc.json
+├── instrumentation.ts         # Sentry instrumentation
 ├── next.config.ts
 ├── package.json
-├── postcss.config.mjs
 ├── renovate.json
-├── tsconfig.json
-├── vercel.json
-├── vitest.config.mts
-└── vitest.setup.ts
+├── sentry.client.config.ts
+├── sentry.edge.config.ts
+├── sentry.server.config.ts
+└── tsconfig.json
 ```
 
 ## Getting Started
@@ -133,7 +96,6 @@ portfolio-lite/
 ### Prerequisites
 
 - [Bun](https://bun.sh) or Node.js 18+
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (for load/stress testing only)
 
 ### Installation
 
@@ -153,62 +115,33 @@ bun run start
 
 ## Scripts
 
-| Command                       | Description                                   |
-| ----------------------------- | --------------------------------------------- |
-| `bun dev`                     | Start development server                      |
-| `bun run build`               | Build content collections + production app    |
-| `bun run lint`                | Check code with Biome                         |
-| `bun run lint:fix`            | Auto-fix linting issues                       |
-| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms               |
-| `bun run format`              | Format code with Biome                        |
-| `bun run typecheck`           | Run TypeScript type checking                  |
-| `bun test`                    | Run tests in watch mode                       |
-| `bun test:run`                | Run tests once                                |
-| `bun test:coverage`           | Run tests with coverage report                |
-| `bun run test:load:og`        | k6 load test — `/og` route (20 VUs, 1m)       |
-| `bun run test:stress:og`      | k6 stress test — `/og` route (200 VUs, 2m10s) |
-| `bun run test:load:rss`       | k6 load test — `/rss` route (20 VUs, 1m)      |
-| `bun run ui`                  | Add shadcn/ui components                      |
-| `bun run content-collections` | Build content collections manually            |
-
-### Load & Stress Testing
-
-Tests run against the live production URL using [k6](https://k6.io) via Docker. Make sure Docker Desktop is running before executing any `test:load` or `test:stress` commands.
-
-```bash
-# Pull the k6 image once
-docker pull grafana/k6
-
-# Then run any test script
-bun run test:load:og
-bun run test:stress:og
-bun run test:load:rss
-```
-
-Tests are colocated with their routes following the same `__tests__/` convention as Vitest unit tests:
-
-- `app/og/__tests__/og.load.js` — load test (20 VUs)
-- `app/og/__tests__/og.stress.js` — stress test (200 VUs)
-- `app/rss/__tests__/rss.load.js` — load test (20 VUs)
+| Command                       | Description                  |
+| ----------------------------- | ---------------------------- |
+| `bun dev`                     | Start development server     |
+| `bun run build`               | Build production app         |
+| `bun run lint`                | Check code with Biome        |
+| `bun run lint:fix`            | Auto-fix linting issues      |
+| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms |
+| `bun run format`              | Format code with Biome       |
+| `bun run typecheck`           | Run TypeScript type checking |
 
 ## Customization
 
-### Personal Info
+Update your details in `lib/data/`. Each file exports a typed object consumed by the corresponding section component. Types are in `types/` and must match.
 
-Update your details in `lib/data/`:
+| Data file | Content |
+|---|---|
+| `lib/data/about-me.ts` | Name, title, location, bio |
+| `lib/data/connect.ts` | Email, LinkedIn, GitHub |
+| `lib/data/experience.ts` | Work history (title, company, period, description) |
+| `lib/data/featured-projects.ts` | Projects (title, description, tags, GitHub URL) |
+| `lib/data/technical-skills.ts` | Skill categories grouped by key |
 
-- `about-me.ts` — Name, bio, avatar, email
-- `nav.ts` — Navigation links
-- `social-link.ts` — Social profiles
-- `experience.ts` — Work history
+The prompt line defaults are in `components/ui/section.tsx` (`SectionPwd` component props). Branch names, paths, and user/host can be changed per-page via props.
 
-### Adding Blog Posts
+## Design
 
-Create a `.mdx` file in `content/blog/`. Use `content/blog/_template.mdx` as a starting point. Frontmatter is validated at build time — see `content-collections.ts` for the full schema and character limits.
-
-### Adding Projects
-
-Create a `.mdx` file in `content/projects/`. Same frontmatter validation applies. Place project screenshots in `public/images/projects/` — missing images will cause a build error.
+The entire site follows a Windows Git Bash / MINGW64 terminal session metaphor. See `DESIGN.md` for the full design system — color tokens, typography, spacing rhythm, component inventory, and rules about what not to do (no icons, no rounded corners, no third font weight).
 
 ## Deployment
 
@@ -218,7 +151,11 @@ Deployed via [Vercel CLI](https://vercel.com/docs/cli):
 bunx vercel --prod
 ```
 
-No environment variables required for the base setup.
+Required environment variables:
+
+| Variable | Source |
+|---|---|
+| `SENTRY_AUTH_TOKEN` | Sentry |
 
 ## License
 

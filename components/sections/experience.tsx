@@ -1,57 +1,51 @@
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Section, SectionTitle } from "@/components/ui/section";
+  Section,
+  SectionCommand,
+  SectionPwd,
+  SectionTerminal,
+} from "@/components/ui/section";
 import { experiences } from "@/lib/data/experience";
 
 export function Experience() {
   return (
     <Section>
-      <SectionTitle>Experience</SectionTitle>
+      <SectionTerminal>
+        <SectionPwd />
+        <SectionCommand>cat experience.log</SectionCommand>
 
-      <Accordion multiple={false} className="flex flex-col gap-8 border-t pt-4">
-        {experiences.map((experience) => (
-          <AccordionItem
-            key={experience.period}
-            value={experience.period}
-            className="flex flex-col gap-2 border-none pl-4"
-          >
-            <ul className="list-disc" role="presentation">
-              <li className="text-muted-foreground text-xs">
-                {experience.period}
-              </li>
-            </ul>
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="w-fit">
-                <AccordionTrigger className="cursor-pointer py-0 hover:no-underline [&_svg]:hidden [&_svg]:group-aria-expanded/accordion-trigger:hidden">
-                  <span className="font-medium text-foreground text-sm underline underline-offset-2">
-                    {experience.title}
-                  </span>
-                </AccordionTrigger>
+        <div className="mt-4 flex flex-col gap-4 text-sm">
+          {experiences.map((exp) => (
+            <div key={exp.period} className="flex flex-col gap-1">
+              <div className="flex items-center gap-x-2">
+                <span className="text-foreground">|</span>
+                <h2 className="font-medium text-foreground text-sm">
+                  -- {exp.title}
+                </h2>
               </div>
-              <span className="text-muted-foreground text-sm">
-                {" — "}
-                <em>{experience.company}</em>
-              </span>
+
+              {/* Company & Range Row */}
+              <div className="flex w-full items-center justify-between">
+                <div className="flex items-center">
+                  <span className="text-foreground">|</span>
+                  <span className="pl-4 text-foreground leading-relaxed">
+                    {exp.company}
+                  </span>
+                </div>
+                <span className="whitespace-nowrap text-muted-foreground text-xs">
+                  {exp.period}
+                </span>
+              </div>
+
+              <div className="flex items-start">
+                <span className="text-foreground">|</span>
+                <span className="pl-4 text-muted-foreground leading-relaxed">
+                  {exp.description}
+                </span>
+              </div>
             </div>
-            <AccordionContent>
-              <ul className="flex flex-col gap-2 pt-2">
-                {experience.descriptions.map((description) => (
-                  <li
-                    key={description}
-                    className="flex shrink-0 items-start text-muted-foreground text-sm/read before:mr-2 before:text-muted-foreground before:content-['▸']"
-                  >
-                    <span>{description}</span>
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+          ))}
+        </div>
+      </SectionTerminal>
     </Section>
   );
 }
