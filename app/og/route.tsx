@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/nextjs";
 import { ImageResponse } from "next/og";
 import { getFonts } from "@/lib/og";
 
@@ -140,7 +139,7 @@ export async function GET() {
       },
     );
   } catch (error) {
-    Sentry.captureException(error);
+    console.error("Failed to generate OG image:", error);
 
     return new ImageResponse(
       <div
