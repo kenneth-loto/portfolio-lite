@@ -1,13 +1,15 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const FONTS_DIR = join(process.cwd(), "public/fonts");
+
 async function loadFont(filename: string) {
-  const response = await fetch(
-    new URL(`../public/fonts/${filename}`, import.meta.url),
+  const buffer = await readFile(join(FONTS_DIR, filename));
+
+  return buffer.buffer.slice(
+    buffer.byteOffset,
+    buffer.byteOffset + buffer.byteLength,
   );
-
-  if (!response.ok) {
-    throw new Error(`Failed to load font: ${filename}`);
-  }
-
-  return await response.arrayBuffer();
 }
 
 async function loadFonts() {

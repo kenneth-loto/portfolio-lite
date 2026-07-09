@@ -1,7 +1,6 @@
+import * as Sentry from "@sentry/nextjs";
 import { ImageResponse } from "next/og";
 import { getFonts } from "@/lib/og";
-
-export const runtime = "edge";
 
 const colors = {
   identity: "#34c759",
@@ -139,7 +138,7 @@ export async function GET() {
       },
     );
   } catch (error) {
-    console.error("Failed to generate OG image:", error);
+    Sentry.captureException(error);
 
     return new ImageResponse(
       <div
