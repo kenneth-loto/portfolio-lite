@@ -56,7 +56,7 @@ export default function GlobalError({
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          padding: "0 1rem",
+          padding: "0 1.5rem",
           backgroundColor: colors.background,
           color: colors.foreground,
           margin: 0,
@@ -64,22 +64,31 @@ export default function GlobalError({
       >
         <div style={{ maxWidth: "672px" }}>
           {/* Prompt line */}
-          <p style={{ fontSize: "0.875rem", margin: 0 }}>
-            <span style={{ color: colors.identity }}>
-              Kenneth@LAPTOP-F4NAR8GJ
-            </span>{" "}
-            <span style={{ color: colors.env }}>MINGW64</span>{" "}
-            <span style={{ color: colors.path }}>
-              /c/Next.js/portfolio-lite
-            </span>{" "}
-            <span style={{ color: colors.git }}>(main)</span>
-          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            <p
+              style={{
+                fontSize: "0.875rem",
+                margin: 0,
+                lineHeight: 1.625,
+                wordBreak: "break-all",
+              }}
+            >
+              <span style={{ color: colors.identity }}>
+                Kenneth@LAPTOP-F4NAR8GJ
+              </span>{" "}
+              <span style={{ color: colors.env }}>MINGW64</span>{" "}
+              <span style={{ color: colors.path }}>
+                /c/Next.js/portfolio-lite
+              </span>{" "}
+              <span style={{ color: colors.git }}>(main)</span>
+            </p>
 
-          {/* Command */}
-          <p style={{ fontSize: "0.875rem" }}>
-            <span style={{ color: colors.mutedForeground }}>$</span> cat
-            global-error.log
-          </p>
+            {/* Command */}
+            <p style={{ fontSize: "0.875rem" }}>
+              <span style={{ color: colors.mutedForeground }}>$</span> cat
+              global-error.log
+            </p>
+          </div>
 
           {/* Output */}
           <div style={{ marginTop: "16px" }}>

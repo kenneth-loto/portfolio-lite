@@ -8,7 +8,7 @@ import { Whoami } from "@/components/sections/whoami";
 
 export default function Page() {
   return (
-    <main className="flex flex-col px-4 py-6">
+    <main className="flex flex-col px-6 py-6">
       <Whoami />
       <Intro />
       <AboutMe />

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -11,6 +11,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#1c1c1e",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -40,11 +44,13 @@ export const metadata: Metadata = {
         url: `${baseUrl}/og`,
         width: 1200,
         height: 630,
+        alt: "Kenneth Loto — Full-Stack Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@kenneth_loto",
     title: "Full-Stack Developer in the Philippines | Kenneth Loto",
     description:
       "Philippines-based Full-Stack Developer building web apps and APIs with Next.js, NestJS & TypeScript. Open to remote junior and entry-level roles.",

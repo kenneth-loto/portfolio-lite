@@ -1,18 +1,24 @@
+"use client";
+
 import {
   Section,
   SectionCommand,
   SectionOutput,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
 import { featuredProjects } from "@/lib/data/featured-projects";
+import { trackClick } from "@/lib/track-click";
 
 export function FeaturedProjects() {
   return (
-    <Section>
+    <Section className="gap-8">
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>ls -ap featured-projects</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>ls -ap featured-projects</SectionCommand>
+        </SectionPrompt>
 
         <SectionOutput
           items={[
@@ -25,12 +31,14 @@ export function FeaturedProjects() {
       </SectionTerminal>
 
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>
-          cat dog-stool-classifier.md solar-shading-estimator-api.md
-        </SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>
+            cat dog-stool-classifier.md solar-shading-estimator-api.md
+          </SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex select-none flex-col gap-4 text-sm">
+        <div className="flex select-none flex-col gap-4 text-sm">
           {featuredProjects.map((project) => (
             <div key={project.title} className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
@@ -39,6 +47,7 @@ export function FeaturedProjects() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={`${project.title} (opens in new tab)`}
+                  onClick={() => trackClick(project.title, project.github)}
                   className="w-fit font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
                 >
                   {project.title}

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -17,10 +18,12 @@ export function AboutMe() {
   return (
     <Section>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>cat about-me.txt</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>cat about-me.txt</SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <h2 className="font-medium text-sm">
             &#64;
             {aboutMe.name}

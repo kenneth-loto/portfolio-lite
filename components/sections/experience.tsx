@@ -1,6 +1,7 @@
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -10,10 +11,12 @@ export function Experience() {
   return (
     <Section>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>cat experience.log</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>cat experience.log</SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex flex-col gap-4 text-sm">
+        <div className="flex flex-col gap-4 text-sm">
           {experiences.map((exp) => (
             <div key={exp.period} className="flex flex-col gap-1">
               <div className="flex items-center gap-x-2">

@@ -1,11 +1,32 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, Ref } from "react";
 import { cn, getAutoGridColumnWidth } from "@/lib/utils";
 
-function Section({ children, className, ...props }: ComponentProps<"section">) {
+function Section({
+  children,
+  className,
+  ref,
+  ...props
+}: ComponentProps<"section"> & { ref?: Ref<HTMLElement> }) {
   return (
-    <section className={cn("flex flex-col gap-4 py-6", className)} {...props}>
+    <section
+      ref={ref}
+      className={cn("flex flex-col gap-4 py-6", className)}
+      {...props}
+    >
       {children}
     </section>
+  );
+}
+
+function SectionPrompt({
+  children,
+  className,
+  ...props
+}: ComponentProps<"div">) {
+  return (
+    <div className={cn("flex flex-col gap-0.5", className)} {...props}>
+      {children}
+    </div>
   );
 }
 
@@ -15,7 +36,7 @@ function SectionTerminal({
   ...props
 }: ComponentProps<"div">) {
   return (
-    <div className={cn("flex flex-col", className)} {...props}>
+    <div className={cn("flex flex-col gap-4", className)} {...props}>
       {children}
     </div>
   );
@@ -36,7 +57,10 @@ function SectionPwd({
 }) {
   return (
     <p
-      className={cn("font-mono text-muted-foreground text-sm", className)}
+      className={cn(
+        "break-all font-mono text-muted-foreground text-sm leading-relaxed",
+        className,
+      )}
       {...props}
     >
       <span className="text-terminal-identity">
@@ -56,7 +80,7 @@ function SectionCommand({
 }: ComponentProps<"p">) {
   return (
     <p className={cn("text-sm", className)} {...props}>
-      <span>$</span> {children}
+      <span className="text-muted-foreground">$</span> {children}
     </p>
   );
 }
@@ -70,10 +94,7 @@ function SectionOutput({
 
   return (
     <div
-      className={cn(
-        "grid gap-x-4 gap-y-0.5 text-sm leading-relaxed",
-        className,
-      )}
+      className={cn("grid gap-x-4 gap-y-2 text-sm", className)}
       style={{
         gridTemplateColumns: `repeat(auto-fill, minmax(${minColumnWidth}, 1fr))`,
       }}
@@ -88,4 +109,11 @@ function SectionOutput({
   );
 }
 
-export { Section, SectionCommand, SectionOutput, SectionPwd, SectionTerminal };
+export {
+  Section,
+  SectionCommand,
+  SectionOutput,
+  SectionPrompt,
+  SectionPwd,
+  SectionTerminal,
+};
