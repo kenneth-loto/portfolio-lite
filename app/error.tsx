@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -20,12 +21,14 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
   }, [error]);
 
   return (
-    <Section className="mx-auto h-svh max-w-2xl justify-center px-4 py-0">
+    <Section className="mx-auto h-svh max-w-2xl justify-center px-6 py-0">
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>cat error.log</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>cat error.log</SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex flex-col">
+        <div className="flex flex-col">
           <h1 className="font-medium text-sm">Something went wrong</h1>
           <p className="text-muted-foreground text-sm leading-relaxed">
             An unexpected error occurred. Try again, it might be temporary.
@@ -37,7 +40,7 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
           )}
         </div>
 
-        <p className="mt-4 text-sm">
+        <p className="text-sm">
           <button
             type="button"
             onClick={() => unstable_retry()}

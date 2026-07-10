@@ -2,6 +2,7 @@ import {
   Section,
   SectionCommand,
   SectionOutput,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -10,8 +11,10 @@ export function Intro() {
   return (
     <Section>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>ls -ap</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>ls -ap</SectionCommand>
+        </SectionPrompt>
 
         <SectionOutput
           items={[
