@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # auto-generated agent files
-# MEMORY.md
-# UI-REGISTRY.md
+MEMORY.md
+UI-REGISTRY.md

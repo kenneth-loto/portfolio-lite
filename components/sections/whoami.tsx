@@ -1,6 +1,7 @@
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -10,10 +11,12 @@ export function Whoami() {
   return (
     <Section>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>whoami</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>whoami</SectionCommand>
+        </SectionPrompt>
 
-        <h1 className="mt-4 font-medium text-sm">
+        <h1 className="font-medium text-sm">
           {aboutMe.name} &ndash; {aboutMe.title}
         </h1>
       </SectionTerminal>

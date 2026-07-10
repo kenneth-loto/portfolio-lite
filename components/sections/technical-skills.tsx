@@ -1,6 +1,7 @@
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
@@ -10,10 +11,12 @@ export function TechnicalSkills() {
   return (
     <Section>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>cat .env</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>cat .env</SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex select-none flex-col gap-1 text-sm">
+        <div className="flex select-none flex-col gap-2 text-sm">
           {Object.entries(technicalSkills).map(([keys, value]) => (
             <div key={keys} className="wrap-break-word leading-relaxed">
               <span className="font-medium text-foreground uppercase">

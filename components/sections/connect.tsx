@@ -1,12 +1,19 @@
+"use client";
+
 import {
   Section,
   SectionCommand,
+  SectionPrompt,
   SectionPwd,
   SectionTerminal,
 } from "@/components/ui/section";
+import { useSectionView } from "@/hooks/use-section-view";
 import { connect } from "@/lib/data/connect";
+import { trackClick } from "@/lib/track-click";
 
 export function Connect() {
+  const ref = useSectionView("reached_connect_section");
+
   const contactInfo = {
     title: connect.title,
     desc: connect.desc,
@@ -18,13 +25,15 @@ export function Connect() {
   };
 
   return (
-    <Section>
+    <Section ref={ref}>
       <SectionTerminal>
-        <SectionPwd />
-        <SectionCommand>cat contact.json</SectionCommand>
+        <SectionPrompt>
+          <SectionPwd />
+          <SectionCommand>cat contact.json</SectionCommand>
+        </SectionPrompt>
 
-        <div className="mt-4 flex select-none flex-col gap-4 text-sm">
-          <div className="flex flex-col gap-1">
+        <div className="flex select-none flex-col gap-4 text-sm">
+          <div className="flex flex-col gap-2">
             <h2 className="font-medium text-foreground">{contactInfo.title}</h2>
 
             <div className="flex items-start text-muted-foreground leading-relaxed">
@@ -47,6 +56,7 @@ export function Connect() {
                   aria-label={
                     isMailto ? undefined : `${link.label} (opens in new tab)`
                   }
+                  onClick={() => trackClick(link.label, link.url)}
                   className="w-fit text-muted-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
                 >
                   {link.label}

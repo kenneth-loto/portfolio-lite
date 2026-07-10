@@ -15,7 +15,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 - **Linting & Formatting:** [Biome](https://biomejs.dev)
 - **Package Manager:** [Bun](https://bun.sh)
 - **Error Tracking:** [Sentry](https://sentry.io) (client, edge, server)
-- **Analytics:** [Vercel Analytics](https://vercel.com/analytics) + [Speed Insights](https://vercel.com/speed-insights)
+- **Analytics:** [PostHog](https://posthog.com) + [Vercel Analytics](https://vercel.com/analytics) + [Speed Insights](https://vercel.com/speed-insights)
 - **Git Hooks:** [Husky](https://typicode.github.io/husky/), [commitlint](https://commitlint.js.org/)
 
 ## Features
@@ -25,6 +25,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 - Sitemap, robots.txt, PWA manifest, JSON-LD structured data
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - Sentry error capture (client + server)
+- PostHog analytics: pageviews, outbound click tracking, scroll-depth events
 - Vercel Analytics & Speed Insights
 
 ## File Structure
@@ -44,15 +45,18 @@ portfolio-lite/
 │   ├── robots.ts
 │   └── sitemap.ts             # Single-URL sitemap
 ├── components/
-│   ├── sections/              # Page sections (hero, about-me, etc.)
+│   ├── sections/              # Page sections (whoami, connect, etc.)
 │   │   ├── about-me.tsx
 │   │   ├── connect.tsx
 │   │   ├── experience.tsx
 │   │   ├── featured-projects.tsx
-│   │   ├── hero.tsx
-│   │   └── technical-skills.tsx
+│   │   ├── intro.tsx
+│   │   ├── technical-skills.tsx
+│   │   └── whoami.tsx
 │   └── ui/
 │       └── section.tsx        # Terminal primitives (Section, SectionPwd, etc.)
+├── hooks/
+│   └── use-section-view.ts    # IntersectionObserver for scroll-depth tracking
 ├── lib/
 │   ├── data/                  # Static content (JSON data objects)
 │   │   ├── about-me.ts
@@ -61,6 +65,7 @@ portfolio-lite/
 │   │   ├── featured-projects.ts
 │   │   └── technical-skills.ts
 │   ├── og.ts                  # OG image paths & helpers
+│   ├── track-click.ts         # PostHog outbound click helper
 │   └── utils.ts               # cn(), ogUrl(), getAutoGridColumnWidth()
 ├── types/                     # TypeScript interfaces for all data
 │   ├── about-me.ts
@@ -75,13 +80,16 @@ portfolio-lite/
 ├── .github/workflows/         # CI (Biome lint), CodeQL, auto-target-develop
 ├── .husky/                    # Git hooks (commit-msg)
 ├── AGENTS.md
-├── CLAUDE.md
 ├── DESIGN.md                  # Terminal theme design system
 ├── UI-REGISTRY.md             # Visual pattern registry
 ├── MEMORY.md                  # Session continuity log
 ├── biome.json
 ├── commitlint.config.ts
-├── instrumentation.ts         # Sentry instrumentation
+├── env/                       # Environment variable validation
+│   ├── client.ts
+│   └── server.ts
+├── instrumentation-client.ts  # Sentry + PostHog client init
+├── instrumentation.ts         # Sentry server instrumentation
 ├── next.config.ts
 ├── package.json
 ├── renovate.json
@@ -115,33 +123,33 @@ bun run start
 
 ## Scripts
 
-| Command                       | Description                  |
-| ----------------------------- | ---------------------------- |
-| `bun dev`                     | Start development server     |
-| `bun run build`               | Build production app         |
-| `bun run lint`                | Check code with Biome        |
-| `bun run lint:fix`            | Auto-fix linting issues      |
-| `bun run lint:fix:unsafe`     | Auto-fix with unsafe transforms |
-| `bun run format`              | Format code with Biome       |
-| `bun run typecheck`           | Run TypeScript type checking |
+| Command                   | Description                     |
+| ------------------------- | ------------------------------- |
+| `bun dev`                 | Start development server        |
+| `bun run build`           | Build production app            |
+| `bun run lint`            | Check code with Biome           |
+| `bun run lint:fix`        | Auto-fix linting issues         |
+| `bun run lint:fix:unsafe` | Auto-fix with unsafe transforms |
+| `bun run format`          | Format code with Biome          |
+| `bun run typecheck`       | Run TypeScript type checking    |
 
 ## Customization
 
 Update your details in `lib/data/`. Each file exports a typed object consumed by the corresponding section component. Types are in `types/` and must match.
 
-| Data file | Content |
-|---|---|
-| `lib/data/about-me.ts` | Name, title, location, bio |
-| `lib/data/connect.ts` | Email, LinkedIn, GitHub |
-| `lib/data/experience.ts` | Work history (title, company, period, description) |
-| `lib/data/featured-projects.ts` | Projects (title, description, tags, GitHub URL) |
-| `lib/data/technical-skills.ts` | Skill categories grouped by key |
+| Data file                       | Content                                            |
+| ------------------------------- | -------------------------------------------------- |
+| `lib/data/about-me.ts`          | Name, title, location, bio                         |
+| `lib/data/connect.ts`           | Email, LinkedIn, GitHub                            |
+| `lib/data/experience.ts`        | Work history (title, company, period, description) |
+| `lib/data/featured-projects.ts` | Projects (title, description, tags, GitHub URL)    |
+| `lib/data/technical-skills.ts`  | Skill categories grouped by key                    |
 
 The prompt line defaults are in `components/ui/section.tsx` (`SectionPwd` component props). Branch names, paths, and user/host can be changed per-page via props.
 
 ## Design
 
-The entire site follows a Windows Git Bash / MINGW64 terminal session metaphor. See `DESIGN.md` for the full design system — color tokens, typography, spacing rhythm, component inventory, and rules about what not to do (no icons, no rounded corners, no third font weight).
+The entire site follows a Windows Git Bash / MINGW64 terminal session metaphor. See [DESIGN](DESIGN) for the full design system — color tokens, typography, spacing rhythm, component inventory, and rules about what not to do (no icons, no rounded corners, no third font weight).
 
 ## Deployment
 
@@ -153,9 +161,11 @@ bunx vercel --prod
 
 Required environment variables:
 
-| Variable | Source |
-|---|---|
-| `SENTRY_AUTH_TOKEN` | Sentry |
+| Variable                            | Source  |
+| ----------------------------------- | ------- |
+| `SENTRY_AUTH_TOKEN`                 | Sentry  |
+| `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` | PostHog |
+| `NEXT_PUBLIC_POSTHOG_HOST`          | PostHog |
 
 ## License
 

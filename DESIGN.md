@@ -118,7 +118,7 @@ this list:
 
 | Gap    | Value  | Used between                                                 |
 | ------ | ------ | ------------------------------------------------------------ |
-| Tight  | `4px`  | prompt line → command line                                   |
+| Tight  | `2px`  | prompt line → command line                                   |
 | Small  | `8px`  | lines within the same output block (title → body → metadata) |
 | Medium | `16px` | command → output block; output block → action link           |
 
@@ -158,6 +158,7 @@ Reusable primitives (see `components/section.tsx`):
 | ----------------- | --------------------------------------------------------------------- |
 | `Section`         | Outer wrapper, vertical flex, base spacing                            |
 | `SectionTerminal` | Inner flex column for one terminal "session" block                    |
+| `SectionPrompt`   | Wraps `SectionPwd` + `SectionCommand` into a compact block            |
 | `SectionPwd`      | The colored prompt line, defaults pre-filled                          |
 | `SectionCommand`  | Renders `$ {children}`                                                |
 | `SectionTitle`    | Uppercase muted micro-label (section headers)                         |
