@@ -10,7 +10,7 @@ function Section({
   return (
     <section
       ref={ref}
-      className={cn("flex flex-col gap-4 py-6", className)}
+      className={cn("flex flex-col gap-4 py-8", className)}
       {...props}
     >
       {children}
@@ -58,7 +58,7 @@ function SectionPwd({
   return (
     <p
       className={cn(
-        "break-all font-mono text-muted-foreground text-sm leading-relaxed",
+        "break-all text-muted-foreground leading-relaxed",
         className,
       )}
       {...props}
@@ -79,7 +79,7 @@ function SectionCommand({
   ...props
 }: ComponentProps<"p">) {
   return (
-    <p className={cn("text-sm", className)} {...props}>
+    <p className={className} {...props}>
       <span className="text-muted-foreground">$</span> {children}
     </p>
   );
@@ -94,7 +94,7 @@ function SectionOutput({
 
   return (
     <div
-      className={cn("grid gap-x-4 gap-y-2 text-sm", className)}
+      className={cn("grid gap-x-4 gap-y-2", className)}
       style={{
         gridTemplateColumns: `repeat(auto-fill, minmax(${minColumnWidth}, 1fr))`,
       }}

@@ -16,35 +16,23 @@ export function Experience() {
           <SectionCommand>cat experience.log</SectionCommand>
         </SectionPrompt>
 
-        <div className="flex flex-col gap-4 text-sm">
+        <div className="flex flex-col gap-4">
           {experiences.map((exp) => (
-            <div key={exp.period} className="flex flex-col gap-1">
-              <div className="flex items-center gap-x-2">
-                <span className="text-foreground">|</span>
-                <h2 className="font-medium text-foreground text-sm">
-                  -- {exp.title}
-                </h2>
+            <div
+              key={`${exp.company}-${exp.title}`}
+              className="flex flex-col gap-2"
+            >
+              <h2 className="text-foreground">{exp.title}</h2>
+
+              <div className="flex w-full flex-col items-start gap-2 text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+                <span className="italic leading-relaxed">{exp.company}</span>
+
+                <span className="whitespace-nowrap text-xs">{exp.period}</span>
               </div>
 
-              {/* Company & Range Row */}
-              <div className="flex w-full items-center justify-between">
-                <div className="flex items-center">
-                  <span className="text-foreground">|</span>
-                  <span className="pl-4 text-foreground leading-relaxed">
-                    {exp.company}
-                  </span>
-                </div>
-                <span className="whitespace-nowrap text-muted-foreground text-xs">
-                  {exp.period}
-                </span>
-              </div>
-
-              <div className="flex items-start">
-                <span className="text-foreground">|</span>
-                <span className="pl-4 text-muted-foreground leading-relaxed">
-                  {exp.description}
-                </span>
-              </div>
+              <span className="text-muted-foreground leading-relaxed">
+                &ndash; {exp.description}
+              </span>
             </div>
           ))}
         </div>

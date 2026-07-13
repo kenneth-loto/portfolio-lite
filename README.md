@@ -1,6 +1,6 @@
 # Portfolio Lite
 
-A single-page personal portfolio styled as a Windows Git Bash terminal session. Built with Next.js 16 and Tailwind CSS v4 — no blog, no CMS, no content collections. Just a prompt, a command, and output.
+A single-page personal portfolio styled as a Windows Git Bash terminal session. Built with Next.js 16 and Tailwind CSS v4. Just a prompt, a command, and output.
 
 🌐 **Live Demo:** [www.kennethloto.dev](https://www.kennethloto.dev)
 
@@ -11,7 +11,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 - **Framework:** [Next.js 16](https://nextjs.org) (App Router, Turbopack)
 - **Language:** [TypeScript](https://www.typescriptlang.org)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com) (Terminal theme, OKLCH tokens)
-- **Font:** [Geist Mono](https://vercel.com/font) via `next/font/google`
+- **Font:** [Space Mono](https://fonts.google.com/specimen/Space+Mono) via `next/font/google`
 - **Linting & Formatting:** [Biome](https://biomejs.dev)
 - **Package Manager:** [Bun](https://bun.sh)
 - **Error Tracking:** [Sentry](https://sentry.io) (client, edge, server)
@@ -21,7 +21,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 ## Features
 
 - Terminal-themed UI: prompt line, `$ cat` commands, monospace output
-- OG image generation via `@vercel/og` (Edge runtime, Geist Mono TTFs)
+- OG image generation via `@vercel/og` (Edge runtime, Space Mono TTFs)
 - Sitemap, robots.txt, PWA manifest, JSON-LD structured data
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - Sentry error capture (client + server)
@@ -56,17 +56,20 @@ portfolio-lite/
 │   └── ui/
 │       └── section.tsx        # Terminal primitives (Section, SectionPwd, etc.)
 ├── hooks/
-│   └── use-section-view.ts    # IntersectionObserver for scroll-depth tracking
+│   ├── __tests__/
+│   │   └── use-section-view.test.ts  # IntersectionObserver tests (bun test)
+│   └── use-section-view.ts           # IntersectionObserver for scroll-depth tracking
 ├── lib/
-│   ├── data/                  # Static content (JSON data objects)
+│   ├── __tests__/                    # Lib utility tests
+│   ├── data/                         # Static content (JSON data objects)
 │   │   ├── about-me.ts
 │   │   ├── connect.ts
 │   │   ├── experience.ts
 │   │   ├── featured-projects.ts
 │   │   └── technical-skills.ts
-│   ├── og.ts                  # OG image paths & helpers
-│   ├── track-click.ts         # PostHog outbound click helper
-│   └── utils.ts               # cn(), ogUrl(), getAutoGridColumnWidth()
+│   ├── og.ts                         # OG image paths & helpers
+│   ├── track-click.ts                # PostHog outbound click helper
+│   └── utils.ts                      # cn(), ogUrl(), getAutoGridColumnWidth(), camelToConstantCase()
 ├── types/                     # TypeScript interfaces for all data
 │   ├── about-me.ts
 │   ├── connect.ts
@@ -74,7 +77,7 @@ portfolio-lite/
 │   ├── featured-projects.ts
 │   └── technical-skills.ts
 ├── public/
-│   ├── fonts/                 # Geist Mono TTF files (for @vercel/og)
+│   ├── fonts/                 # Space Mono TTF files (for @vercel/og)
 │   ├── image/                 # Preview, verification files
 │   └── web-app-manifest-*.png
 ├── .github/workflows/         # CI (Biome lint), CodeQL, auto-target-develop
@@ -84,10 +87,12 @@ portfolio-lite/
 ├── UI-REGISTRY.md             # Visual pattern registry
 ├── MEMORY.md                  # Session continuity log
 ├── biome.json
+├── bunfig.toml                # Bun test preload (Happy DOM)
 ├── commitlint.config.ts
 ├── env/                       # Environment variable validation
 │   ├── client.ts
 │   └── server.ts
+├── happydom.ts                # Test preload (browser API stubs)
 ├── instrumentation-client.ts  # Sentry + PostHog client init
 ├── instrumentation.ts         # Sentry server instrumentation
 ├── next.config.ts
@@ -132,6 +137,7 @@ bun run start
 | `bun run lint:fix:unsafe` | Auto-fix with unsafe transforms |
 | `bun run format`          | Format code with Biome          |
 | `bun run typecheck`       | Run TypeScript type checking    |
+| `bun test`                | Run test suite with Happy DOM   |
 
 ## Customization
 
@@ -149,7 +155,22 @@ The prompt line defaults are in `components/ui/section.tsx` (`SectionPwd` compon
 
 ## Design
 
-The entire site follows a Windows Git Bash / MINGW64 terminal session metaphor. See [DESIGN](DESIGN) for the full design system — color tokens, typography, spacing rhythm, component inventory, and rules about what not to do (no icons, no rounded corners, no third font weight).
+The entire site follows a Windows Git Bash / MINGW64 terminal session metaphor. See [DESIGN](DESIGN.md) for the full design system — color tokens, typography, spacing rhythm, component inventory, and rules about what not to do (no icons, no rounded corners, no third font weight).
+
+## Testing
+
+Tests run with [Bun's built-in test runner](https://bun.sh/docs/cli/test) and [Happy DOM](https://github.com/capricorn86/happy-dom) for browser API stubs:
+
+```bash
+bun test
+```
+
+| File                                       | What it tests                                       |
+| ------------------------------------------ | --------------------------------------------------- |
+| `hooks/__tests__/use-section-view.test.ts` | IntersectionObserver fires once, captures events    |
+| `lib/__tests__/utils.test.ts`              | `camelToConstantCase()`, `getAutoGridColumnWidth()` |
+
+Add test files under `hooks/__tests__/` or `lib/__tests__/`. Happy DOM is preloaded via `bunfig.toml` — no setup needed per file.
 
 ## Deployment
 
@@ -169,4 +190,4 @@ Required environment variables:
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+CC BY-NC 4.0 — see [LICENSE](LICENSE).

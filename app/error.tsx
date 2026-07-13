@@ -29,22 +29,22 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
         </SectionPrompt>
 
         <div className="flex flex-col">
-          <h1 className="font-medium text-sm">Something went wrong</h1>
-          <p className="text-muted-foreground text-sm leading-relaxed">
+          <h1>Something went wrong</h1>
+          <p className="text-muted-foreground leading-relaxed">
             An unexpected error occurred. Try again, it might be temporary.
           </p>
           {error.digest && (
-            <p className="mt-2 font-mono text-muted-foreground text-xs">
+            <p className="mt-2 text-muted-foreground text-xs">
               error_id: {error.digest}
             </p>
           )}
         </div>
 
-        <p className="text-sm">
+        <p>
           <button
             type="button"
             onClick={() => unstable_retry()}
-            className="w-fit px-2 py-1.5 font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+            className="w-fit px-2 py-1.5 text-foreground underline underline-offset-2"
           >
             Retry
           </button>

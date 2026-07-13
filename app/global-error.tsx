@@ -1,11 +1,12 @@
 "use client";
 
 import * as Sentry from "@sentry/nextjs";
-import { Geist_Mono } from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import { useEffect, useState } from "react";
 
-const geistMono = Geist_Mono({
+const spaceMono = Space_Mono({
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 const colors = {
@@ -28,7 +29,6 @@ export default function GlobalError({
   error,
   unstable_retry,
 }: GlobalErrorProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function GlobalError({
   }, []);
 
   return (
-    <html lang="en" className={geistMono.className}>
+    <html lang="en" className={spaceMono.className}>
       <body
         style={{
           display: "flex",
@@ -92,15 +92,14 @@ export default function GlobalError({
 
           {/* Output */}
           <div style={{ marginTop: "16px" }}>
-            <p
+            <h1
               style={{
                 fontSize: "0.875rem",
-                fontWeight: 500,
                 margin: 0,
               }}
             >
               Something went wrong
-            </p>
+            </h1>
             <p
               style={{
                 fontSize: "0.875rem",
@@ -127,8 +126,6 @@ export default function GlobalError({
               <button
                 type="button"
                 onClick={() => unstable_retry()}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
                 style={{
                   background: "none",
                   border: "none",
@@ -138,7 +135,7 @@ export default function GlobalError({
                   fontWeight: 500,
                   cursor: "pointer",
                   padding: "4px 8px",
-                  textDecoration: isHovered ? "underline" : "none",
+                  textDecoration: "underline",
                   textUnderlineOffset: "2px",
                   transition: prefersReducedMotion
                     ? "none"

@@ -13,12 +13,9 @@ async function loadFont(filename: string) {
 }
 
 async function loadFonts() {
-  const [fontRegular, fontMedium] = await Promise.all([
-    loadFont("GeistMono-Regular.ttf"),
-    loadFont("GeistMono-Medium.ttf"),
-  ]);
+  const [fontRegular] = await Promise.all([loadFont("SpaceMono-Regular.ttf")]);
 
-  return { fontRegular, fontMedium };
+  return { fontRegular };
 }
 
 let fontsPromise: ReturnType<typeof loadFonts> | null = null;
