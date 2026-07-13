@@ -2,14 +2,15 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Geist_Mono } from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
 import { cn } from "@/lib/utils";
 
-const geistMono = Geist_Mono({
+const spaceMono = Space_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-space-mono",
+  weight: ["400"],
 });
 
 export const viewport: Viewport = {
@@ -81,7 +82,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistMono.variable)}
+      className={cn("h-full", "antialiased", spaceMono.variable)}
       suppressHydrationWarning
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col">
@@ -120,7 +121,7 @@ export default async function RootLayout({
               },
               sameAs: [
                 "https://github.com/kenneth-loto",
-                "https://www.linkedin.com/in/kenneth-loto/",
+                "https://www.linkedin.com/in/kenneth-loto",
               ],
             }),
           }}

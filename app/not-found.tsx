@@ -20,8 +20,8 @@ export default function NotFound() {
         </SectionPrompt>
 
         <div className="flex flex-col">
-          <h1 className="font-medium text-sm">Page not found</h1>
-          <p className="text-muted-foreground text-sm leading-relaxed">
+          <h1>Page not found</h1>
+          <p className="text-muted-foreground leading-relaxed">
             The page you're looking for doesn't exist or was moved.
           </p>
         </div>
@@ -29,7 +29,7 @@ export default function NotFound() {
         <Link
           href="/"
           onClick={() => trackClick("back_to_home", "/")}
-          className="w-fit font-medium text-foreground text-sm transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+          className="w-fit text-foreground underline underline-offset-2"
         >
           Back to home
         </Link>
