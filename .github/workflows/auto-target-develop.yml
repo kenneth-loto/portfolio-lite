@@ -8,14 +8,14 @@ jobs:
   route-prs:
     name: Route PRs to Develop
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     permissions:
       pull-requests: write
-    if: github.base_ref == 'main' && github.head_ref != 'develop'
+    if: github.base_ref == 'main' && github.head_ref != 'develop' && !startsWith(github.head_ref, 'hotfix/')
     steps:
       - name: Reroute Base and Comment
         run: |
           set -e
-
           RESPONSE=$(curl -s -w "%{http_code}" -o /tmp/response.json -X PATCH \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \

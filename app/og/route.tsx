@@ -19,7 +19,7 @@ const CACHE_HEADERS = {
 
 export async function GET() {
   try {
-    const { fontRegular, fontMedium } = await getFonts();
+    const { fontRegular } = await getFonts();
 
     return new ImageResponse(
       <div
@@ -31,7 +31,7 @@ export async function GET() {
           backgroundColor: colors.background,
           padding: "64px 80px",
           justifyContent: "space-between",
-          fontFamily: '"Geist Mono"',
+          fontFamily: '"Space Mono"',
         }}
       >
         {/* Prompt line */}
@@ -123,16 +123,10 @@ export async function GET() {
         headers: CACHE_HEADERS,
         fonts: [
           {
-            name: "Geist Mono",
+            name: "Space Mono",
             data: fontRegular,
             style: "normal",
             weight: 400,
-          },
-          {
-            name: "Geist Mono",
-            data: fontMedium,
-            style: "normal",
-            weight: 500,
           },
         ],
       },

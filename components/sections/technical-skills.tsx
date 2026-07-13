@@ -6,6 +6,7 @@ import {
   SectionTerminal,
 } from "@/components/ui/section";
 import { technicalSkills } from "@/lib/data/technical-skills";
+import { camelToConstantCase } from "@/lib/utils";
 
 export function TechnicalSkills() {
   return (
@@ -16,13 +17,13 @@ export function TechnicalSkills() {
           <SectionCommand>cat .env</SectionCommand>
         </SectionPrompt>
 
-        <div className="flex select-none flex-col gap-2 text-sm">
+        <div className="flex flex-col gap-2">
           {Object.entries(technicalSkills).map(([keys, value]) => (
             <div key={keys} className="wrap-break-word leading-relaxed">
-              <span className="font-medium text-foreground uppercase">
-                {keys} =
+              <span className="text-muted-foreground">
+                {camelToConstantCase(keys)} =
               </span>
-              <span className="text-muted-foreground"> {value.join(", ")}</span>
+              <span className="text-foreground"> {value.join(", ")}</span>
             </div>
           ))}
         </div>

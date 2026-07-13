@@ -27,7 +27,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
 
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-sm;
   }
 
   html {

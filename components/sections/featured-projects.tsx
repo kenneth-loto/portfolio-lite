@@ -38,17 +38,17 @@ export function FeaturedProjects() {
           </SectionCommand>
         </SectionPrompt>
 
-        <div className="flex select-none flex-col gap-4 text-sm">
+        <div className="flex flex-col gap-4">
           {featuredProjects.map((project) => (
             <div key={project.title} className="flex flex-col gap-2">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 <a
                   href={project.github}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={`${project.title} (opens in new tab)`}
                   onClick={() => trackClick(project.title, project.github)}
-                  className="w-fit font-medium text-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+                  className="w-fit text-foreground underline underline-offset-2"
                 >
                   {project.title}
                 </a>
@@ -60,8 +60,8 @@ export function FeaturedProjects() {
               </div>
 
               <div className="pl-4">
-                <span className="text-foreground">tags: </span>
-                <span className="text-muted-foreground lowercase">
+                <span className="text-muted-foreground">tags: </span>
+                <span className="text-foreground lowercase">
                   {project.tags.join(", ")}
                 </span>
               </div>

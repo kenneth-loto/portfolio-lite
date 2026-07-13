@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import {
   Section,
   SectionCommand,
@@ -10,6 +9,7 @@ import { aboutMe } from "@/lib/data/about-me";
 
 export function AboutMe() {
   const profileDetails = [
+    { label: "name", value: aboutMe.name },
     { label: "role", value: aboutMe.title },
     { label: "location", value: aboutMe.location },
     { label: "bio", value: aboutMe.bio },
@@ -23,23 +23,19 @@ export function AboutMe() {
           <SectionCommand>cat about-me.txt</SectionCommand>
         </SectionPrompt>
 
-        <div className="flex flex-col gap-2">
-          <h2 className="font-medium text-sm">
-            &#64;
-            {aboutMe.name}
-          </h2>
-
-          <dl className="grid grid-cols-[auto_1fr] gap-1 gap-x-4 text-sm">
-            {profileDetails.map(({ label, value }) => (
-              <Fragment key={label}>
-                <dt className="whitespace-nowrap text-foreground">{label}:</dt>
-                <dd className="text-muted-foreground leading-relaxed">
-                  {value}
-                </dd>
-              </Fragment>
-            ))}
-          </dl>
-        </div>
+        <dl className="flex flex-col gap-4 sm:gap-2">
+          {profileDetails.map(({ label, value }) => (
+            <div
+              key={label}
+              className="flex flex-col gap-2 sm:flex-row sm:gap-4"
+            >
+              <dt className="whitespace-nowrap text-muted-foreground sm:w-20 sm:shrink-0">
+                {label}:
+              </dt>
+              <dd className="text-foreground leading-relaxed">{value}</dd>
+            </div>
+          ))}
+        </dl>
       </SectionTerminal>
     </Section>
   );

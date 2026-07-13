@@ -32,18 +32,18 @@ export function Connect() {
           <SectionCommand>cat contact.json</SectionCommand>
         </SectionPrompt>
 
-        <div className="flex select-none flex-col gap-4 text-sm">
+        <div className="flex flex-col gap-4 text-sm">
           <div className="flex flex-col gap-2">
-            <h2 className="font-medium text-foreground">{contactInfo.title}</h2>
+            <h2 className="text-foreground">{contactInfo.title}</h2>
 
             <div className="flex items-start text-muted-foreground leading-relaxed">
-              <span className="shrink-0">-&nbsp;</span>
+              <span className="shrink-0">&ndash;&nbsp;</span>
               <span>{contactInfo.desc}</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 text-muted-foreground">
-            <span className="text-foreground">links:</span>
+          <div className="flex flex-wrap items-center gap-x-4">
+            <span className="text-muted-foreground">links:</span>
             {contactInfo.links.map((link) => {
               const isMailto = link.url.startsWith("mailto:");
 
@@ -52,12 +52,12 @@ export function Connect() {
                   key={link.label}
                   href={link.url}
                   target={isMailto ? undefined : "_blank"}
-                  rel={isMailto ? undefined : "noreferrer"}
+                  rel={isMailto ? undefined : "noopener noreferrer"}
                   aria-label={
                     isMailto ? undefined : `${link.label} (opens in new tab)`
                   }
                   onClick={() => trackClick(link.label, link.url)}
-                  className="w-fit text-muted-foreground transition-colors duration-200 ease-in-out hover:underline hover:underline-offset-2"
+                  className="w-fit text-foreground underline underline-offset-2"
                 >
                   {link.label}
                 </a>

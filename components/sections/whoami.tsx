@@ -16,7 +16,7 @@ export function Whoami() {
           <SectionCommand>whoami</SectionCommand>
         </SectionPrompt>
 
-        <h1 className="font-medium text-sm">
+        <h1>
           {aboutMe.name} &ndash; {aboutMe.title}
         </h1>
       </SectionTerminal>

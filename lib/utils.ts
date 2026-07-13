@@ -21,3 +21,19 @@ export function getAutoGridColumnWidth(items: string[], padding = 4) {
 
   return `${maxLength + padding}ch`;
 }
+
+/**
+ * Converts a camelCase string to CONSTANT_CASE.
+ *
+ * Inserts underscores at camelCase boundaries, then uppercases the result.
+ *
+ * @param value - A camelCase string (e.g. `"machineLearning"`).
+ * @returns The CONSTANT_CASE equivalent (e.g. `"MACHINE_LEARNING"`).
+ *
+ * @example
+ * camelToConstantCase("machineLearning")
+ * // "MACHINE_LEARNING"
+ */
+export function camelToConstantCase(value: string): string {
+  return value.replace(/([a-z])([A-Z])/g, "$1_$2").toUpperCase();
+}
