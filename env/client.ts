@@ -5,6 +5,8 @@ export const clientEnv = createEnv({
   client: {
     NEXT_PUBLIC_SITE_URL: v.pipe(v.string(), v.url()),
     NEXT_PUBLIC_SENTRY_DSN: v.pipe(v.string(), v.url()),
+    NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: v.pipe(v.string(), v.minLength(1)),
+    NEXT_PUBLIC_POSTHOG_HOST: v.pipe(v.string(), v.url()),
   },
   /*
    * Client-side variables MUST be explicitly destructured so Next.js
@@ -13,5 +15,8 @@ export const clientEnv = createEnv({
   runtimeEnv: {
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+    NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN:
+      process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN,
+    NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   },
 });

@@ -56,11 +56,13 @@ or per state (home, 404, error, OG image).
 
 ## Typography
 
-- **Primary font:** monospace, Geist Mono (OG images specifically — confirm which is canonical going forward).
-- Only **two weights** in use: **Regular (400)** and **Medium (500)**. Never introduce a third weight — it dilutes the two-tier
-  hierarchy (body vs. emphasis) the whole theme relies on.
-- No italics. No letter-spacing tricks beyond the default, except uppercase
+- **Primary font:** [Space Mono](https://fonts.google.com/specimen/Space+Mono) via `next/font/google` at a single
+  weight — **Regular (400)** — applied globally through the `--font-mono` CSS variable.
+- No second weight. No italics. No letter-spacing tricks beyond the default, except uppercase
   micro-labels (`SectionTitle`), which use `tracking-wide`.
+- The single-weight choice is deliberate: it reduces font-loading overhead and the monospace
+  weight contrast that a sans-serif relies on (for hierarchy) isn't needed — hierarchy comes
+  from color and spacing instead.
 
 ---
 
@@ -121,6 +123,7 @@ this list:
 | Tight  | `2px`  | prompt line → command line                                   |
 | Small  | `8px`  | lines within the same output block (title → body → metadata) |
 | Medium | `16px` | command → output block; output block → action link           |
+| Large  | `32px` | between section `SectionTerminal` blocks (`py-8` on each)    |
 
 `justify-content: space-between` should be avoided on outer containers that
 also contain natural top-down content — it stretches gaps unpredictably as
@@ -181,15 +184,14 @@ root layout, including `<html>` and `<body>`, and Tailwind's compiled
 classes may not reliably apply here depending on setup. Treat it as an
 exception to "always use `Section*` components":
 
-- Font is loaded directly via `next/font/google` (`JetBrains_Mono`) and
+- Font is loaded directly via `next/font/google` (`Space_Mono`) and
   applied via `className` on `<html>`, not through the normal Tailwind
-  pipeline.
+  pipeline. Same single-weight (400) as the rest of the site.
 - Colors are inline hex values in a local `colors` object, not CSS
   variables — this file has no guarantee the site's `:root` variables are
   loaded when it renders.
-- Structurally it still follows the exact same prompt → command → output →
-  action pattern as everywhere else. The implementation differs; the design
-  does not.
+- Structurally it still follows the exact same prompt → command → output → action pattern as everywhere else. The implementation differs; the design does not.
+- No hover state on the retry button — matches the terminal's lack of visual feedback for already-clickable elements.
 
 ---
 
@@ -202,14 +204,13 @@ Same theme, adapted for a fixed 1200×630 canvas rendered via `next/og`
   reads inline `style={{}}` objects. Colors are a plain hex object, not
   `:root` tokens.
 - Fonts must be loaded as raw `ArrayBuffer`s (local `.ttf` files via
-  `fetch(new URL(...))`, static weights only — variable fonts don't render
+  `readFile()`), static weights only — variable fonts don't render
   correctly in Satori).
 - Layout: prompt line + command top-left, title/description mid-block,
-  footer bar (name + domain) pinned to the bottom with a `1px` top border in
+  footer bar (name + domain `kennethloto.com`) pinned to the bottom with a `1px` top border in
   `--muted`.
-- Currently uses Geist Mono (Regular + Medium) rather than JetBrains Mono —
-  worth deciding if this should be unified with the rest of the site or
-  intentionally kept distinct as a "social preview" variant.
+- Font: Space Mono Regular (400), loaded from `public/fonts/SpaceMono-Regular.ttf`.
+  Single file, single weight — same font as the rest of the site.
 
 ---
 

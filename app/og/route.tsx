@@ -113,7 +113,7 @@ export async function GET() {
               fontWeight: 400,
             }}
           >
-            kennethloto.dev
+            kennethloto.com
           </span>
         </div>
       </div>,

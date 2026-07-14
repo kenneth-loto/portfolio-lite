@@ -2,7 +2,7 @@
 
 A single-page personal portfolio styled as a Windows Git Bash terminal session. Built with Next.js 16 and Tailwind CSS v4. Just a prompt, a command, and output.
 
-🌐 **Live Demo:** [www.kennethloto.dev](https://www.kennethloto.dev)
+🌐 **Live Demo:** [www.kennethloto.com](https://www.kennethloto.com)
 
 ![Preview](public/image/portfolio-lite-preview.webp)
 
