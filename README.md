@@ -15,7 +15,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 - **Linting & Formatting:** [Biome](https://biomejs.dev)
 - **Package Manager:** [Bun](https://bun.sh)
 - **Error Tracking:** [Sentry](https://sentry.io) (client, edge, server)
-- **Analytics:** [PostHog](https://posthog.com) + [Vercel Analytics](https://vercel.com/analytics) + [Speed Insights](https://vercel.com/speed-insights)
+- **Analytics:** [PostHog](https://posthog.com) (reverse-proxied via Next.js rewrites) + [Vercel Analytics](https://vercel.com/analytics) + [Speed Insights](https://vercel.com/speed-insights)
 - **Git Hooks:** [Husky](https://typicode.github.io/husky/), [commitlint](https://commitlint.js.org/)
 
 ## Features
@@ -25,7 +25,7 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 - Sitemap, robots.txt, PWA manifest, JSON-LD structured data
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
 - Sentry error capture (client + server)
-- PostHog analytics: pageviews, outbound click tracking, scroll-depth events
+- PostHog analytics: pageviews, outbound click tracking, scroll-depth events, Core Web Vitals
 - Vercel Analytics & Speed Insights
 
 ## File Structure

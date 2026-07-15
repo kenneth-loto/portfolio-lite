@@ -1,12 +1,18 @@
 import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 import "./env/server";
-import "./env/client";
+import { clientEnv } from "./env/client";
 
 const isDev = process.env.NODE_ENV === "development";
 
 const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
 const sentryOrigin = sentryDsn ? new URL(sentryDsn).origin : "";
+
+const posthogHost = clientEnv.NEXT_PUBLIC_POSTHOG_HOST;
+const posthogAssetHost = posthogHost.replace(
+  "us.i.posthog.com",
+  "us-assets.i.posthog.com",
+);
 
 const cspDirectives = [
   "default-src 'self'",
@@ -25,7 +31,6 @@ const connectSrc = [
   "'self'",
   "https://vitals.vercel-insights.com",
   "https://va.vercel-scripts.com",
-  "https://us.i.posthog.com",
 ];
 
 if (sentryOrigin) connectSrc.push(sentryOrigin);
@@ -36,7 +41,17 @@ const cspHeader = cspDirectives.join("; ");
 const nextConfig: NextConfig = {
   reactCompiler: true,
   reactStrictMode: true,
-  typedRoutes: true,
+  skipTrailingSlashRedirect: true,
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: `${posthogAssetHost}/static/:path*`,
+      },
+      { source: "/ingest/decide", destination: `${posthogHost}/decide` },
+      { source: "/ingest/:path*", destination: `${posthogHost}/:path*` },
+    ];
+  },
   async headers() {
     return [
       {
