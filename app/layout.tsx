@@ -88,7 +88,7 @@ export default async function RootLayout({
       <body className="mx-auto flex min-h-full max-w-2xl flex-col">
         <script
           type="application/ld+json"
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data is static and trusted
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is JSON.stringify'd and HTML-escaped via replace(/</g, ...) to prevent script-tag breakout
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -122,8 +122,9 @@ export default async function RootLayout({
               sameAs: [
                 "https://github.com/kenneth-loto",
                 "https://www.linkedin.com/in/kenneth-loto",
+                "https://x.com/kenneth_loto",
               ],
-            }),
+            }).replace(/</g, "\\u003c"),
           }}
         />
         {children}
