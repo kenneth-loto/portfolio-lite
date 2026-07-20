@@ -17,7 +17,9 @@ export function FeaturedProjects() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>ls -ap featured-projects</SectionCommand>
+          <SectionCommand label="list featured projects">
+            ls -ap featured-projects
+          </SectionCommand>
         </SectionPrompt>
 
         <SectionOutput
@@ -33,7 +35,7 @@ export function FeaturedProjects() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>
+          <SectionCommand label="show project details">
             cat dog-stool-classifier.md solar-shading-estimator-api.md
           </SectionCommand>
         </SectionPrompt>
@@ -48,7 +50,7 @@ export function FeaturedProjects() {
                   rel="noopener noreferrer"
                   aria-label={`${project.title} (opens in new tab)`}
                   onClick={() => trackClick(project.title, project.github)}
-                  className="w-fit text-foreground underline underline-offset-2"
+                  className="w-fit py-1 text-foreground underline underline-offset-2"
                 >
                   {project.title}
                 </a>

@@ -16,7 +16,7 @@ export default function NotFound() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat 404.log</SectionCommand>
+          <SectionCommand label="show 404 log">cat 404.log</SectionCommand>
         </SectionPrompt>
 
         <div className="flex flex-col">

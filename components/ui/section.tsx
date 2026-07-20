@@ -57,6 +57,7 @@ function SectionPwd({
 }) {
   return (
     <p
+      aria-hidden="true"
       className={cn(
         "break-all text-muted-foreground leading-relaxed",
         className,
@@ -76,11 +77,22 @@ function SectionPwd({
 function SectionCommand({
   className,
   children,
+  label,
   ...props
-}: ComponentProps<"p">) {
+}: ComponentProps<"p"> & { label?: string }) {
   return (
-    <p className={className} {...props}>
-      <span className="text-muted-foreground">$</span> {children}
+    <p
+      className={className}
+      {...(label ? { "aria-label": label } : {})}
+      {...props}
+    >
+      <span
+        aria-hidden="true"
+        className="text-muted-foreground leading-relaxed"
+      >
+        $
+      </span>{" "}
+      {children}
     </p>
   );
 }

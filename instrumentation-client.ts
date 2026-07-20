@@ -1,21 +1,12 @@
 import * as Sentry from "@sentry/nextjs";
-import posthog from "posthog-js";
 import { clientEnv } from "./env";
 
-Sentry.init({
-  dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN,
-  tracesSampleRate: 0.1,
-});
-
 try {
-  posthog.init(clientEnv.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN, {
-    api_host: "/ingest",
-    ui_host: clientEnv.NEXT_PUBLIC_POSTHOG_HOST,
-    defaults: "2026-05-30",
-    capture_pageview: true,
+  Sentry.init({
+    dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN,
+    tracesSampleRate: 0.1,
+    tunnel: "/api/sentry",
   });
-} catch (error) {
-  Sentry.captureException(error);
-}
+} catch {}
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
