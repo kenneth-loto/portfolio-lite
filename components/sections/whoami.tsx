@@ -13,7 +13,7 @@ export function Whoami() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>whoami</SectionCommand>
+          <SectionCommand label="who am I command">whoami</SectionCommand>
         </SectionPrompt>
 
         <h1>

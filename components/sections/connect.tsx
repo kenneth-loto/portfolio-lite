@@ -29,7 +29,9 @@ export function Connect() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat contact.json</SectionCommand>
+          <SectionCommand label="show contact info">
+            cat contact.json
+          </SectionCommand>
         </SectionPrompt>
 
         <div className="flex flex-col gap-4 text-sm">
@@ -42,28 +44,30 @@ export function Connect() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4">
-            <span className="text-muted-foreground">links:</span>
-            {contactInfo.links.map((link) => {
-              const isMailto = link.url.startsWith("mailto:");
+          <nav aria-label="Social links">
+            <div className="flex flex-wrap items-center gap-x-4">
+              <span className="text-muted-foreground">links:</span>
+              {contactInfo.links.map((link) => {
+                const isMailto = link.url.startsWith("mailto:");
 
-              return (
-                <a
-                  key={link.label}
-                  href={link.url}
-                  target={isMailto ? undefined : "_blank"}
-                  rel={isMailto ? undefined : "noopener noreferrer"}
-                  aria-label={
-                    isMailto ? undefined : `${link.label} (opens in new tab)`
-                  }
-                  onClick={() => trackClick(link.label, link.url)}
-                  className="w-fit text-foreground underline underline-offset-2"
-                >
-                  {link.label}
-                </a>
-              );
-            })}
-          </div>
+                return (
+                  <a
+                    key={link.label}
+                    href={link.url}
+                    target={isMailto ? undefined : "_blank"}
+                    rel={isMailto ? undefined : "noopener noreferrer"}
+                    aria-label={
+                      isMailto ? undefined : `${link.label} (opens in new tab)`
+                    }
+                    onClick={() => trackClick(link.label, link.url)}
+                    className="w-fit py-1 text-foreground underline underline-offset-2"
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+            </div>
+          </nav>
         </div>
       </SectionTerminal>
     </Section>

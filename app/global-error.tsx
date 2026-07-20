@@ -66,6 +66,7 @@ export default function GlobalError({
           {/* Prompt line */}
           <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
             <p
+              aria-hidden="true"
               style={{
                 fontSize: "0.875rem",
                 margin: 0,
@@ -85,8 +86,25 @@ export default function GlobalError({
 
             {/* Command */}
             <p style={{ fontSize: "0.875rem" }}>
-              <span style={{ color: colors.mutedForeground }}>$</span> cat
-              global-error.log
+              <span aria-hidden="true">
+                <span style={{ color: colors.mutedForeground }}>$</span> cat
+                global-error.log
+              </span>
+              <span
+                style={{
+                  position: "absolute",
+                  width: "1px",
+                  height: "1px",
+                  padding: 0,
+                  margin: "-1px",
+                  overflow: "hidden",
+                  clip: "rect(0, 0, 0, 0)",
+                  whiteSpace: "nowrap",
+                  border: 0,
+                }}
+              >
+                show error log
+              </span>
             </p>
           </div>
 

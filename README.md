@@ -21,10 +21,13 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 ## Features
 
 - Terminal-themed UI: prompt line, `$ cat` commands, monospace output
+- Privacy policy page at `/privacy-policy` (auto-numbered, terminal-themed)
+- Consent-gated analytics: PostHog + Vercel Analytics only load after user accepts
+- Accessibility: skip-to-content, labeled commands, decorative prompts hidden from screen readers
 - OG image generation via `@vercel/og` (Edge runtime, Space Mono TTFs)
 - Sitemap, robots.txt, PWA manifest, JSON-LD structured data
 - Security headers (CSP, HSTS, X-Frame-Options, etc.)
-- Sentry error capture (client + server)
+- Sentry error capture (client + server) via tunnel (bypasses ad blockers)
 - PostHog analytics: pageviews, outbound click tracking, scroll-depth events, Core Web Vitals
 - Vercel Analytics & Speed Insights
 
@@ -33,18 +36,28 @@ A single-page personal portfolio styled as a Windows Git Bash terminal session. 
 ```
 portfolio-lite/
 ├── app/
+│   ├── (marketing)/           # Route group (home + privacy-policy)
+│   │   ├── layout.tsx         # Shared layout: SkipToContent, Header, <main>, Footer
+│   │   ├── page.tsx           # Home page (6 terminal sections)
+│   │   └── privacy-policy/
+│   │       └── page.tsx       # Privacy policy (terminal-themed, auto-numbered)
 │   ├── og/
 │   │   └── route.tsx          # OG image generation (Edge runtime)
 │   ├── error.tsx              # Client error boundary (terminal theme)
 │   ├── global-error.tsx       # Root error boundary (inline styles)
 │   ├── globals.css            # Tailwind v4 theme, OKLCH tokens
-│   ├── layout.tsx             # Root layout, metadata, JSON-LD
+│   ├── layout.tsx             # Root layout, metadata, JSON-LD, consent provider
 │   ├── manifest.json
 │   ├── not-found.tsx          # 404 page (terminal theme)
-│   ├── page.tsx               # Single-page layout (6 sections)
 │   ├── robots.ts
-│   └── sitemap.ts             # Single-URL sitemap
+│   └── sitemap.ts             # Multi-URL sitemap
 ├── components/
+│   ├── cookies/               # Consent management
+│   │   ├── consent-provider.tsx
+│   │   ├── cookie-consent-banner.tsx
+│   │   ├── conditional-analytics.tsx
+│   │   ├── posthog-init.tsx
+│   │   └── reset-consent.tsx
 │   ├── sections/              # Page sections (whoami, connect, etc.)
 │   │   ├── about-me.tsx
 │   │   ├── connect.tsx
@@ -53,6 +66,10 @@ portfolio-lite/
 │   │   ├── intro.tsx
 │   │   ├── technical-skills.tsx
 │   │   └── whoami.tsx
+│   ├── shared/                # Shared layout components
+│   │   ├── footer.tsx
+│   │   ├── header.tsx
+│   │   └── skip-to-content.tsx
 │   └── ui/
 │       └── section.tsx        # Terminal primitives (Section, SectionPwd, etc.)
 ├── hooks/
@@ -66,6 +83,7 @@ portfolio-lite/
 │   │   ├── connect.ts
 │   │   ├── experience.ts
 │   │   ├── featured-projects.ts
+│   │   ├── privacy-policy.ts
 │   │   └── technical-skills.ts
 │   ├── og.ts                         # OG image paths & helpers
 │   ├── track-click.ts                # PostHog outbound click helper
@@ -150,8 +168,9 @@ Update your details in `lib/data/`. Each file exports a typed object consumed by
 | `lib/data/experience.ts`        | Work history (title, company, period, description) |
 | `lib/data/featured-projects.ts` | Projects (title, description, tags, GitHub URL)    |
 | `lib/data/technical-skills.ts`  | Skill categories grouped by key                    |
+| `lib/data/privacy-policy.ts`    | Privacy policy sections (8 sections, auto-numbered) |
 
-The prompt line defaults are in `components/ui/section.tsx` (`SectionPwd` component props). Branch names, paths, and user/host can be changed per-page via props.
+The prompt line defaults are in `components/ui/section.tsx` (`SectionPwd` component props). Branch names, paths, and user/host can be changed per-page via props. `SectionCommand` accepts an optional `label` prop for screen reader accessibility (replaces raw command text with a human-readable description).
 
 ## Design
 

@@ -20,7 +20,9 @@ export function AboutMe() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat about-me.txt</SectionCommand>
+          <SectionCommand label="show about me">
+            cat about-me.txt
+          </SectionCommand>
         </SectionPrompt>
 
         <dl className="flex flex-col gap-4 sm:gap-2">
