@@ -13,7 +13,9 @@ export function Experience() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat experience.log</SectionCommand>
+          <SectionCommand label="show work experience">
+            cat experience.log
+          </SectionCommand>
         </SectionPrompt>
 
         <div className="flex flex-col gap-4">

@@ -83,6 +83,7 @@ export default withSentryConfig(nextConfig, {
   project: "portfolio-lite",
   authToken: process.env.SENTRY_AUTH_TOKEN,
   silent: !process.env.CI,
+  tunnelRoute: "/api/sentry",
   widenClientFileUpload: true,
   sourcemaps: {
     deleteSourcemapsAfterUpload: true,

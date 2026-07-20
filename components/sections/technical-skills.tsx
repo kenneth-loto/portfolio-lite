@@ -14,7 +14,9 @@ export function TechnicalSkills() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat .env</SectionCommand>
+          <SectionCommand label="show technical skills">
+            cat .env
+          </SectionCommand>
         </SectionPrompt>
 
         <div className="flex flex-col gap-2">

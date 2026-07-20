@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Space_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { baseUrl } from "@/app/sitemap";
+import { ConditionalAnalytics } from "@/components/cookies/conditional-analytics";
+import { ConsentProvider } from "@/components/cookies/consent-provider";
+import { CookieConsentBanner } from "@/components/cookies/cookie-consent-banner";
+import { PosthogInit } from "@/components/cookies/posthog-init";
 import { cn } from "@/lib/utils";
 
 const spaceMono = Space_Mono({
@@ -87,6 +89,12 @@ export default async function RootLayout({
     >
       <body className="mx-auto flex min-h-full max-w-2xl flex-col">
         <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: reads localStorage pre-paint, no user input
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var consent=localStorage.getItem("consent");document.documentElement.setAttribute("data-consent",consent==="granted"||consent==="denied"?consent:"unknown")}catch(error){}})();`,
+          }}
+        />
+        <script
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD is JSON.stringify'd and HTML-escaped via replace(/</g, ...) to prevent script-tag breakout
           dangerouslySetInnerHTML={{
@@ -95,6 +103,7 @@ export default async function RootLayout({
               "@type": "Person",
               name: "Kenneth Loto",
               url: baseUrl,
+              image: `${baseUrl}/og`,
               jobTitle: "Full-Stack Developer",
               email: "kennethloto.dev@gmail.com",
               description:
@@ -127,9 +136,12 @@ export default async function RootLayout({
             }).replace(/</g, "\\u003c"),
           }}
         />
-        {children}
-        <Analytics />
-        <SpeedInsights />
+        <ConsentProvider>
+          {children}
+          <ConditionalAnalytics />
+          <PosthogInit />
+          <CookieConsentBanner />
+        </ConsentProvider>
       </body>
     </html>
   );

@@ -25,7 +25,7 @@ export default function ErrorPage({ error, unstable_retry }: ErrorProps) {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>cat error.log</SectionCommand>
+          <SectionCommand label="show error log">cat error.log</SectionCommand>
         </SectionPrompt>
 
         <div className="flex flex-col">

@@ -13,7 +13,7 @@ export function Intro() {
       <SectionTerminal>
         <SectionPrompt>
           <SectionPwd />
-          <SectionCommand>ls -ap</SectionCommand>
+          <SectionCommand label="list all files">ls -ap</SectionCommand>
         </SectionPrompt>
 
         <SectionOutput

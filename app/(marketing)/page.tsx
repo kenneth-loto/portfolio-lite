@@ -6,9 +6,9 @@ import { Intro } from "@/components/sections/intro";
 import { TechnicalSkills } from "@/components/sections/technical-skills";
 import { Whoami } from "@/components/sections/whoami";
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <main className="flex flex-col px-6 py-4">
+    <>
       <Whoami />
       <Intro />
       <AboutMe />
@@ -16,6 +16,6 @@ export default function Page() {
       <Experience />
       <FeaturedProjects />
       <Connect />
-    </main>
+    </>
   );
 }
