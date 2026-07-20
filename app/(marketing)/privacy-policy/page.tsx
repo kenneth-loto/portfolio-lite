@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Section,
   SectionCommand,
@@ -38,7 +39,9 @@ export default function PrivacyPolicyPage() {
               )}
 
               {"items" in section && section.items && (
-                <ul className="flex list-none flex-col gap-1 pl-0">
+                <ul
+                  className={`flex list-none flex-col pl-0 ${typeof section.items[0] === "string" ? "gap-2" : "gap-4"}`}
+                >
                   {section.items.map((item) => {
                     if (typeof item === "string") {
                       return (
@@ -80,6 +83,13 @@ export default function PrivacyPolicyPage() {
             </div>
           ))}
         </div>
+
+        <Link
+          href="/"
+          className="mt-8 block w-fit text-foreground text-sm underline underline-offset-2"
+        >
+          Back to home
+        </Link>
       </SectionTerminal>
     </Section>
   );
