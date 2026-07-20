@@ -24,7 +24,7 @@ export function CookieConsentBanner() {
             onClick={() => trackClick("Privacy Policy", "/privacy-policy")}
             className="w-fit py-1 text-foreground underline underline-offset-2"
           >
-            Learn More <span className="sr-only">about our Privacy Policy</span>
+            Learn More<span className="sr-only"> about our Privacy Policy</span>
           </Link>
           {"."}
         </p>
