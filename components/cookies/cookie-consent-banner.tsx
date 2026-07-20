@@ -13,37 +13,40 @@ export function CookieConsentBanner() {
     <section
       aria-label="Cookie consent"
       data-cookie-banner
-      className="sticky bottom-0 z-50 mx-auto w-full max-w-2xl bg-muted/80 px-6 py-4 text-sm backdrop-blur-md"
+      className="fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-2xl bg-muted/80 px-6 py-4 backdrop-blur-md"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+      <div className="flex flex-col gap-4 sm:gap-2">
+        <p className="text-foreground">Cookies</p>
         <p className="text-muted-foreground leading-relaxed">
-          This site uses analytics to understand how it's used.{" "}
+          This site uses basic analytics to track performance and usage. No
+          personal data is sold or shared, and declining won't affect your
+          experience.{" "}
           <Link
             href="/privacy-policy"
             aria-label="Privacy Policy"
             onClick={() => trackClick("Privacy Policy", "/privacy-policy")}
-            className="w-fit py-1 text-foreground underline underline-offset-2"
+            className="w-fit text-foreground underline underline-offset-2"
           >
             Learn More<span className="sr-only"> about our Privacy Policy</span>
           </Link>
           {"."}
         </p>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+        <div className="flex flex-col gap-2 sm:flex-row-reverse sm:gap-4">
           <button
             type="button"
-            onClick={() => setConsent("denied")}
-            className="border border-input bg-background px-3 py-1.5 text-foreground hover:bg-input/20"
+            onClick={() => setConsent("granted")}
+            className="w-full bg-primary px-8 py-1.5 text-primary-foreground hover:bg-primary/80 sm:w-auto"
           >
-            Reject
+            Accept
           </button>
 
           <button
             type="button"
-            onClick={() => setConsent("granted")}
-            className="bg-primary px-3 py-1.5 text-primary-foreground hover:bg-primary/80"
+            onClick={() => setConsent("denied")}
+            className="w-full border border-input bg-background px-8 py-1.5 text-foreground hover:bg-input/20 sm:w-auto"
           >
-            Accept
+            Reject
           </button>
         </div>
       </div>
