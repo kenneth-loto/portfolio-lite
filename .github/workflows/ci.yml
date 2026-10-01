@@ -70,7 +70,7 @@ jobs:
         if: needs.changes.outputs.code == 'true'
         uses: biomejs/setup-biome@v2
         with:
-          version: 2.5.3
+          version: 2.5.15
 
       - name: Run Biome CI
         if: needs.changes.outputs.code == 'true'
