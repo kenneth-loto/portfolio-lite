@@ -48,7 +48,7 @@ jobs:
 
       - name: Dependency Review
         if: github.event_name == 'pull_request' && needs.changes.outputs.code == 'true'
-        uses: actions/dependency-review-action@v5.0.0
+        uses: actions/dependency-review-action@v5.0.1
         with:
           fail-on-severity: moderate
           comment-summary-in-pr: always
